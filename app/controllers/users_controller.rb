@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  #makes sure a user is set/logged in before action is done
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -25,9 +26,10 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    logger.debug "#{@user.inspect}"
     respond_to do |format|
       if @user.save
+        logger.debug "#{@user[:password]}"
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
@@ -69,6 +71,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :salt, :password)
+      params.require(:user).permit(:username, :email, :encrypted_password, :password_confirmation)
     end
 end
