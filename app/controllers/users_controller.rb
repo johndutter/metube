@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #makes sure a user is set/logged in before action is done
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -67,6 +67,17 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+    
+    def authenticate_user
+      if session[:user_id]
+         # set current user object to @current_user object variable
+        @user = User.find session[:user_id] 
+        return true	
+      else
+        redirect_to(:controller => 'sessions', :action => 'login')
+        return false
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

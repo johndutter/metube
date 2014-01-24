@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   def self.match_password(login_password="", hashed_password, salt)
     logger.info "Salt is #{salt}\n hashed_is #{hashed_password} \n login_pw is #{login_password}\n"
     match = false
-    if(hashed_password == Digest::SHA2.hexdigest("#{salt}#{login_password}")
+    if(hashed_password == Digest::SHA2.hexdigest("#{salt}#{login_password}"))
       logger.info "THEY MATCH\n"
       match = true
     else
