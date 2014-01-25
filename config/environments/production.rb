@@ -77,4 +77,7 @@ Metube::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # precompile some js for live
+  config.assets.precompile += %w( main.js )
 end

@@ -1,10 +1,13 @@
 Metube::Application.routes.draw do
+  get "main/index"
   get "sessions/login"
   post "sessions/try_login"
   get "sessions/home"
   get "sessions/profile"
   get "sessions/setting"
-  root to: 'users#index'
+
+  root to: 'main#index'
+  
   resources :users
 
   # The priority is based upon order of creation: first created -> highest priority.
