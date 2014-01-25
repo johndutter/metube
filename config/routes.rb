@@ -1,12 +1,17 @@
 Metube::Application.routes.draw do
-  get "main/index"
+  get "layout/index"
+
+  get "partial/:partial", to: "partial#show"
+  get "secured/:partial", to: "partial#show_secured"
+
+  get "home/index"
   get "sessions/login"
   post "sessions/try_login"
   get "sessions/home"
   get "sessions/profile"
   get "sessions/setting"
 
-  root to: 'main#index'
+  root to: "layout#index"
   
   resources :users
 

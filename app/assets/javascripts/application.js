@@ -16,3 +16,4 @@
 //= require underscore-min
 //= require angular.min
 //= require angular-ui-router
+//= require app
