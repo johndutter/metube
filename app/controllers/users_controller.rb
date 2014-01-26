@@ -68,17 +68,6 @@ class UsersController < ApplicationController
     def set_user
       @user = User.find(params[:id])
     end
-    
-    def authenticate_user
-      if session[:user_id]
-         # set current user object to @current_user object variable
-        @user = User.find session[:user_id] 
-        return true	
-      else
-        redirect_to(:controller => 'sessions', :action => 'login')
-        return false
-      end
-    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
