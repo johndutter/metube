@@ -15,6 +15,10 @@ Metube::Application.routes.draw do
   
   resources :users
 
+  # if nothing else caught route--redirect
+  # this must stay at the bottom of all the routes
+  match '*path', to: 'layout#index', via: [:get]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

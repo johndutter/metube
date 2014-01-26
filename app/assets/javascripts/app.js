@@ -1,12 +1,10 @@
 //= require_self
 //= require_tree ./controllers
 
-var App = angular.module('App', ['ui.router']);
+var app = angular.module('app', ['ui.router']);
 
 // Sets up routing
-App.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
-
-	console.log('Angular loaded');
+app.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
 
 	delete $httpProvider.defaults.headers.common["X-Requested-With"];
 

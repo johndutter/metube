@@ -1,4 +1,4 @@
-// homepage controller
+// dashboard controller
 function DashboardCtrl($scope) {
 
 }
