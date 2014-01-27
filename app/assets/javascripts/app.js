@@ -1,5 +1,6 @@
 //= require_self
 //= require_tree ./controllers
+//= require_tree ./services
 
 var app = angular.module('app', ['ui.router']);
 
@@ -8,6 +9,7 @@ app.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouter
   
   authToken = $("meta[name=\"csrf-token\"]").attr("content");
   $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
+  console.log("Angular loaded");
 
 	delete $httpProvider.defaults.headers.common["X-Requested-With"];
 

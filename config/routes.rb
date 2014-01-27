@@ -8,6 +8,8 @@ Metube::Application.routes.draw do
      
   match 'login', to: "session#try_login", via: [:post]
   get "loggedin", to: "session#loggedin"
+  
+  match 'api/test', to: "session#testApi", via: [:get]
 
   get "home/index"
   root to: "layout#index"
