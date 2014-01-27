@@ -3,14 +3,13 @@ Metube::Application.routes.draw do
 
   get "partial/:partial", to: "partial#show"
   get "secured/:partial", to: "partial#show_secured"
+  
+  #post "login", to: "sessions#try_login" 
+     
+  match 'login', to: "session#try_login", via: [:post]
+  get "loggedin", to: "session#loggedin"
 
   get "home/index"
-  get "sessions/login"
-  post "sessions/try_login"
-  get "sessions/home"
-  get "sessions/profile"
-  get "sessions/setting"
-
   root to: "layout#index"
   
   resources :users

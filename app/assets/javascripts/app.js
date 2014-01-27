@@ -5,6 +5,9 @@ var app = angular.module('app', ['ui.router']);
 
 // Sets up routing
 app.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
+  
+  authToken = $("meta[name=\"csrf-token\"]").attr("content");
+  $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
 
 	delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
@@ -21,7 +24,12 @@ app.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouter
 	  url: '/dashboard',
 	  templateUrl: 'partial/dashboard.html',
 	  controller: 'DashboardCtrl'
-	});
+	})
+  .state('login', {
+    url: '/login',
+    templateUrl: 'partial/login.html',
+    controller: 'LoginCtrl'
+  });
 
 	$locationProvider.html5Mode(true);
 });
