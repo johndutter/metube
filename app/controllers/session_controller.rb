@@ -8,16 +8,13 @@ class SessionController < ApplicationController
       session[:user_id] = user[:id]
       render :json => user.username
     else
-      respond_to do |format|
-        format.json {head :not_found}
-      end
+      render => head :not_found
     end
   end
   
   def logout
     session[:user_id] = nil
-    respond_to do |format|
-      format.json{head :accepted}
+    render => head :ok
     end
   end
   

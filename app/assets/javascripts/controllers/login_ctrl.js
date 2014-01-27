@@ -4,11 +4,7 @@ function LoginCtrl($scope, apiService, UserData) {
   alert = function (data, status) {
     console.log("my obj: %o", data);
   }
-  
-  /*$scope.post = function () {
-    $http.post('/login', data).success(function(){console.log("success")});
-  };*/
-    apiService.apiCall(alert, 'POST', 'login', data);
+  apiService.apiCall(alert, 'POST', 'login', data);
   
   $scope.data = UserData;
   $scope.data.username = "test";
