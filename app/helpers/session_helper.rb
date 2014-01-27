@@ -4,7 +4,7 @@ module SessionHelper
   def check_login
     if session[:user_id]
       respond_to do |format| 
-        format.json {head: ok}
+        format.json {head :ok}
       end
     else
       respond_to do |format|

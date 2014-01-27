@@ -6,18 +6,20 @@ class SessionController < ApplicationController
   end
   
   def try_login
-    params = :login_params
+    logger.info 'Inside try_login'
+    logger.info "PARAMTERS:  #{params[:password]}"
     user = User.authenticate(params[:username], params[:password])
     if user
       session[:user_id] = user[:id]
-      respond_to do |format|
-        format.json {head :ok}
-      end
+      render :json => user.username
+      #for testing purposes
+      #render 'home'
     else
       respond_to do |format|
         format.json {header :not_found}
       end
     end
+    logger.info 'leaving'
   end
   
   def logout
