@@ -1,6 +1,6 @@
 class SessionController < ApplicationController
   #check if user is logged in before allowing them to log in
-  before_action :check_login_state, :only => [:login]
+  #before_action :check_login, :only => [:login]
   
   def login
     user = User.authenticate(params[:username], params[:password])

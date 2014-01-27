@@ -3,12 +3,9 @@ Metube::Application.routes.draw do
 
   get "partial/:partial", to: "partial#show"
   get "secured/:partial", to: "partial#show_secured"
-  
-  #post "login", to: "sessions#try_login" 
      
-  match 'login', to: "session#try_login", via: [:post]
-  get "loggedin", to: "session#loggedin"
-  
+  # API Routes
+  match 'api/login', to: "session#login", via: [:post]
   match 'api/test', to: "session#testApi", via: [:get]
 
   get "home/index"
