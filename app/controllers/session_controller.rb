@@ -15,7 +15,7 @@ class SessionController < ApplicationController
   
   def logout
     session[:user_id] = nil
-    head :ok
+    render :json => { success: true }
   end
 
   def loggedin
@@ -24,10 +24,6 @@ class SessionController < ApplicationController
     else
       render :json => session[:user_id]
     end
-  end
-  
-  def testApi
-    render :json => {test: 'word'};
   end
   
   private

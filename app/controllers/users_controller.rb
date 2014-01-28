@@ -57,6 +57,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def get_user_info
+    if session[:user_id].nil?
+      render :json => { success: true, username: '', userid: '', loggedin: false }
+    else
+      @user = User.find(session[:user_id])
+      render :json => { success: true, username: @user[:username], userid: @user[:id], loggedin: true }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

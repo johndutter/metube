@@ -2,10 +2,8 @@
 //= require_tree ./controllers
 //= require_tree ./services
 
-var app = angular.module('app', ['ui.router']);
-
-// Sets up routing
-app.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
+var app = angular.module('app', ['ui.router'])
+.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
   
   authToken = $("meta[name=\"csrf-token\"]").attr("content");
   $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
@@ -84,4 +82,20 @@ app.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouter
   });
 
 	$locationProvider.html5Mode(true);
+})
+.run(function ($rootScope, $location, apiService, UserData) {
+	 // var userdata = UserData;
+
+  // // get some global user data
+  // apiService.apiCall(function(data, status) {
+  //   if (data.success === true) {
+  //     // set global data
+  //     delete data.success;
+  //     userdata = data;
+  //     $location.path('/');
+  //   } else {
+  //     // error getting user data
+  //   }
+  // }, 'GET', '/api/get-user-info', {});
+
 });
