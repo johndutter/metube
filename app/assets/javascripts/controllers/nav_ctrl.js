@@ -1,5 +1,5 @@
 // navbar controller
-function NavCtrl($scope) {
-
+function NavCtrl($scope, UserData) {
+  $scope.userdata = UserData;
 }
-NavCtrl.$inject = ['$scope'];
+NavCtrl.$inject = ['$scope', 'UserData'];

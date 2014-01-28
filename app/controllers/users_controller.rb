@@ -27,9 +27,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      render :json => { user: @user.username }, status: :created
+      render :json => { success: true, user: @user.username }
     else
-      render :json => { user: '', error: @user.errors }
+      render :json => { success: false, user: '' }
     end
   end
 

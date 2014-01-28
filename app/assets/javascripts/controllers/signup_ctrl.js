@@ -1,5 +1,5 @@
 // signup controller
-function SignupCtrl($rootScope, $scope, $http, $location, $timeout) {
+function SignupCtrl($scope, $location, $timeout, apiService) {
   $scope.formData = {};
   $scope.errorMessage = '';
   $scope.showErrors = false;
@@ -21,19 +21,13 @@ function SignupCtrl($rootScope, $scope, $http, $location, $timeout) {
       return;
     }
 
-    // attempt to sign up user
-    $http({ method: 'POST', url: '/api/signup', timeout: 10000, data: $scope.formData }).
-    success(function(data, status, headers, config) {
-      if (data.user !== '' && status === 201) {
-        $location.path('/dashboard');
+    apiService.apiCall(function(data, status) {
+      if (data.success === true && data.user !== '') {
+        $location.path('/login');
       } else {
-        $scope.errorMessage = 'try a different email and username';  
+        $scope.errorMessage = 'try a different email and username';
       }
-    }).
-    error(function(data, status, headers, config) {
-      // error
-      $scope.errorMessage = 'error talking to the server';
-    });
+    }, 'POST', '/api/signup', $scope.formData);
 
   };
 
@@ -46,4 +40,4 @@ function SignupCtrl($rootScope, $scope, $http, $location, $timeout) {
     }
   }, true);
 }
-SignupCtrl.$inject = ['$rootScope', '$scope', '$http', '$location', '$timeout'];
+SignupCtrl.$inject = ['$scope', '$location', '$timeout', 'apiService'];
