@@ -17,6 +17,14 @@ class SessionController < ApplicationController
     session[:user_id] = nil
     head :ok
   end
+
+  def loggedin
+    if session[:user_id].nil?
+      render :json => '0'
+    else
+      render :json => session[:user_id]
+    end
+  end
   
   def testApi
     render :json => {test: 'word'};
