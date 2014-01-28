@@ -26,16 +26,10 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    logger.debug "#{@user.inspect}"
-    respond_to do |format|
-      if @user.save
-        logger.debug "#{@user[:password]}"
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @user }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user.save
+      render :json => { user: @user.username }, status: :created
+    else
+      render :json => { user: '', error: @user.errors }
     end
   end
 

@@ -6,7 +6,8 @@ Metube::Application.routes.draw do
   
   #post "login", to: "sessions#try_login" 
      
-  match 'login', to: "session#try_login", via: [:post]
+  match "login", to: "session#login", via: [:post]
+  match "signup", to: "users#create", via: [:post]
   get "loggedin", to: "session#loggedin"
 
   get "home/index"

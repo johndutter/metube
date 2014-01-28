@@ -1,25 +1,17 @@
 class SessionController < ApplicationController
   #check if user is logged in before allowing them to log in
-  before_action :check_login_state, :only => [:login]
   
   def login
   end
   
-  def try_login
-    logger.info 'Inside try_login'
-    logger.info "PARAMTERS:  #{params[:password]}"
+  def login
     user = User.authenticate(params[:username], params[:password])
     if user
       session[:user_id] = user[:id]
-      render :json => user.username
-      #for testing purposes
-      #render 'home'
+      render :json => { user: user.username }
     else
-      respond_to do |format|
-        format.json {header :not_found}
-      end
+      render :json => { user: '' }
     end
-    logger.info 'leaving'
   end
   
   def logout

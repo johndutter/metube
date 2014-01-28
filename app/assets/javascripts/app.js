@@ -29,6 +29,11 @@ app.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouter
     url: '/login',
     templateUrl: 'partial/login.html',
     controller: 'LoginCtrl'
+  })
+  .state('signup', {
+    url: '/signup',
+    templateUrl: 'partial/signup.html',
+    controller: 'SignupCtrl'
   });
 
 	$locationProvider.html5Mode(true);
