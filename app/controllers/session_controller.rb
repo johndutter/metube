@@ -1,9 +1,8 @@
 class SessionController < ApplicationController
   #check if user is logged in before allowing them to log in
-  
-  def login
-  end
-  
+
+  #before_action :check_login, :only => [:login]
+
   def login
     user = User.authenticate(params[:username], params[:password])
     if user
@@ -16,9 +15,11 @@ class SessionController < ApplicationController
   
   def logout
     session[:user_id] = nil
-    respond_to do |format|
-      format.json{head :accepted}
-    end
+    head :ok
+  end
+  
+  def testApi
+    render :json => {test: 'word'};
   end
   
   private

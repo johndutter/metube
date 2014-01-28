@@ -1,5 +1,5 @@
 // login controller
-function LoginCtrl($rootScope, $scope, $http, $location, $timeout) {
+function LoginCtrl($rootScope, $scope, $http, $location, $timeout, apiService, UserData) {
   $scope.formData = {};
   $scope.errorMessage = '';
   $scope.showErrors = false;
@@ -13,20 +13,17 @@ function LoginCtrl($rootScope, $scope, $http, $location, $timeout) {
       return;
     }
 
-    $http({ method: 'POST', url: '/login', timeout: 10000, data: $scope.formData }).
-    success(function(data, status, headers, config) {
+    apiService.apiCall(function(data, status) {
       if (data.user !== '') {
         // successful login--set some data in a service
+        $scope.data = UserData;
         $location.path('/dashboard');
       } else {
         // invalid login
         $scope.errorMessage = 'invalid username or password';
       }
-    }).
-    error(function(data, status, headers, config) {
-      // error connecting with server
-      $scope.errorMessage = 'invalid username or password';
-    });
+    }, 'POST', 'login', $scope.formData);
+
   };
 
   // watch error message
@@ -39,4 +36,4 @@ function LoginCtrl($rootScope, $scope, $http, $location, $timeout) {
   }, true);
 
 }
-LoginCtrl.$inject = ['$rootScope', '$scope', '$http', '$location', '$timeout'];
+LoginCtrl.$inject = ['$rootScope', '$scope', '$http', '$location', '$timeout', 'apiService', 'UserData'];

@@ -22,7 +22,7 @@ function SignupCtrl($rootScope, $scope, $http, $location, $timeout) {
     }
 
     // attempt to sign up user
-    $http({ method: 'POST', url: '/signup', timeout: 10000, data: $scope.formData }).
+    $http({ method: 'POST', url: '/api/signup', timeout: 10000, data: $scope.formData }).
     success(function(data, status, headers, config) {
       if (data.user !== '' && status === 201) {
         $location.path('/dashboard');

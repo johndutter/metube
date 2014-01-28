@@ -1,5 +1,6 @@
 //= require_self
 //= require_tree ./controllers
+//= require_tree ./services
 
 var app = angular.module('app', ['ui.router']);
 

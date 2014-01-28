@@ -3,13 +3,9 @@ module SessionHelper
   #don't allow logged in user to access log in page
   def check_login
     if session[:user_id]
-      respond_to do |format| 
-        format.json {head :ok}
-      end
+      return true
     else
-      respond_to do |format|
-        format.json{head :unauthorized}
-      end
+      head :unauthorized
     end
   end
   
