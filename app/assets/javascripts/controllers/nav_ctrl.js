@@ -1,8 +1,6 @@
 // navbar controller
 function NavCtrl($scope, $location, apiService, UserData) {
   $scope.userdata = UserData;
-  console.log("NAV\n");
-  console.log($scope.userdata);
 
   // log out
   $scope.logout = function() {

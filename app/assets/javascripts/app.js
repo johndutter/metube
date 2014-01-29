@@ -10,33 +10,47 @@ var app = angular.module('app', ['ui.router'])
 
 	delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
-    $httpProvider.interceptors.push(function($q, $location) {
-      return {
-        //necessary if we don't send http statuses
-        /*'response': function(response) {
-          //check if response is from our rails api
-          if('data' in response.config && response.config.data.hasOwnProperty('success')){
-            if(!response.config.data.success){
-              $location.path('login');
-            }
-            return response;
-          }
-          
-          //resolve promise, angular controllers will handle response
-          return response;
-        },*/
-        'responseError': function(rejection){
-          if(rejection.status == 401){
-            // window.location is used because the rejection status of promise affects $location
-            // promise isn't resolved so scope-life cycle is incomplete and observers/watchers are not notified of change in $location
-            // http://docs.angularjs.org/guide/dev_guide.services.$location#caveats
-            window.location = '/login'; 
-          }
-          //resolve promise
-          return rejection;
+	// check if the user is connected
+	var checkLoggedin = function($q, $timeout, apiService, $location){
+    // Initialize a new promise
+    var deferred = $q.defer();
+    
+    //call api and check if user is logged in
+    apiService.apiCall(function(data, status) {
+      // Authenticated
+      if (data.userid !== '0') {
+        $timeout(deferred.resolve, 0);
+
+        // check if any global variables (failsafe)
+        // if no globals, load them
+
+      } else {
+        // Not Authenticated
+        // clear global user status meaning no longer logged in
+        $timeout(function(){deferred.reject();}, 0);
+        $location.url('/login');
+      }
+      
+    }, 'GET', 'api/loggedin', {});
+
+    return deferred.promise;
+  };
+
+  $httpProvider.interceptors.push(function($q, $location) {
+    return {
+      //if there in unauthorized call to api redirect to login
+      'responseError': function(rejection){
+        if(rejection.status == 401){
+          // window.location is used because the rejection status of promise affects $location
+          // promise isn't resolved so scope-life cycle is incomplete and observers/watchers are not notified of change in $location
+          // http://docs.angularjs.org/guide/dev_guide.services.$location#caveats
+          window.location = '/login'; 
         }
-      };
-    });
+        //resolve promise
+        return rejection;
+      }
+    };
+  });
 
 	// declare routes and states
 	$urlRouterProvider.otherwise('/');
@@ -50,7 +64,10 @@ var app = angular.module('app', ['ui.router'])
 	.state('dashboard', {
 	  url: '/dashboard',
 	  templateUrl: 'secured/dashboard.html',
-	  controller: 'DashboardCtrl'
+	  controller: 'DashboardCtrl',
+	  resolve: {
+      loggedin: checkLoggedin
+    }
 	})
   .state('login', {
     url: '/login',
@@ -66,7 +83,7 @@ var app = angular.module('app', ['ui.router'])
 	$locationProvider.html5Mode(true);
 })
 .run(function ($rootScope, $location, apiService, UserData) {
-	  var userdata = UserData;
+  var userdata = UserData;
 
   // get some global user data
   apiService.apiCall(function(data, status) {
@@ -74,6 +91,7 @@ var app = angular.module('app', ['ui.router'])
       // set global data
       delete data.success;
       userdata.username = data.username;
+      userdata.userid = data.userid;
       userdata.loggedin = data.loggedin;
     } else {
       // error getting user data

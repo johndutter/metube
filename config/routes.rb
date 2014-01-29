@@ -3,9 +3,6 @@ Metube::Application.routes.draw do
 
   get "partial/:partial", to: "partial#show"
   get "secured/:partial", to: "partial#show_secured"
-  
-  # for angular page prefetch
-  get "loggedin", to: "session#loggedin"
 
   # API Routes
   match "api/login", to: "session#login", via: [:post]
@@ -13,6 +10,8 @@ Metube::Application.routes.draw do
   match "api/signup", to: "users#create", via: [:post]
   match "api/logout", to: "session#logout", via: [:post]
   match "api/get-user-info", to: "users#get_user_info", via: [:get]
+  # for angular page prefetch
+  match "api/loggedin", to: "session#loggedin", via: [:get]
 
   root to: "layout#index"
   resources :users

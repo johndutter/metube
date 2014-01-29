@@ -5,7 +5,6 @@ module SessionHelper
     if session[:user_id]
       return true
     else
-      head :unauthorized
       return false
     end
   end
