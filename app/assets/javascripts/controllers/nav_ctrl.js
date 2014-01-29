@@ -1,6 +1,8 @@
 // navbar controller
 function NavCtrl($scope, $location, apiService, UserData) {
   $scope.userdata = UserData;
+  console.log("NAV\n");
+  console.log($scope.userdata);
 
   // log out
   $scope.logout = function() {
@@ -14,7 +16,10 @@ function NavCtrl($scope, $location, apiService, UserData) {
           if (data.success === true) {
             // set global data
             delete data.success;
-            $scope.userdata = data;
+            $scope.userdata.username = data.username;
+            $scope.userdata.userid = data.userid;
+            $scope.userdata.loggedin = data.loggedin;
+            
             $location.path('/');
           } else {
             // error getting user data

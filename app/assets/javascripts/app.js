@@ -12,7 +12,8 @@ var app = angular.module('app', ['ui.router'])
 
     $httpProvider.interceptors.push(function($q, $location) {
       return {
-        'response': function(response) {
+        //necessary if we don't send http statuses
+        /*'response': function(response) {
           //check if response is from our rails api
           if('data' in response.config && response.config.data.hasOwnProperty('success')){
             if(!response.config.data.success){
@@ -23,10 +24,13 @@ var app = angular.module('app', ['ui.router'])
           
           //resolve promise, angular controllers will handle response
           return response;
-        },
+        },*/
         'responseError': function(rejection){
-          if(rejection.status == '401'){
-            $location.path('/dashboard');
+          if(rejection.status == 401){
+            // window.location is used because the rejection status of promise affects $location
+            // promise isn't resolved so scope-life cycle is incomplete and observers/watchers are not notified of change in $location
+            // http://docs.angularjs.org/guide/dev_guide.services.$location#caveats
+            window.location = '/login'; 
           }
           //resolve promise
           return rejection;
@@ -47,9 +51,6 @@ var app = angular.module('app', ['ui.router'])
 	  url: '/dashboard',
 	  templateUrl: 'secured/dashboard.html',
 	  controller: 'DashboardCtrl'
-	  /*resolve: {
-      loggedin: checkLoggedin
-    }*/
 	})
   .state('login', {
     url: '/login',
@@ -65,18 +66,18 @@ var app = angular.module('app', ['ui.router'])
 	$locationProvider.html5Mode(true);
 })
 .run(function ($rootScope, $location, apiService, UserData) {
-	 // var userdata = UserData;
+	  var userdata = UserData;
 
-  // // get some global user data
-  // apiService.apiCall(function(data, status) {
-  //   if (data.success === true) {
-  //     // set global data
-  //     delete data.success;
-  //     userdata = data;
-  //     $location.path('/');
-  //   } else {
-  //     // error getting user data
-  //   }
-  // }, 'GET', '/api/get-user-info', {});
+  // get some global user data
+  apiService.apiCall(function(data, status) {
+    if (data.success === true) {
+      // set global data
+      delete data.success;
+      userdata.username = data.username;
+      userdata.loggedin = data.loggedin;
+    } else {
+      // error getting user data
+    }
+  }, 'GET', '/api/get-user-info', {});
 
 });

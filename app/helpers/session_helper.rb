@@ -1,11 +1,12 @@
 module SessionHelper
   
-  #don't allow logged in user to access log in page
+  #check to make sure user is logged in
   def check_login
     if session[:user_id]
       return true
     else
       head :unauthorized
+      return false
     end
   end
   

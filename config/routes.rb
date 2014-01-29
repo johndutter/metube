@@ -9,6 +9,7 @@ Metube::Application.routes.draw do
 
   # API Routes
   match "api/login", to: "session#login", via: [:post]
+  match "api/logout", to: "session#logout", via: [:get]
   match "api/signup", to: "users#create", via: [:post]
   match "api/logout", to: "session#logout", via: [:post]
   match "api/get-user-info", to: "users#get_user_info", via: [:get]

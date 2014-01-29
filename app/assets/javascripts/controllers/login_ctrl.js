@@ -23,7 +23,10 @@ function LoginCtrl($scope, $location, $timeout, apiService, UserData) {
           if (data.success === true) {
             // set global data
             delete data.success;
-            $scope.userdata = data;
+            $scope.userdata.username = data.username;
+            $scope.userdata.userid = data.userid;
+            $scope.userdata.loggedin = data.loggedin;
+            
             $location.path('/dashboard');
           } else {
             // error getting user data
@@ -32,7 +35,6 @@ function LoginCtrl($scope, $location, $timeout, apiService, UserData) {
       } else {
         // invalid login
         $scope.errorMessage = 'invalid username or password';
-        console.log("401 or something");
       }
     }, 'POST', '/api/login', $scope.formData);
 
