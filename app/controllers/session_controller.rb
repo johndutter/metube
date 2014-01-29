@@ -7,9 +7,9 @@ class SessionController < ApplicationController
     user = User.authenticate(params[:username], params[:password])
     if user
       session[:user_id] = user[:id]
-      render :json => { user: user.username }
+      render :json => { user: user.username, success: true }
     else
-      render :json => { user: '' }
+      render :json => { user: '', success: false }
     end
   end
   

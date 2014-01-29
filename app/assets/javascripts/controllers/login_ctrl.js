@@ -14,13 +14,14 @@ function LoginCtrl($rootScope, $scope, $http, $location, $timeout, apiService, U
     }
 
     apiService.apiCall(function(data, status) {
-      if (data.user !== '') {
+      if (data.success == true) {
         // successful login--set some data in a service
         $scope.data = UserData;
         $location.path('/dashboard');
       } else {
         // invalid login
         $scope.errorMessage = 'invalid username or password';
+        console.log("401 or something");
       }
     }, 'POST', 'login', $scope.formData);
 
