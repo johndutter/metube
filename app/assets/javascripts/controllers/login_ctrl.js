@@ -18,7 +18,7 @@ function LoginCtrl($scope, $location, $timeout, apiService, UserData) {
     apiService.apiCall(function(data, status) {
       if (data.success === true && data.user !== '') {
 
-        // successful logout, make another call to update user data
+        // successful login, make another call to update user data
         apiService.apiCall(function(data, status) {
           if (data.success === true) {
             // set global data
@@ -29,10 +29,10 @@ function LoginCtrl($scope, $location, $timeout, apiService, UserData) {
             // error getting user data
           }
         }, 'GET', '/api/get-user-info', {});
-        
       } else {
         // invalid login
         $scope.errorMessage = 'invalid username or password';
+        console.log("401 or something");
       }
     }, 'POST', '/api/login', $scope.formData);
 
