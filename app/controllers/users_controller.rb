@@ -27,9 +27,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      render :json => { success: true, user: @user.username }
+      render :json => { user: @user.username }, status: :ok
     else
-      render :json => { success: false, user: '' }
+      render :json => { user: '' }, status: :bad_request
     end
   end
 
@@ -59,10 +59,10 @@ class UsersController < ApplicationController
 
   def get_user_info
     if session[:user_id].nil?
-      render :json => { success: true, username: '', userid: '', loggedin: false }
+      render :json => { username: '', userid: '', loggedin: false }, status: :ok
     else
       @user = User.find(session[:user_id])
-      render :json => { success: true, username: @user[:username], userid: @user[:id], loggedin: true }
+      render :json => { username: @user[:username], userid: @user[:id], loggedin: true }, status: :ok
     end
   end
 

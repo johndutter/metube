@@ -16,11 +16,11 @@ function LoginCtrl($scope, $location, $timeout, apiService, UserData) {
 
     // make a call to log in
     apiService.apiCall(function(data, status) {
-      if (data.success === true && data.user !== '') {
+      if (status === 200 && data.user !== '') {
 
         // successful login, make another call to update user data
         apiService.apiCall(function(data, status) {
-          if (data.success === true) {
+          if (status === 200) {
             // set global data
             delete data.success;
             $scope.userdata.username = data.username;

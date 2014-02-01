@@ -87,7 +87,7 @@ var app = angular.module('app', ['ui.router'])
 
   // get some global user data
   apiService.apiCall(function(data, status) {
-    if (data.success === true) {
+    if (status === 200) {
       // set global data
       delete data.success;
       userdata.username = data.username;

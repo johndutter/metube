@@ -7,15 +7,15 @@ class SessionController < ApplicationController
     user = User.authenticate(params[:username], params[:password])
     if user
       session[:user_id] = user[:id]
-      render :json => { success: true, username: user.username }
+      render :json => { username: user.username }, status: :ok
     else
-      render :json => { success: false, username: '' }
+      render :json => { username: '' }, status: :bad_request
     end
   end
   
   def logout
     session[:user_id] = nil
-    render :json => { success: true }
+    render :json => { }, status: :ok
   end
 
   def loggedin

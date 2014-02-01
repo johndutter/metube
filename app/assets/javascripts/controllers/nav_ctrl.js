@@ -7,11 +7,11 @@ function NavCtrl($scope, $location, apiService, UserData) {
 
     // first call the logout
     apiService.apiCall(function(data, status) {
-      if (data.success === true) {
+      if (status === 200) {
 
         // successful logout, make another call to clear user data
         apiService.apiCall(function(data, status) {
-          if (data.success === true) {
+          if (status === 200) {
             // set global data
             delete data.success;
             $scope.userdata.username = data.username;

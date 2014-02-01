@@ -22,7 +22,7 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
     }
 
     apiService.apiCall(function(data, status) {
-      if (data.success === true && data.user !== '') {
+      if (status === 200 && data.user !== '') {
         $location.path('/login');
       } else {
         $scope.errorMessage = 'try a different email and username';
