@@ -12,8 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap.min
 //= require underscore-min
+//= require bootstrap.min
 //= require angular.min
 //= require angular-ui-router
 //= require app
