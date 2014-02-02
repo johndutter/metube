@@ -2,10 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import "bootstrap";
 @import "nav";
 
 // globally available css
 .buffer-30 {
   height: 30px;
 }
+// .container {
+//   max-width: none !important;
+//   width: 970px !important;
+// }

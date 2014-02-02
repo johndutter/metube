@@ -1,5 +1,5 @@
 // dashboard controller
-function DashboardCtrl($scope, UserData) {
+function DashboardCtrl($scope) {
 
 }
 DashboardCtrl.$inject = ['$scope'];

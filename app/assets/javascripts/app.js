@@ -31,7 +31,7 @@ var app = angular.module('app', ['ui.router'])
         $location.url('/login');
       }
       
-    }, 'GET', 'api/loggedin', {});
+    }, 'GET', '/api/loggedin', {});
 
     return deferred.promise;
   };
@@ -58,25 +58,33 @@ var app = angular.module('app', ['ui.router'])
 	$stateProvider
 	.state('home', {
 	  url: '/',
-	  templateUrl: 'partial/home.html',
+	  templateUrl: '/partial/home.html',
 	  controller: 'HomeCtrl'
 	})
 	.state('dashboard', {
 	  url: '/dashboard',
-	  templateUrl: 'secured/dashboard.html',
+	  templateUrl: '/secured/dashboard.html',
 	  controller: 'DashboardCtrl',
 	  resolve: {
       loggedin: checkLoggedin
     }
 	})
+  .state('dashboard.profile', {
+    url: '/profile',
+    templateUrl: '/secured/dashboard-profile.html',
+    controller: 'DashboardProfileCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
   .state('login', {
     url: '/login',
-    templateUrl: 'partial/login.html',
+    templateUrl: '/partial/login.html',
     controller: 'LoginCtrl'
   })
   .state('signup', {
     url: '/signup',
-    templateUrl: 'partial/signup.html',
+    templateUrl: '/partial/signup.html',
     controller: 'SignupCtrl'
   });
 
