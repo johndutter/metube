@@ -69,6 +69,14 @@ var app = angular.module('app', ['ui.router'])
       loggedin: checkLoggedin
     }
 	})
+  .state('dashboard.home', {
+    url: '/home',
+    templateUrl: '/secured/dashboard-home.html',
+    controller: 'DashboardHomeCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
   .state('dashboard.profile', {
     url: '/profile',
     templateUrl: '/secured/dashboard-profile.html',

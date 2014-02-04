@@ -27,7 +27,7 @@ function LoginCtrl($scope, $location, $timeout, apiService, UserData) {
             $scope.userdata.userid = data.userid;
             $scope.userdata.loggedin = data.loggedin;
             
-            $location.path('/dashboard');
+            $location.path('/dashboard/home');
           } else {
             // error getting user data
           }

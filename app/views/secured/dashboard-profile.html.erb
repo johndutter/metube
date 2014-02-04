@@ -1,6 +1,106 @@
-<div class='panel panel-primary'>
-  <div class="panel-heading">User Profile</div>
-  <div class="panel-body">
-    Panel content
+<div class='panel panel-default'>
+  <div class='panel-heading'>My Information</div>
+  <div class='panel-body'>
+    
+    <div class='row'>
+
+      <form novalidate class='form-horizontal' role='form'  name='profileform' ng-submit='changeInfo()'>
+
+        <div class='buffer-30'></div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='firstname'>First Name</label>
+          <div class='col-5'>
+            <input id='firstname' class='form-control' type='text' name='firstname' ng-model='formData.firstname'>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='lastname'>Last Name</label>
+          <div class='col-5'>
+            <input id='lastname' class='form-control' type='text' name='lastname' ng-model='formData.lastname'>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='email'>Email</label>
+          <div class='col-5'>
+            <input id='email' class='form-control' type='email' name='email' ng-model='formData.email' required>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='phone'>Phone</label>
+          <div class='col-5'>
+            <input id='phone' class='form-control' type='text' name='phone' ng-model='formData.phone'>
+          </div>
+        </div>
+
+        <div class='text-danger text-center' ng-show='formData.encrypted_password !== formData.password_confirmation && showErrors'>your passwords must match</div>
+        <div class='text-danger text-center'>{{errorMessage}}</div>
+
+        <div class='buffer-30'></div>
+
+        <div class='col-4'></div>
+        <div class='col-4'>
+          <button class='btn btn-primary btn-lg btn-block' type='submit'>Update Information</button>
+        </div>
+      
+      </form>
+
+    </div>
+
+    <div class='buffer-30'></div>
+
+  </div>
+</div>
+
+<div class='panel panel-default'>
+  <div class='panel-heading'>Change Password</div>
+  <div class='panel-body'>
+    
+    <div class='row'>
+
+      <form novalidate class='form-horizontal' role='form'  name='passform' ng-submit='changePass()'>
+
+        <div class='buffer-30'></div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='oldpassword'>Old Password</label>
+          <div class='col-5'>
+            <input id='oldpassword' class='form-control' type='password' name='oldpassword' ng-model='pwdFormData.oldpassword' required>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='encrypted_password'>New Password</label>
+          <div class='col-5'>
+            <input id='encrypted_password' class='form-control' type='password' name='encrypted_password' ng-model='pwdFormData.encrypted_password' required>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='password_confirmation'>Confirm Password</label>
+          <div class='col-5'>
+            <input id='password_confirmation' class='form-control' type='password' name='password_confirmation' ng-model='pwdFormData.password_confirmation' required>
+          </div>
+        </div>
+
+        <div class='text-danger text-center' ng-show='pwdFormData.encrypted_password !== pwdFormData.password_confirmation && showErrors'>your passwords must match</div>
+        <div class='text-danger text-center'>{{errorMessage}}</div>
+
+        <div class='buffer-30'></div>
+
+        <div class='col-4'></div>
+        <div class='col-4'>
+          <button class='btn btn-primary btn-lg btn-block' type='submit'>Change Password</button>
+        </div>
+      
+      </form>
+
+    </div>
+
+    <div class='buffer-30'></div>
+
   </div>
 </div>
