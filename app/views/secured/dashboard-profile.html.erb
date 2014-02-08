@@ -26,6 +26,8 @@
           <label class='col-5 control-label' for='email'>Email</label>
           <div class='col-5'>
             <input id='email' class='form-control' type='email' name='email' ng-model='formData.email' required>
+            <p class='error-helper text-danger' ng-show='profileform.email.$error.required && showErrorsOne'>please enter an email address</p>
+            <p class='error-helper text-danger' ng-show='profileform.email.$error.email && !profileform.email.$error.required && showErrorsOne'>invalid email address</p>
           </div>
         </div>
 
@@ -36,8 +38,8 @@
           </div>
         </div>
 
-        <div class='text-danger text-center' ng-show='formData.encrypted_password !== formData.password_confirmation && showErrors'>your passwords must match</div>
-        <div class='text-danger text-center'>{{errorMessage}}</div>
+        <div class='text-danger text-center'>{{errorMessageOne}}</div>
+        <div class='text-success text-center'>{{successMessageOne}}</div>
 
         <div class='buffer-30'></div>
 
@@ -68,26 +70,33 @@
         <div class='form-group'>
           <label class='col-5 control-label' for='oldpassword'>Old Password</label>
           <div class='col-5'>
-            <input id='oldpassword' class='form-control' type='password' name='oldpassword' ng-model='pwdFormData.oldpassword' required>
+            <input id='oldpassword' class='form-control' type='password' name='oldpassword' ng-model='pwdFormData.oldpassword' required ng-minlength='6'>
+            <p class='error-helper text-danger' ng-show='passform.oldpassword.$error.required && showErrorsTwo'>please enter your old password</p>
+            <p class='error-helper text-danger' ng-show='passform.oldpassword.$error.minlength && !passform.oldpassword.$error.required && showErrorsTwo'>password must be at least 6 characters</p>
           </div>
         </div>
 
         <div class='form-group'>
           <label class='col-5 control-label' for='encrypted_password'>New Password</label>
           <div class='col-5'>
-            <input id='encrypted_password' class='form-control' type='password' name='encrypted_password' ng-model='pwdFormData.encrypted_password' required>
+            <input id='encrypted_password' class='form-control' type='password' name='encrypted_password' ng-model='pwdFormData.encrypted_password' required ng-minlength='6'>
+            <p class='error-helper text-danger' ng-show='passform.encrypted_password.$error.required && showErrorsTwo'>please choose a password</p>
+            <p class='error-helper text-danger' ng-show='passform.encrypted_password.$error.minlength && !passform.encrypted_password.$error.required && showErrorsTwo'>password must be at least 6 characters</p>
           </div>
         </div>
 
         <div class='form-group'>
           <label class='col-5 control-label' for='password_confirmation'>Confirm Password</label>
           <div class='col-5'>
-            <input id='password_confirmation' class='form-control' type='password' name='password_confirmation' ng-model='pwdFormData.password_confirmation' required>
+            <input id='password_confirmation' class='form-control' type='password' name='password_confirmation' ng-model='pwdFormData.password_confirmation' required ng-minlength='6'>
+            <p class='error-helper text-danger' ng-show='passform.password_confirmation.$error.required && showErrorsTwo'>please re-type password</p>
+            <p class='error-helper text-danger' ng-show='passform.password_confirmation.$error.minlength && !passform.password_confirmation.$error.required && showErrorsTwo'>password must be at least 6 characters</p>
           </div>
         </div>
 
-        <div class='text-danger text-center' ng-show='pwdFormData.encrypted_password !== pwdFormData.password_confirmation && showErrors'>your passwords must match</div>
-        <div class='text-danger text-center'>{{errorMessage}}</div>
+        <div class='text-danger text-center' ng-show='pwdFormData.encrypted_password !== pwdFormData.password_confirmation && showErrorsTwo'>your passwords must match</div>
+        <div class='text-danger text-center'>{{errorMessageTwo}}</div>
+        <div class='text-success text-center'>{{successMessageTwo}}</div>
 
         <div class='buffer-30'></div>
 
