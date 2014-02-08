@@ -102,6 +102,11 @@ var app = angular.module('app', ['ui.router'])
     resolve: {
       loggedin: checkLoggedin
     }
+  })
+  .state('multimedia', {
+    url: '/multimedia/:id',
+    templateUrl: '/partial/multimedia.html',
+    controller: 'MultimediaCtrl'
   });
 
 	$locationProvider.html5Mode(true);
