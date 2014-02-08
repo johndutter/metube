@@ -16,4 +16,5 @@
 //= require bootstrap.min
 //= require angular.min
 //= require angular-ui-router
+//= require flowplayer.min
 //= require app
