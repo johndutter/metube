@@ -1,0 +1,11 @@
+.dashboard {
+  .nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: #d2322d;
+  }
+  .nav-pills li a {
+    color: #d2322d;
+  }
+  .nav-pills li.active a {
+    color: white;
+  }
+}

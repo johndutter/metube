@@ -2,31 +2,22 @@ class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   require 'digest/sha2'
   
-  attr_accessor :password_confirmation
-  
-  before_save :encrypt_password
-  after_save  :clear_password
-  
   #handle validation of user fields
   validates :username, presence: true, length: {maximum: 24}, uniqueness: true
   validates :encrypted_password, length: {minimum: 6, maximum: 256}
-  validates :encrypted_password, :confirmation => true #password_confirmation attr
   
   EMAIL_REGEX = /\A[\w+\-.]+\@[a-z\d\-.]+.[a-z]+\z/i
   validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
+  validates :firstname, length: {maximum: 24}
+  validates :lastname, length: {maximum: 24}
+  validates :phone, length: {maximum: 24}
   
-  protected 
-
   def encrypt_password
-    logger.info "#{:password}"
     self[:salt] = Digest::SHA2.hexdigest("#{self[:email]}#{Time.now}")
     self[:encrypted_password] = Digest::SHA2.hexdigest("#{self[:salt]}#{self[:encrypted_password]}")
   end
-  
-  #Remove password after it is stored so that it is not accessible
-  def clear_password
-    self.encrypted_password = nil
-  end
+
+  protected
   
   def self.authenticate(login_name="", login_password="")
     #check to see if user is in db

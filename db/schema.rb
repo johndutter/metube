@@ -34,6 +34,9 @@ ActiveRecord::Schema.define(version: 20140208154733) do
     t.datetime "updated_at"
     t.string   "email"
     t.decimal  "iterations",         precision: 10, scale: 0
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "phone"
   end
 
 end

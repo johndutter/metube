@@ -1,3 +1,11 @@
-<div>dashboard</div>
-<a href="/dashboard/profile">Link</a>
-<div ui-view></div>
+<div class='row dashboard'>
+  <div class='col-3'>
+    <h3>Dashboard</h3>
+    <ul class='nav nav-pills nav-stacked'>
+      <li ng-class='{active: tab=="home"}'><a ui-sref='dashboard.home'>Home</a></li>
+      <li ng-class='{active: tab=="profile"}'><a ui-sref='dashboard.profile'>Profile</a></li>
+    </ul>
+  </div>
+  <div class='col-9' ui-view>
+  </div>
+</div>

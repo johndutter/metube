@@ -26,6 +26,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+    @user.encrypt_password
     if @user.save
       render :json => { user: @user.username }, status: :ok
     else
@@ -58,11 +59,49 @@ class UsersController < ApplicationController
   end
 
   def get_user_info
-    if session[:user_id].nil?
-      render :json => { username: '', userid: '', loggedin: false }, status: :ok
-    else
+    if check_login
       @user = User.find(session[:user_id])
       render :json => { username: @user[:username], userid: @user[:id], loggedin: true }, status: :ok
+    else
+      render :json => { username: '', userid: '', loggedin: false }, status: :ok
+    end
+  end
+
+  def get_user_profile
+    if check_login
+      @user = User.find(session[:user_id])
+      render :json => { email: @user[:email], firstname: @user[:firstname], lastname: @user[:lastname], phone: @user[:phone] }, status: :ok
+    else
+      render :json => { }, status: :bad_request
+    end
+  end
+
+  def update_user_profile
+    if check_login
+      @user = User.find(session[:user_id])
+      if @user.update(user_profile_params)
+        render :json => { }, status: :ok
+      else
+        render :json => { }, status: :bad_request
+      end
+    else
+      render :json => { }, status: :bad_request
+    end
+  end
+
+  def update_user_password
+    if check_login
+      @user = User.find(session[:user_id])
+      @user = User.authenticate(@user[:username], params[:oldpassword])
+      @user[:encrypted_password] = params[:encrypted_password]
+      @user.encrypt_password
+      if @user.save
+        render :json => { }, status: :ok
+      else
+        render :json => { }, status: :bad_request
+      end
+    else
+      render :json => { }, status: :bad_request
     end
   end
 
@@ -74,6 +113,10 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :email, :encrypted_password, :password_confirmation)
+      params.require(:user).permit(:username, :email, :encrypted_password, :password_confirmation, :firstname, :lastname, :phone)
+    end
+
+    def user_profile_params
+      params.require(:user).permit(:email, :firstname, :lastname, :phone)
     end
 end
