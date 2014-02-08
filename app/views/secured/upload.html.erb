@@ -1,0 +1,74 @@
+<div class='buffer-30'></div>
+
+<div class='row'>
+
+  <div class='col-8'>
+    <div class='well well-lg'>
+      <h2>Upload</h2>
+      <div class='buffer-30'></div>
+
+      <form novalidate class='form-horizontal' role='form'  name='uploadform' ng-submit='upload()' enctype='multipart/form-data'>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='title'>Title</label>
+          <div class='col-7'>
+            <input id='title' class='form-control' type='title' name='title' ng-model='formData.title' ng-pattern="/^[\d\w]+/" ng-minlength="3" ng-maxlength="60" required/>
+            <p class='error-helper text-danger' ng-show='uploadform.title.$error.required && showErrors'>please enter a title</p>
+            <p class='error-helper text-danger' ng-show='uploadform.title.$error.minlength && showErrors'>Title must be at least 3 characters</p>
+            <p class='error-helper text-danger' ng-show='uploadform.title.$error.maxlength && showErrors'>Title cannot be longer than 60 characters</p>
+            <p class='error-helper text-danger' ng-show='uploadform.title.$error.pattern && showErrors'>Title canot contain special characters, only lettesr and numbers. </p>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='file-upload'> Select a file:</label>
+          <div class='col-7'>
+            <input id='file-upload' class='form-control' type='file' name='fileUpload' onchange="angular.element(this).scope().getFile(this)" required/>
+            <p class='error-helper text-danger' ng-show='uploadform.file-upload.$error.required && showErrors'> A file must be entered. </p>
+            <p class='error-helper text-danger' ng-show='invalidFileType && showErrors'>Unsupported file type.</p>
+          </div>
+        </div>
+        
+        <div class='form-group'>
+          <label class='col-5 control-label' for='mediaType'>Media Type</label>
+          <div class='col-7'>
+            <select id='type' class='form-control' name='mediaType' ng-model='formData.mediaType' required>
+              <option value='video'> Video </option>
+              <option value='audio'> Audio </option>
+              <option value='image'> Image </option>
+            </select>
+            <p class='error-helper text-danger' ng-show='uploadform.type.$error.required && showErrors'>please select media type</p>
+            <p class='error-helper text-danger' ng-show='hasTypeMismatch && showErrors'>Uploaded file does not match selected type.</p>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='tags'>Tags</label>
+          <div class='col-7'>
+            <input id='tags' class='form-control' type='text' size='35' name='tags' ng-model='formData.tags' required/>
+            <p class='error-helper text-danger' ng-show='uploadform.tags.$error.required && showErrors'>please enter tags</p>
+            <p class='error-helper text-danger' ng-show='hasThreeTags && showErrors'>Please enter at least 3 tags.</p>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <label class='col-5 control-label' for='description'>Description</label>
+          <div class='col-7'>
+            <textarea id='description' class='form-control' row='4' column='50' name='description' ng-model='formData.description' required> </textarea>
+            <p class='error-helper text-danger' ng-show='signupform.description.$error.required && showErrors'>please enter a description</p>
+          </div>
+        </div>
+
+        <div class='text-danger text-center'>{{errorMessage}}</div>
+
+        <div class='buffer-30'></div>
+
+        <button class='btn btn-primary btn-lg btn-block' type='submit'>Upload</button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <div class='col-4'></div>
+</div>

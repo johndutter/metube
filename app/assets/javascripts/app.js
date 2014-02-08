@@ -86,6 +86,14 @@ var app = angular.module('app', ['ui.router'])
     url: '/signup',
     templateUrl: '/partial/signup.html',
     controller: 'SignupCtrl'
+  })
+  .state('upload', {
+    url: '/upload',
+    templateUrl: '/secured/upload.html',
+    controller: 'UploadCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
   });
 
 	$locationProvider.html5Mode(true);

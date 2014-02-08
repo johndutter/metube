@@ -10,6 +10,8 @@ Metube::Application.routes.draw do
   match "api/signup", to: "users#create", via: [:post]
   match "api/logout", to: "session#logout", via: [:post]
   match "api/get-user-info", to: "users#get_user_info", via: [:get]
+  match "api/upload", to: "multimedia#create", via: [:post]
+  match "api/upload-file", to: "multimedia#save_file", via: [:post]
   # for angular page prefetch
   match "api/loggedin", to: "session#loggedin", via: [:get]
 
