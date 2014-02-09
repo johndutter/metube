@@ -13,10 +13,17 @@ class MultimediaController < ApplicationController
   
   def save_file
     if(Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType]))
-      render :json => {success: 200}, status: :ok
+      render :json => { }, status: :ok
     else
-      render :json => {multimedia: 0}, status: :bad_request
+      render :json => { }, status: :bad_request
     end
+  end
+
+  def get_multimedia_info
+    @multimedia = Multimedia.find(params[:id])
+    render :json => { }, status: :ok 
+  rescue
+    render :json => { }, status: :bad_request
   end
   
   private

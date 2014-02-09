@@ -44,7 +44,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
        second call to save file on our server 
     */
     apiService.apiCall(function(data, status){
-      if(status == 200 && data.user != ''){
+      if(status == 200){
         fd.append('multimedia_id', data.multimedia);
         /* Second API Call */
         /* NOTE:  We might need record of pending file upload for particular user so that this api function cannot be called anytime. */
