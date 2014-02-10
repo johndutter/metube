@@ -4,7 +4,22 @@
   <div class='col-8'>
     <div id='player' class='flowplayer functional'></div>
     <div class='multimedia-info'>
-      <h2>Multimedia Title</h2>
+      <div class='title-area clearfix'>
+        <div class='title-inner pull-left'>
+          <h2>{{multInfo.title}}</h2>
+        </div>
+        <div class='like pull-right'>
+          like information
+        </div>
+      </div>
+      <div class='well'>
+        <dl class='dl-horizontal'>
+          <dt>Tags</dt>
+          <dd>some tags</dd>
+          <dt>Description</dt>
+          <dd>{{multInfo.description}}</dd>
+        </dl>
+      </div>
     </div>
     <div class='panel panel-default'>
       <div class='panel-heading'>Comments</div>

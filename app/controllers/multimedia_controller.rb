@@ -13,7 +13,7 @@ class MultimediaController < ApplicationController
   
   def save_file
     #store path for uploaded file
-    Multimedia.update( params[:multimedia_id], { path: '/public/uploads' + params[:multimedia_id] + params[:mediaType] } )
+    Multimedia.update( params[:multimedia_id], { path: '/uploads/' + params[:multimedia_id] + params[:mediaType] } )
 
     if(Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType]))
       render :json => { }, status: :ok
@@ -25,7 +25,7 @@ class MultimediaController < ApplicationController
   def get_multimedia_info
     @multimedia = Multimedia.find(params[:id])
     logger.info(@multimedia.to_yaml)
-    render :json => { id: @multimedia[:id], title: @multimedia[:title], likes: @multimedia[:likes], dislikes: @multimedia[:dislikes], user_id: @multimedia[:user_id], description: @multimedia[:description] }, status: :ok
+    render :json => { id: @multimedia[:id], title: @multimedia[:title], likes: @multimedia[:likes], dislikes: @multimedia[:dislikes], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path] }, status: :ok
   rescue
     render :json => { }, status: :bad_request
   end
