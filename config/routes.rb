@@ -17,6 +17,7 @@ Metube::Application.routes.draw do
   match "api/get-user-profile", to: "users#get_user_profile", via: [:get]
   match "api/update-user-profile", to: "users#update_user_profile", via: [:post]
   match "api/update-user-password", to: "users#update_user_password", via: [:post]
+  match "api/get-uploader-info", to: "users#get_uploader_info", via: [:get]
 
   match "api/get-multimedia-info", to: "multimedia#get_multimedia_info", via: [:get]  
 

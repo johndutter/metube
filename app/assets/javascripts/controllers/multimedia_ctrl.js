@@ -1,6 +1,7 @@
 // dashboard controller
 function MultimediaCtrl($scope, $stateParams, apiService) {
   $scope.multInfo = {};
+  $scope.uploader = {};
 
   $scope.init = function() {
 
@@ -10,6 +11,7 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
         console.log(data);
         $scope.multInfo = data;
         $scope.initFlowplayer();
+        $scope.getUploaderInfo();
       } else {
         
       }
@@ -17,7 +19,6 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
 
     
     $scope.initFlowplayer = function() {
-      console.log($scope.multInfo.path);
       $('#player').flowplayer({
         embed: false,
         swf: '/flowplayer.swf',
@@ -30,6 +31,17 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
         ]
       });
     };
+
+    $scope.getUploaderInfo = function() {
+      // go get the multimedia type and information
+      apiService.apiCall(function(data, status) {
+        if (status === 200) {
+          $scope.uploader = data;
+        } else {
+          
+        }
+      }, 'GET', '/api/get-uploader-info', { id: $scope.multInfo.user_id });
+    }
     
 
   }

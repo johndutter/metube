@@ -6,8 +6,27 @@
     margin-bottom: 0px;
   }
   .title-area {
+    overflow: hidden;
     h2 {
       margin-top: 10px;
+    }
+  }
+  .stat-area {
+    .uploader {
+      max-width: 300px;
+    }
+    .like-area {
+      display: inline-block;
+      position: relative;
+      .views {
+        margin-right: 20px;
+      }
+      .dislike {
+        margin-right: 6px;
+      }
+      .glyphicon {
+        margin-right: 10px;
+      }
     }
   }
 }
