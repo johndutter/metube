@@ -11,4 +11,8 @@ class Multimedia < ActiveRecord::Base
       file.write(fileData.read)
     end
   end
+
+  def set_path(fileExtension)
+    self[:path] = '/public/uploads/' + (Multimedia.last()[:id] + 1).to_s + fileExtension
+  end
 end
