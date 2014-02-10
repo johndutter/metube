@@ -28,24 +28,11 @@
             <p class='error-helper text-danger' ng-show='invalidFileType && showErrors'>Unsupported file type.</p>
           </div>
         </div>
-        
-        <div class='form-group'>
-          <label class='col-5 control-label' for='mediaType'>Media Type</label>
-          <div class='col-7'>
-            <select id='type' class='form-control' name='mediaType' ng-model='formData.mediaType' required>
-              <option value='video'> Video </option>
-              <option value='audio'> Audio </option>
-              <option value='image'> Image </option>
-            </select>
-            <p class='error-helper text-danger' ng-show='uploadform.type.$error.required && showErrors'>please select media type</p>
-            <p class='error-helper text-danger' ng-show='hasTypeMismatch && showErrors'>Uploaded file does not match selected type.</p>
-          </div>
-        </div>
 
         <div class='form-group'>
           <label class='col-5 control-label' for='tags'>Tags</label>
           <div class='col-7'>
-            <input id='tags' class='form-control' type='text' size='35' name='tags' ng-model='formData.tags' required/>
+            <input id='tags' class='form-control' type='text' size='35' name='tags' placeholder='Delimit tags by comma' ng-model='formData.tags' required/>
             <p class='error-helper text-danger' ng-show='uploadform.tags.$error.required && showErrors'>please enter tags</p>
             <p class='error-helper text-danger' ng-show='hasThreeTags && showErrors'>Please enter at least 3 tags.</p>
           </div>

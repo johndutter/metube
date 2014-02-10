@@ -2,9 +2,13 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
   $scope.hasThreeTags = false;
   $scope.showErrors = false;
   $scope.invalidFileType = false;
+  
   $scope.formData = {};
   $scope.errorMessage = '';
-  $scope.fileTypeWhiteList = ['.mov', '.mp4', '.avi', '.wmv', '.flv', '.mp3', '.wav', '.jpg', '.jpeg', '.gif', '.png'];
+
+  $scope.videoWhiteList = ['.mov', '.mp4', '.avi', '.wmv', '.flv', '.m4v'];
+  $scope.imageWhiteList = ['.jpg', '.jpeg', '.gif', '.png', '.bmp'];
+  $scope.audioWhiteList = ['.mp3', '.aac'];
   
   /*
     Angular does not support data binding for input tags with type=file.
@@ -16,16 +20,26 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
   }
   
   $scope.upload = function(){
-    
     //check if form is valid
     if ($scope.uploadform.$valid === false) {
       $scope.showErrors = true;
       return;
     }
     
-    //check if file type is supported
+    //check if file type is supported and determine media type
     var mediaFileType = $scope.fileData.name.match(/\.[a-zA-z0-9]+$/)[0];
-    if($scope.fileTypeWhiteList.indexOf(mediaFileType) <= -1){
+    $scope.formData.fileExtension = mediaFileType;
+
+    if($scope.videoWhiteList.indexOf(mediaFileType) >= 0){
+      $scope.formData.type = 'video';
+    }
+    else if($scope.audioWhiteList.indexOf(mediaFileType) >= 0){
+      $scope.formData.type = 'audio';
+    }
+    else if($scope.imageWhiteList.indexOf(mediaFileType) >= 0){
+      $scope.formData.type = 'image';
+    }
+    else{
       $scope.showErrors = true;
       $scope.invalidFiletype = true;
       return;
@@ -46,6 +60,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
     apiService.apiCall(function(data, status){
       if(status == 200){
         fd.append('multimedia_id', data.multimedia);
+
         /* Second API Call */
         /* NOTE:  We might need record of pending file upload for particular user so that this api function cannot be called anytime. */
         $http.post('/api/upload-file', fd, {
@@ -53,7 +68,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
             headers: {'Content-Type': undefined}
         })
         .success(function(){
-          $location.url('/dashboard');
+          $location.url('/dashboard/home');
         })
         .error(function(){
           //call function to delete db entry related to file

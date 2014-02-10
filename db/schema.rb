@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140208154733) do
+ActiveRecord::Schema.define(version: 20140209233940) do
 
   create_table "multimedia", force: true do |t|
     t.string   "title"
@@ -19,11 +19,24 @@ ActiveRecord::Schema.define(version: 20140208154733) do
     t.string   "mediaType"
     t.integer  "likes",       default: 0
     t.integer  "dislikes",    default: 0
-    t.string   "tags"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
+    t.string   "path"
+  end
+
+  create_table "tags", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags_to_multimedia", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "multimedia_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
