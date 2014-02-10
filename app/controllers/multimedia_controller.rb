@@ -4,7 +4,6 @@ class MultimediaController < ApplicationController
   def create
     @multimedia = Multimedia.new(multimedia_params)
     @multimedia.set_path(params[:multimedia][:fileExtension])
-    
     if(@multimedia.save && save_tag_data(params[:multimedia][:tags]))
       render :json => {multimedia: @multimedia[:id]}, status: :ok
     else
