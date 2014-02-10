@@ -3,8 +3,8 @@ class MultimediaController < ApplicationController
   
   def create
     @multimedia = Multimedia.new(multimedia_params)
-    @multimedia.set_path(params[:multimedia][:fileExtension])
-    if(@multimedia.save && save_tag_data(params[:multimedia][:tags]))
+
+    if(@multimedia.save && save_tag_data(params[:multimedia][:tags], @multimedia[:id]))
       render :json => {multimedia: @multimedia[:id]}, status: :ok
     else
       render :json => {multimedia: 0}, status: :bad_request
@@ -12,6 +12,9 @@ class MultimediaController < ApplicationController
   end
   
   def save_file
+    #store path for uploaded file
+    Multimedia.update( params[:multimedia_id], { path: '/public/uploads' + params[:multimedia_id] + params[:mediaType] } )
+
     if(Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType]))
       render :json => { }, status: :ok
     else
@@ -27,7 +30,7 @@ class MultimediaController < ApplicationController
     render :json => { }, status: :bad_request
   end
 
-  def save_tag_data(tags)
+  def save_tag_data(tags, multimedia_reference_id)
     all_tags = tags.split(',').map(&:strip)
     all_tags.each do |tag|
       @tag = Tag.new( {name: tag} )
@@ -36,7 +39,7 @@ class MultimediaController < ApplicationController
         return false
       else
         #on successful save, update the reference table
-        if(!save_tag_to_multimedia_reference)
+        if(!save_tag_to_multimedia_reference(@tag[:id], multimedia_reference_id))
           return false
         end
       end
@@ -45,10 +48,8 @@ class MultimediaController < ApplicationController
     return true
   end
 
-  def save_tag_to_multimedia_reference
-    tag_id = Tag.last()[:id]
-    multimedia_id = Multimedia.last()[:id]
-    @tag_to_multimeda_reference = TagsToMultimedia.new( {tag_id: tag_id, multimedia_id: multimedia_id} )
+  def save_tag_to_multimedia_reference(tag_id, multimedia_reference_id)
+    @tag_to_multimeda_reference = TagsToMultimedia.new( {tag_id: tag_id, multimedia_id: multimedia_reference_id} )
 
     if(@tag_to_multimeda_reference.save)
       return true

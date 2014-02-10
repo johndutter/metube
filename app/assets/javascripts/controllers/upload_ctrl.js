@@ -31,13 +31,13 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
     $scope.formData.fileExtension = mediaFileType;
 
     if($scope.videoWhiteList.indexOf(mediaFileType) >= 0){
-      $scope.formData.type = 'video';
+      $scope.formData.mediaType = 'video';
     }
     else if($scope.audioWhiteList.indexOf(mediaFileType) >= 0){
-      $scope.formData.type = 'audio';
+      $scope.formData.mediaType = 'audio';
     }
     else if($scope.imageWhiteList.indexOf(mediaFileType) >= 0){
-      $scope.formData.type = 'image';
+      $scope.formData.mediaType = 'image';
     }
     else{
       $scope.showErrors = true;
