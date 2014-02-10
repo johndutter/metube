@@ -53,7 +53,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
             headers: {'Content-Type': undefined}
         })
         .success(function(){
-          $location.url('/dashboard');
+          $location.url('/dashboard.home');
         })
         .error(function(){
           //call function to delete db entry related to file

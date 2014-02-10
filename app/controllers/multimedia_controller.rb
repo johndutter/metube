@@ -21,7 +21,8 @@ class MultimediaController < ApplicationController
 
   def get_multimedia_info
     @multimedia = Multimedia.find(params[:id])
-    render :json => { }, status: :ok 
+    logger.info(@multimedia.to_yaml)
+    render :json => { id: @multimedia[:id], title: @multimedia[:title], likes: @multimedia[:likes], dislikes: @multimedia[:dislikes], user_id: @multimedia[:user_id], description: @multimedia[:description] }, status: :ok
   rescue
     render :json => { }, status: :bad_request
   end
