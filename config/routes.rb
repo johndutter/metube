@@ -19,7 +19,8 @@ Metube::Application.routes.draw do
   match "api/update-user-password", to: "users#update_user_password", via: [:post]
   match "api/get-uploader-info", to: "users#get_uploader_info", via: [:get]
 
-  match "api/get-multimedia-info", to: "multimedia#get_multimedia_info", via: [:get]  
+  match "api/get-multimedia-info", to: "multimedia#get_multimedia_info", via: [:get]
+  match "api/update-view-count", to: "multimedia#update_view_count", via: [:post]
 
   # for angular page prefetch
   match "api/loggedin", to: "session#loggedin", via: [:get]

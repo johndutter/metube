@@ -29,6 +29,18 @@ class MultimediaController < ApplicationController
     render :json => { }, status: :bad_request
   end
 
+  def update_view_count
+    @multimedia = Multimedia.find(params[:id])
+    @multimedia.increment(:views, by = 1)
+    if @multimedia.save
+      render :json => { }, status: :ok
+    else
+      render :json => { }, status: :bad_request
+    end
+  rescue
+    render :json => { }, status: :bad_request
+  end
+
   def save_tag_data(tags, multimedia_reference_id)
     all_tags = tags.split(',').map(&:strip)
     all_tags.each do |tag|

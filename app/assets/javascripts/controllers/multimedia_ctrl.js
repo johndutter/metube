@@ -8,16 +8,15 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
     // go get the multimedia type and information
     apiService.apiCall(function(data, status) {
       if (status === 200) {
-        console.log(data);
         $scope.multInfo = data;
         $scope.initFlowplayer();
         $scope.getUploaderInfo();
+        $scope.updateViewCount();
       } else {
         
       }
     }, 'GET', '/api/get-multimedia-info', { id: $stateParams.id });
 
-    
     $scope.initFlowplayer = function() {
       $('#player').flowplayer({
         embed: false,
@@ -38,10 +37,17 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
         if (status === 200) {
           $scope.uploader = data;
         } else {
-          
         }
       }, 'GET', '/api/get-uploader-info', { id: $scope.multInfo.user_id });
     }
+
+    $scope.updateViewCount = function() {
+      apiService.apiCall(function(data, status) {
+        if (status === 200) {
+        } else {
+        }
+      }, 'POST', '/api/update-view-count', { id: $scope.multInfo.id });
+    };
     
 
   }
