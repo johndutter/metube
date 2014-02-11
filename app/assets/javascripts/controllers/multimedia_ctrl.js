@@ -20,11 +20,12 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
     $scope.initFlowplayer = function() {
       $('#player').flowplayer({
         embed: false,
+        flashfit: true,
         swf: '/flowplayer.swf',
         playlist: [
           [
-            { mp4: $scope.multInfo.path },
-            { webm: $scope.multInfo.path },
+            // { mp4: $scope.multInfo.path },
+            // { webm: $scope.multInfo.path },
             { flv: $scope.multInfo.path }
           ]
         ]
