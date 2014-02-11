@@ -28,7 +28,6 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
     
     //check if file type is supported and determine media type
     var mediaFileType = $scope.fileData.name.match(/\.[a-zA-z0-9]+$/)[0];
-    $scope.formData.fileExtension = mediaFileType;
 
     if($scope.videoWhiteList.indexOf(mediaFileType) >= 0){
       $scope.formData.mediaType = 'video';
@@ -67,18 +66,21 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })
-        .success(function(){
+        .success(function(data){
           $location.url('/dashboard/home');
+          console.log(data.message);
         })
-        .error(function(){
+        .error(function(data){
           //call function to delete db entry related to file
           $scope.errorMessage = 'Unable to upload file.';
+          console.log(data.message);
         });   
         /* End Second API Call */ 
         
       } else{
         //title must be unique, return error
         $scope.errorMessage = 'Unable to upload file. This title is taken. Please choose another one.';
+        console.log(data.message);
       }
     }, 'POST', '/api/upload', $scope.formData);
   }; 
