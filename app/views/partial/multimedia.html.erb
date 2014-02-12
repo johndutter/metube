@@ -16,10 +16,10 @@
             <p class='lead'>{{multInfo.views}} views</p>
           </div>
           <div class='like pull-right'>
-            <button class='btn btn-default'><span class='glyphicon glyphicon-thumbs-up'></span>Like</button>
+            <button class='btn btn-default' ng-class='{liked: sentimentInfo.like}' ng-click='sentiment("like")'><span class='glyphicon glyphicon-thumbs-up'></span>{{sentimentInfo.likes}}</button>
           </div>
           <div class='dislike pull-right'>
-            <button class='btn btn-default'><span class='glyphicon glyphicon-thumbs-down'></span>Dislike</button>
+            <button class='btn btn-default'  ng-class='{disliked: sentimentInfo.dislike}' ng-click='sentiment("dislike")'><span class='glyphicon glyphicon-thumbs-down'></span>{{sentimentInfo.dislikes}}</button>
           </div>
         </div>
       </div>

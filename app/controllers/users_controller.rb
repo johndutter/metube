@@ -112,6 +112,61 @@ class UsersController < ApplicationController
     render :json => { }, status: :bad_request
   end
 
+  def get_sentiment_info
+    if check_login
+      @user = User.find(session[:user_id])
+      @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id])
+      @multimedia = Multimedia.find(params[:multimedia_id])
+      likes = @multimedia.sentiments.where(:like => true).count
+      dislikes = @multimedia.sentiments.where(:dislike => true).count
+
+      if @sentiment.empty?
+        render :json => { like: false, dislike: false, likes: likes, dislikes: dislikes }, status: :ok
+      else
+        render :json => { like: @sentiment[0][:like], dislike: @sentiment[0][:dislike], likes: likes, dislikes: dislikes }, status: :ok
+      end
+      
+    else
+      render :json => { }, status: :bad_request
+    end
+  rescue
+    render :json => { }, status: :bad_request
+  end
+
+  def sentiment_multimedia
+    if check_login
+      @user = User.find(session[:user_id])
+      @multimedia = Multimedia.find(params[:multimedia_id])
+
+      @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id])
+
+      if @sentiment.empty?
+        if params[:option] == "like"
+          Sentiment.create(:user_id => @user.id, :multimedia_id => @multimedia.id, :like => true, :dislike => false)
+        else
+          Sentiment.create(:user_id => @user.id, :multimedia_id => @multimedia.id, :dislike => true, :like => false)
+        end
+      else
+        if params[:option] == "like"
+          @sentiment[0].update_attribute(:like, true)
+          @sentiment[0].update_attribute(:dislike, false)
+        else
+          @sentiment[0].update_attribute(:like, false)
+          @sentiment[0].update_attribute(:dislike, true)
+        end
+      end
+
+      @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id]) # definitely created by now
+      likes = @multimedia.sentiments.where(:like => true).count
+      dislikes = @multimedia.sentiments.where(:dislike => true).count
+      render :json => { like: @sentiment[0][:like], dislike: @sentiment[0][:dislike], likes: likes, dislikes: dislikes }, status: :ok
+    else
+      render :json => { }, status: :bad_request
+    end
+  rescue
+    render :json => { }, status: :bad_request
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

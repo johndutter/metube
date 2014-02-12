@@ -1,4 +1,6 @@
 class Multimedia < ActiveRecord::Base
+  has_many :sentiments
+  
   include ActiveModel::ForbiddenAttributesProtection
   
   #handle validation

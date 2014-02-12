@@ -2,6 +2,7 @@
 function MultimediaCtrl($scope, $stateParams, apiService) {
   $scope.multInfo = {};
   $scope.uploader = {};
+  $scope.sentimentInfo = {};
 
   $scope.init = function() {
 
@@ -11,6 +12,7 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
         $scope.multInfo = data;
         $scope.initFlowplayer();
         $scope.getUploaderInfo();
+        $scope.getSentimentInfo();
         $scope.updateViewCount();
       } else {
         
@@ -24,16 +26,15 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
         swf: '/flowplayer.swf',
         playlist: [
           [
-            // { mp4: $scope.multInfo.path },
+            // { mp4: "/" + $scope.multInfo.path },
             // { webm: $scope.multInfo.path },
-            { flv: $scope.multInfo.path }
+            { flv: "/" + $scope.multInfo.path }
           ]
         ]
       });
     };
 
     $scope.getUploaderInfo = function() {
-      // go get the multimedia type and information
       apiService.apiCall(function(data, status) {
         if (status === 200) {
           $scope.uploader = data;
@@ -49,10 +50,28 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
         }
       }, 'POST', '/api/update-view-count', { id: $scope.multInfo.id });
     };
+
+    $scope.getSentimentInfo = function() {
+      apiService.apiCall(function(data, status) {
+        if (status === 200) {
+          $scope.sentimentInfo = data;
+        } else {
+        }
+      }, 'GET', '/api/get-sentiment-info', { multimedia_id: $scope.multInfo.id });
+    }
     
 
   }
   $scope.init();
+
+  $scope.sentiment = function(sentiment) {
+    apiService.apiCall(function(data, status) {
+      if (status === 200) {
+        $scope.sentimentInfo = data;
+      } else {
+      }
+    }, 'POST', '/api/sentiment-multimedia', { multimedia_id: $scope.multInfo.id, option: sentiment });
+  }
 
 }
 MultimediaCtrl.$inject = ['$scope', '$stateParams', 'apiService'];

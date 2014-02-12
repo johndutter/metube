@@ -68,19 +68,16 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
         })
         .success(function(data){
           $location.url('/dashboard/home');
-          console.log(data.message);
         })
         .error(function(data){
           //call function to delete db entry related to file
           $scope.errorMessage = 'Unable to upload file.';
-          console.log(data.message);
         });   
         /* End Second API Call */ 
         
       } else{
         //title must be unique, return error
         $scope.errorMessage = 'Unable to upload file. This title is taken. Please choose another one.';
-        console.log(data.message);
       }
     }, 'POST', '/api/upload', $scope.formData);
   }; 
