@@ -2,6 +2,7 @@ class Multimedia < ActiveRecord::Base
   has_many :sentiments
   
   include ActiveModel::ForbiddenAttributesProtection
+  include ApplicationHelper
   
   #handle validation
   validates :title, uniqueness: true, length: {maximum: 60}
@@ -12,6 +13,8 @@ class Multimedia < ActiveRecord::Base
     File.open(Rails.root.join('public', 'uploads', fileName + fileType), 'wb') do |file|
       file.write(fileData.read)
     end
+  rescue
+    raise ApplicationHelper::FileSaveError.new
   end
 
 end
