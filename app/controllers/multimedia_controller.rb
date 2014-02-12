@@ -15,8 +15,9 @@ class MultimediaController < ApplicationController
   def save_file
     @multimedia = Multimedia.find(params[:multimedia_id])
     media_save_path = 'uploads/' + params[:multimedia_id] + params[:mediaType]
+    Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType])
 
-    if(@multimedia.update( path: media_save_path )  && Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType]) )
+    if(@multimedia.update( path: media_save_path ))
       save_thumbnail('public/' + media_save_path, @multimedia[:mediaType])
     else
       render :json => {message: 'Unable to save file to the server.'}, status: :bad_request
@@ -24,6 +25,10 @@ class MultimediaController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     render :json => {message: 'Multimedia file with id: ' + params[:multimedia_id] + ' could not be found.'}, status: :bad_request
+  rescue ApplicationHelper::FileSaveError
+    #remove db record if file cannot be saved
+    @multimedia.delete
+    render :json => {message: 'Error when writing file.  File could not be saved'}, status: :bad_request
   end
 
   def save_thumbnail(mediaFilePath, mediaType)
@@ -58,7 +63,7 @@ class MultimediaController < ApplicationController
 
   def get_multimedia_info
     @multimedia = Multimedia.find(params[:id])
-    render :json => { id: @multimedia[:id], title: @multimedia[:title], likes: @multimedia[:likes], dislikes: @multimedia[:dislikes], views: @multimedia[:views], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path] }, status: :ok
+    render :json => { id: @multimedia[:id], title: @multimedia[:title], views: @multimedia[:views], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path] }, status: :ok
   rescue ActiveRecord::RecordNotFound
     render :json => { }, status: :bad_request
   end

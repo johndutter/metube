@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :sentiments
+
   include ActiveModel::ForbiddenAttributesProtection
   require 'digest/sha2'
   
