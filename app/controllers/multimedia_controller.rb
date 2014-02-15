@@ -81,17 +81,12 @@ class MultimediaController < ApplicationController
   end
 
   def save_tag_data(tags, multimedia_reference_id)
-    all_tags = tags.split(',').map(&:strip)
+    all_tags = tags.split(',').map(&:strip).reject(&:empty?)
     all_tags.each do |tag|
-      @tag = Tag.new( {name: tag} )
+      @tag = Tag.new( {name: tag, multimedia_id: multimedia_reference_id} )
 
       if(!@tag.save)
         return false
-      else
-        #on successful save, update the reference table
-        if(!save_tag_to_multimedia_reference(@tag[:id], multimedia_reference_id))
-          return false
-        end
       end
       
     end

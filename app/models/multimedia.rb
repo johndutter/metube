@@ -1,5 +1,6 @@
 class Multimedia < ActiveRecord::Base
   has_many :sentiments
+  has_many :tags
   
   include ActiveModel::ForbiddenAttributesProtection
   include ApplicationHelper
