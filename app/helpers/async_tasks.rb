@@ -11,7 +11,7 @@ module AsyncTasks
     def perform
       video = FFMPEG::Movie.new(self[:videoPath])
       @newFilePath = '/uploads/' + self[:fileName]  + '.mp4'
-      video.transcode('/uploads/' +self[:fileName] + '.mp4' ) {|progress| puts progress}
+      video.transcode('public/uploads/' +self[:fileName] + '.mp4' ) {|progress| puts progress}
     end
 
     def error
