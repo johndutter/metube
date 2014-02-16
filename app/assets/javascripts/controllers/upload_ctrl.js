@@ -52,6 +52,19 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
     fd.append('fileData', $scope.fileData);
     fd.append('mediaType', mediaFileType);
 
+    var uploadFile = function(){
+      $http.post('/api/upload-file', fd, {
+        transformRequest: angular.identity,
+        headers: {'Content-Type': undefined}
+      })
+      .success(function(data){
+        $location.url('/dashboard/home');
+      })
+      .error(function(data){
+        $scope.errorMessage = 'Unable to upload file.';
+      });   
+    }
+
     /* we will need to make two calls to api
        one call to save file information and return an id
        second call to save file on our server 
@@ -61,18 +74,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
         fd.append('multimedia_id', data.multimedia);
 
         /* Second API Call */
-        /* NOTE:  We might need record of pending file upload for particular user so that this api function cannot be called anytime. */
-        $http.post('/api/upload-file', fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
-        .success(function(data){
-          $location.url('/dashboard/home');
-        })
-        .error(function(data){
-          //call function to delete db entry related to file
-          $scope.errorMessage = 'Unable to upload file.';
-        });   
+        uploadFile();
         /* End Second API Call */ 
         
       } else{

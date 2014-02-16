@@ -17,4 +17,11 @@ class Multimedia < ActiveRecord::Base
     raise ApplicationHelper::FileSaveError.new
   end
 
+  #delete file stored on our server
+  def self.delete_media(filePath)
+    File.delete(filePath)
+  rescue
+    raise ApplicationHelper::FileDeleteError.new
+  end
+
 end

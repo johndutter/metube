@@ -37,3 +37,6 @@ end
 
  #Use DelayedJob to schedule asynchronous tasks like video conversion
  gem 'delayed_job_active_record'
+
+ #Use daemons to run tasks in the background
+ gem 'daemons'
