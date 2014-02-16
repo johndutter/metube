@@ -63,7 +63,8 @@ class MultimediaController < ApplicationController
 
   def get_multimedia_info
     @multimedia = Multimedia.find(params[:id])
-    render :json => { id: @multimedia[:id], title: @multimedia[:title], views: @multimedia[:views], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path] }, status: :ok
+    tags = @multimedia.tags.map(&:name).join(', ')
+    render :json => { id: @multimedia[:id], title: @multimedia[:title], views: @multimedia[:views], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path], tags: tags }, status: :ok
   rescue ActiveRecord::RecordNotFound
     render :json => { }, status: :bad_request
   end

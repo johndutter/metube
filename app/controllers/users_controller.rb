@@ -113,12 +113,13 @@ class UsersController < ApplicationController
   end
 
   def get_sentiment_info
+    @multimedia = Multimedia.find(params[:multimedia_id])
+    likes = @multimedia.sentiments.where(:like => true).count
+    dislikes = @multimedia.sentiments.where(:dislike => true).count
+
     if check_login
       @user = User.find(session[:user_id])
-      @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id])
-      @multimedia = Multimedia.find(params[:multimedia_id])
-      likes = @multimedia.sentiments.where(:like => true).count
-      dislikes = @multimedia.sentiments.where(:dislike => true).count
+      @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id])  
 
       if @sentiment.empty?
         render :json => { like: false, dislike: false, likes: likes, dislikes: dislikes }, status: :ok
@@ -127,7 +128,7 @@ class UsersController < ApplicationController
       end
       
     else
-      render :json => { }, status: :bad_request
+      render :json => { like: false, dislike: false, likes: likes, dislikes: dislikes }, status: :ok
     end
   rescue
     render :json => { }, status: :bad_request

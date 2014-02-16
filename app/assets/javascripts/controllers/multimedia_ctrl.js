@@ -20,15 +20,22 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
     }, 'GET', '/api/get-multimedia-info', { id: $stateParams.id });
 
     $scope.initFlowplayer = function() {
+      var ending = $scope.multInfo.path.substr($scope.multInfo.path.lastIndexOf('.'));
+      var movieFormat = {};
+      if (ending === '.mov' || ending === '.mp4' || ending === '.m4v') {
+        movieFormat['mp4'] = '/' + $scope.multInfo.path;
+      }
+      if (ending === '.flv') {
+        movieFormat['flv'] = '/' + $scope.multInfo.path;
+      }
+
       $('#player').flowplayer({
         embed: false,
         flashfit: true,
         swf: '/flowplayer.swf',
         playlist: [
           [
-            // { mp4: "/" + $scope.multInfo.path },
-            // { webm: $scope.multInfo.path },
-            { flv: "/" + $scope.multInfo.path }
+            movieFormat
           ]
         ]
       });
