@@ -23,10 +23,10 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
       var ending = $scope.multInfo.path.substr($scope.multInfo.path.lastIndexOf('.'));
       var movieFormat = {};
       if (ending === '.mov' || ending === '.mp4' || ending === '.m4v') {
-        movieFormat['mp4'] = '/' + $scope.multInfo.path;
+        movieFormat['mp4'] = $scope.multInfo.path;
       }
       if (ending === '.flv') {
-        movieFormat['flv'] = '/' + $scope.multInfo.path;
+        movieFormat['flv'] = $scope.multInfo.path;
       }
 
       $('#player').flowplayer({

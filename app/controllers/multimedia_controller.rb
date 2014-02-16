@@ -14,15 +14,15 @@ class MultimediaController < ApplicationController
   
   def save_file
     @multimedia = Multimedia.find(params[:multimedia_id])
-    media_save_path = 'uploads/' + params[:multimedia_id] + params[:mediaType]
+    media_save_path = '/uploads/' + params[:multimedia_id] + params[:mediaType]
     Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType])
 
     if(params[:mediaType] == '.avi')
-      transcode_avi_to_mp4('public/' + media_save_path, params[:multimedia_id])
+      transcode_avi_to_mp4('public' + media_save_path, params[:multimedia_id])
     end
 
     if(@multimedia.update( path: media_save_path ))
-      save_thumbnail('public/' + media_save_path, @multimedia[:mediaType])
+      save_thumbnail('public' + media_save_path, @multimedia[:mediaType])
     else
       render :json => {message: 'Unable to save file to the server.'}, status: :bad_request
     end

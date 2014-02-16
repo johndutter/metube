@@ -10,8 +10,8 @@ module AsyncTasks
     # convert to mp4 using default options
     def perform
       video = FFMPEG::Movie.new(self[:videoPath])
-      @newFilePath = 'public/uploads/' + self[:fileName]  + '.mp4'
-      video.transcode('public/uploads/' +self[:fileName] + '.mp4' ) {|progress| puts progress}
+      @newFilePath = '/uploads/' + self[:fileName]  + '.mp4'
+      video.transcode('/uploads/' +self[:fileName] + '.mp4' ) {|progress| puts progress}
     end
 
     def error
