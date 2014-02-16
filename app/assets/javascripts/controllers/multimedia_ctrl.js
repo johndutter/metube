@@ -80,5 +80,10 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
     }, 'POST', '/api/sentiment-multimedia', { multimedia_id: $scope.multInfo.id, option: sentiment });
   }
 
+  $scope.clickedDownload = function($event) {
+    $event.preventDefault();
+    alert('Please right click and save link as.');
+  }
+
 }
 MultimediaCtrl.$inject = ['$scope', '$stateParams', 'apiService'];

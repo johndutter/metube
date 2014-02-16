@@ -7,8 +7,18 @@
   }
   .title-area {
     overflow: hidden;
-    h2 {
-      margin-top: 10px;
+    .title {
+      width: 500px;
+      overflow: hidden;
+      h2 {
+        margin-top: 10px;
+      }
+    }
+    .download-area {
+      margin-top: 8px;
+      .glyphicon {
+        margin-right: 0;
+      }
     }
   }
   .stat-area {
@@ -23,9 +33,6 @@
       }
       .dislike {
         margin-right: 6px;
-      }
-      .glyphicon {
-        margin-right: 10px;
       }
       .liked {
         color: green;

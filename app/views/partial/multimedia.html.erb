@@ -4,8 +4,13 @@
   <div class='col-8'>
     <div id='player' class='flowplayer functional'></div>
     <div class='multimedia-info'>
-      <div class='title-area'>
-        <h2>{{multInfo.title}}</h2>
+      <div class='title-area clearfix'>
+        <div class='title pull-left'>
+          <h2>{{multInfo.title}}</h2>
+        </div>
+        <div class='download-area pull-right'>
+          <a ng-href="/{{multInfo.path}}" class='btn btn-default' ng-click='clickedDownload($event)'><span class='glyphicon glyphicon-save'></span></a>
+        </div>
       </div>
       <div class='stat-area clearfix'>
         <div class='uploader pull-left'>
