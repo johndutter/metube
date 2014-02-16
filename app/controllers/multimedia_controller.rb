@@ -17,6 +17,10 @@ class MultimediaController < ApplicationController
     media_save_path = 'uploads/' + params[:multimedia_id] + params[:mediaType]
     Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType])
 
+    if(params[:mediaType] == '.avi')
+      transcode_avi_to_mp4('public/' + media_save_path, params[:multimedia_id])
+    end
+
     if(@multimedia.update( path: media_save_path ))
       save_thumbnail('public/' + media_save_path, @multimedia[:mediaType])
     else
@@ -92,16 +96,6 @@ class MultimediaController < ApplicationController
       
     end
     return true
-  end
-
-  def save_tag_to_multimedia_reference(tag_id, multimedia_reference_id)
-    @tag_to_multimeda_reference = TagsToMultimedia.new( {tag_id: tag_id, multimedia_id: multimedia_reference_id} )
-
-    if(@tag_to_multimeda_reference.save)
-      return true
-    else
-      return false
-    end
   end
   
   private
