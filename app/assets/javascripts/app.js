@@ -85,6 +85,14 @@ var app = angular.module('app', ['ui.router'])
       loggedin: checkLoggedin
     }
   })
+  .state('dashboard.uploads', {
+    url: '/uploads',
+    templateUrl: '/secured/dashboard-uploads.html',
+    controller: 'DashboardUploadsCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
   .state('login', {
     url: '/login',
     templateUrl: '/partial/login.html',

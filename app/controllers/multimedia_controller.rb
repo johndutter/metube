@@ -97,6 +97,11 @@ class MultimediaController < ApplicationController
     end
     return true
   end
+
+  def get_user_multimedia
+    @multimedia = Multimedia.where('user_id = ?', params[:user_id])
+    user_multimedia = @multimedia.all
+  end
   
   private
   def multimedia_params
