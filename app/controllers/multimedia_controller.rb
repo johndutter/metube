@@ -99,6 +99,7 @@ class MultimediaController < ApplicationController
   end
 
   def get_user_multimedia
+    #returns empty set if where query doesn't match anything
     all_videos = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'video').to_a
     all_images = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'image').to_a
     all_audio  = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'audio').to_a

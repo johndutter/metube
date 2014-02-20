@@ -8,6 +8,8 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
 
   var initializePagingData = function() {
     // hashes for each multimedia type to keep track of paging information
+
+    // videos hash
     $scope.videosPagingHash = {
       pageNumber: 1,
       totalPages: Math.ceil($scope.videos.length / $scope.numberOfThumbnailsToDisplay),
@@ -16,6 +18,8 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
       showNext: ($scope.videos.length > $scope.numberOfThumbnailsToDisplay),
       totalItems: $scope.videos.length
     }
+
+    // images hash
     $scope.imagesPagingHash = {
       pageNumber: 1,
       totalPages: Math.ceil($scope.images.length / $scope.numberOfThumbnailsToDisplay),
@@ -24,6 +28,8 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
       showNext: ($scope.images.length > $scope.numberOfThumbnailsToDisplay),
       totalItems: $scope.images.length
     }
+
+    // audio hash
     $scope.audioPagingHash = {
       pageNumber: 1,
       totalPages: Math.ceil($scope.audios.length / $scope.numberOfThumbnailsToDisplay),
