@@ -9,3 +9,25 @@
     color: white;
   }
 }
+
+.media-header{
+  h2{
+    border-bottom: 2px solid #eee;
+    small{
+      font-size: 14px;
+      color: #000;
+    }
+  }
+}
+
+.thumbnail{
+  margin-bottom: 0;
+}
+
+.push-down{
+  padding-top: 30px;
+}
+
+.slide-left{
+  margin-left: 30px;
+}

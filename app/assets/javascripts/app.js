@@ -1,6 +1,7 @@
 //= require_self
 //= require_tree ./controllers
 //= require_tree ./services
+//= require_tree ./filters
 
 var app = angular.module('app', ['ui.router'])
 .config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
