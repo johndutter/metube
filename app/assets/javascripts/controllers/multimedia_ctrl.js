@@ -3,6 +3,11 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
   $scope.multInfo = {};
   $scope.uploader = {};
   $scope.sentimentInfo = {};
+  $scope.show = {
+    video: false,
+    image: false,
+    audio: false
+  };
 
   $scope.init = function() {
 
@@ -10,7 +15,14 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
     apiService.apiCall(function(data, status) {
       if (status === 200) {
         $scope.multInfo = data;
-        $scope.initFlowplayer();
+
+        if ($scope.multInfo.mediaType === 'video') {
+          $scope.initFlowplayer();  
+        }
+        if ($scope.multInfo.mediaType === 'image') {
+          $scope.initImage();  
+        }
+
         $scope.getUploaderInfo();
         $scope.getSentimentInfo();
         $scope.updateViewCount();
@@ -20,6 +32,7 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
     }, 'GET', '/api/get-multimedia-info', { id: $stateParams.id });
 
     $scope.initFlowplayer = function() {
+      $scope.show.video = true;
       var ending = $scope.multInfo.path.substr($scope.multInfo.path.lastIndexOf('.'));
       var movieFormat = {};
       if (ending === '.mov' || ending === '.mp4' || ending === '.m4v') {
@@ -39,6 +52,10 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
           ]
         ]
       });
+    };
+
+    $scope.initImage = function() {
+      $scope.show.image = true;
     };
 
     $scope.getUploaderInfo = function() {

@@ -40,3 +40,6 @@ end
 
  #Use daemons to run tasks in the background
  gem 'daemons'
+
+ #Use ImageMagick for resizing thumbnails
+ gem 'rmagick', '2.13.2'

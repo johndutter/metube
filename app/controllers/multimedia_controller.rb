@@ -44,8 +44,7 @@ class MultimediaController < ApplicationController
       #save_audio_thumbnail
       render :json => {}, status: :ok
     when 'image'
-      #save_image_thumbnail
-      render :json => {}, status: :ok
+      save_image_thumbnail(mediaFilePath)
     else
       render :json => {message: 'Thumbnails could not be generated for the multimedia file.'}, status: :bad_request
     end
@@ -65,10 +64,22 @@ class MultimediaController < ApplicationController
     render :json => {message: 'ffmpeg could not generate thumbnail', status: :bad_request}
   end
 
+  def save_image_thumbnail(imageFilePath)
+    thumbnail_path = generateImageThumbnail(imageFilePath)
+
+    if(@multimedia.update(thumbnail_path: thumbnail_path))
+      render :json => {multimedia: @multimedia[:id]}, staus: :ok
+    else
+      render :json => {message: 'Thumbnail information could not be saved'}, status: :bad_request
+    end
+  rescue Magick::ImageMagickError
+     render :json => {message: 'imagemagick could not generate the thumbnail'}, status: :bad_request
+  end
+
   def get_multimedia_info
     @multimedia = Multimedia.find(params[:id])
     tags = @multimedia.tags.map(&:name).join(', ')
-    render :json => { id: @multimedia[:id], title: @multimedia[:title], views: @multimedia[:views], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path], tags: tags }, status: :ok
+    render :json => { id: @multimedia[:id], title: @multimedia[:title], views: @multimedia[:views], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path], tags: tags, mediaType: @multimedia[:mediaType] }, status: :ok
   rescue ActiveRecord::RecordNotFound
     render :json => { }, status: :bad_request
   end
