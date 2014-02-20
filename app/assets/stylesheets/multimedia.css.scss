@@ -42,4 +42,25 @@
       }
     }
   }
+  #image_box {
+    background-color: black;
+    width: 617px;
+    min-height: 347px;
+    text-align: center;
+    .helper {
+      line-height: 347px;
+      vertical-align: middle;
+    }
+    .user_image {
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 617px;
+    }
+  }
+}
+.leftModal {
+  .modal-dialog {
+    margin: 20px;
+    width: 0px;
+  }
 }

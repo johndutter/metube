@@ -3,7 +3,10 @@
   <!-- main col -->  
   <div class='col-8'>
     <div ng-show='show.video' id='player' class='flowplayer functional'></div>
-    <img ng-show='show.image' ng-src='{{multInfo.path}}' id='user_image' width='617'></img>
+    <div ng-show='show.image' id='image_box'>
+      <span class='helper'></span>
+      <img ng-src='{{multInfo.path}}' ng-click='openModal()' class='user_image'></img>
+    </div>
     <div class='multimedia-info'>
       <div class='title-area clearfix'>
         <div class='title pull-left'>

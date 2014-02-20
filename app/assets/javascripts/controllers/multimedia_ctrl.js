@@ -1,5 +1,5 @@
 // dashboard controller
-function MultimediaCtrl($scope, $stateParams, apiService) {
+function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
   $scope.multInfo = {};
   $scope.uploader = {};
   $scope.sentimentInfo = {};
@@ -95,12 +95,19 @@ function MultimediaCtrl($scope, $stateParams, apiService) {
       } else {
       }
     }, 'POST', '/api/sentiment-multimedia', { multimedia_id: $scope.multInfo.id, option: sentiment });
-  }
+  };
 
   $scope.clickedDownload = function($event) {
     $event.preventDefault();
     alert('Please right click and save link as.');
-  }
+  };
+
+  $scope.openModal = function() {
+    var modalInstance = $modal.open({
+      template: '<img src="' + $scope.multInfo.path + '"></img>',
+      windowClass: 'leftModal'
+    });
+  };
 
 }
-MultimediaCtrl.$inject = ['$scope', '$stateParams', 'apiService'];
+MultimediaCtrl.$inject = ['$scope', '$stateParams', 'apiService', '$modal'];
