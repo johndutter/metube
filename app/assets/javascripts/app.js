@@ -1,6 +1,7 @@
 //= require_self
 //= require_tree ./controllers
 //= require_tree ./services
+//= require_tree ./filters
 
 var app = angular.module('app', ['ui.router'])
 .config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
@@ -81,6 +82,14 @@ var app = angular.module('app', ['ui.router'])
     url: '/profile',
     templateUrl: '/secured/dashboard-profile.html',
     controller: 'DashboardProfileCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
+  .state('dashboard.uploads', {
+    url: '/uploads',
+    templateUrl: '/secured/dashboard-uploads.html',
+    controller: 'DashboardUploadsCtrl',
     resolve: {
       loggedin: checkLoggedin
     }

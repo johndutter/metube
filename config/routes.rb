@@ -14,6 +14,7 @@ Metube::Application.routes.draw do
   match "api/upload", to: "multimedia#create", via: [:post]
   match "api/upload-file", to: "multimedia#save_file", via: [:post]
   match "api/transcode-video", to: "multimedia#transcode_to_mp4", via: [:post]
+  match "api/get-user-multimedia", to: "multimedia#get_user_multimedia", via: [:get]
 
   match "api/get-user-profile", to: "users#get_user_profile", via: [:get]
   match "api/update-user-profile", to: "users#update_user_profile", via: [:post]

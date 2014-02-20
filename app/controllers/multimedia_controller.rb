@@ -108,6 +108,15 @@ class MultimediaController < ApplicationController
     end
     return true
   end
+
+  def get_user_multimedia
+    #returns empty set if where query doesn't match anything
+    all_videos = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'video').to_a
+    all_images = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'image').to_a
+    all_audio  = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'audio').to_a
+
+    render :json => {videos: all_videos, images: all_images, audio:all_audio}, status: :ok
+  end
   
   private
   def multimedia_params
