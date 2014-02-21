@@ -3,8 +3,28 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
   $scope.videos = [];
   $scope.images = [];
   $scope.audios = [];
+  $scope.videosInProgress = [];
 
   $scope.numberOfThumbnailsToDisplay = 3;
+
+  $scope.init = function() {
+
+    // get multimedia uploaded by user
+    apiService.apiCall(function(data, status) {
+      if (status === 200) {
+        $scope.videos = data.videos;
+        $scope.images = data.images;
+        $scope.audio = data.audio;
+
+        initializePagingData();
+        
+      } else {
+        // error getting user data
+      }
+    }, 'GET', '/api/get-user-multimedia', {user_id: UserData.userid});
+  };
+
+  $scope.init();
 
   var initializePagingData = function() {
     // hashes for each multimedia type to keep track of paging information
@@ -69,24 +89,15 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
     }
   }
 
-  $scope.init = function() {
+    var getMediaInProgress = function() {
+      //get multimedia objects that are being transcoded
+      return;
+    }
 
-      // get multimedia uploaded by user
-      apiService.apiCall(function(data, status) {
-        if (status === 200) {
-          $scope.videos = data.videos;
-          $scope.images = data.images;
-          $scope.audio = data.audio;
-
-          initializePagingData();
-          
-        } else {
-          // error getting user data
-        }
-      }, 'GET', '/api/get-user-multimedia', {user_id: UserData.userid});
-    };
-
-    $scope.init();
+    var getProgressUpdates = function() {
+      //get updates on transcoding process for every media object in videosInProgress
+      return;
+    }
 
 }
 
