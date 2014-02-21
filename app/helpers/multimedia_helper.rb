@@ -15,14 +15,14 @@ module MultimediaHelper
         return thumbnail_path
 	end
 
-  def generateImageThumbnail(imagePath)
-    img = Magick::Image::read(imagePath).first
-    thumbnail_path = '/uploads/thumbnails/' + imagePath.split('/').last {} + '.jpg'
-    thumb = img.resize_to_fill(200, 120)
-    thumb.write('public/' + thumbnail_path)
+      def generateImageThumbnail(imagePath)
+        img = Magick::Image::read(imagePath).first
+        thumbnail_path = '/uploads/thumbnails/' + imagePath.split('/').last {} + '.jpg'
+        thumb = img.resize_to_fill(200, 120)
+        thumb.write('public/' + thumbnail_path)
 
-    return thumbnail_path
-  end
+        return thumbnail_path
+      end
 
 	#call store_media after completion
 	def transcode_avi_to_mp4(videoPath, fileName)
