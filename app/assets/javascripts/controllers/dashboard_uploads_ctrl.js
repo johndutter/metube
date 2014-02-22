@@ -15,7 +15,7 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
       if (status === 200) {
         $scope.videos = data.videos;
         $scope.images = data.images;
-        $scope.audio = data.audio;
+        $scope.audios = data.audio;
 
         initializePagingData();
         
