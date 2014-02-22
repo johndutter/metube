@@ -1,4 +1,5 @@
 class Multimedia < ActiveRecord::Base
+  belongs_to :user
   has_many :sentiments
   has_many :tags
   has_one :delayed_job

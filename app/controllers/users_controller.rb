@@ -168,6 +168,22 @@ class UsersController < ApplicationController
     render :json => { }, status: :bad_request
   end
 
+  def get_user_multimedia_in_progress
+    @user = User.find(params[:user_id])
+    videos_in_progress = []
+
+    @user.multimedias.map.each do |multimedia|
+      delayed_job = multimedia.delayed_job
+      if(delayed_job != nil && delayed_job[:failed_at] == nil)
+        videos_in_progress.push(multimedia)
+      end
+    end
+    render :json => {videosInProgress: videos_in_progress}, status: :ok
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {}, status: :bad_request
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

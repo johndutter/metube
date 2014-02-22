@@ -48,11 +48,11 @@
       <h2>In Progress</h2>
     </div>
     <div class='row'>
-      <div ng-repeat='video in videos | limitTo:3' class='col-4'>
+      <div ng-repeat='video in videosInProgress | limitTo:3' class='col-4'>
         <small>
-          <em> the title for multimedia in progress </em>
+          <em> {{video.title}} </em>
         </small>
-        <progressbar class='progress-striped' value='33' type='info'> 33% </progressbar>
+        <progressbar class='progress-striped' value='video.progress' type='info'> {{video.progress}}% </progressbar>
       </div> 
     </div>
 
