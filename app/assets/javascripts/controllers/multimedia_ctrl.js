@@ -16,6 +16,7 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
     apiService.apiCall(function(data, status) {
       if (status === 200) {
         $scope.multInfo = data;
+        $scope.multInfo.ending = $scope.multInfo.path.substr($scope.multInfo.path.lastIndexOf('/') + 1);
 
         if ($scope.multInfo.mediaType === 'video') {
           $scope.initFlowplayer();  
@@ -133,7 +134,7 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
 
   $scope.clickedDownload = function($event) {
     $event.preventDefault();
-    alert('Please right click and save link as.');
+    location.href = '/api/download?ending=' + $scope.multInfo.ending;
   };
 
   $scope.openModal = function() {

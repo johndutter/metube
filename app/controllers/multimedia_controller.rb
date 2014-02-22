@@ -142,6 +142,10 @@ class MultimediaController < ApplicationController
 
     render :json => {videos: all_videos, images: all_images, audio:all_audio}, status: :ok
   end
+
+  def download
+    send_file 'public/uploads/' + params[:ending], :filename => params[:ending], :disposition => 'attachment'
+  end
   
   private
   def multimedia_params
