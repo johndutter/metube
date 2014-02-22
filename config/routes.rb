@@ -20,10 +20,13 @@ Metube::Application.routes.draw do
   match "api/update-user-profile", to: "users#update_user_profile", via: [:post]
   match "api/update-user-password", to: "users#update_user_password", via: [:post]
   match "api/get-uploader-info", to: "users#get_uploader_info", via: [:get]
+  
   match "api/get-sentiment-info", to: "users#get_sentiment_info", via: [:get]
   match "api/sentiment-multimedia", to: "users#sentiment_multimedia", via: [:post]
+  match "api/get-user-multimedia-in-progress", to: "users#get_user_multimedia_in_progress", via: [:get]
 
   match "api/get-multimedia-info", to: "multimedia#get_multimedia_info", via: [:get]
+  match "api/get-multimedia-progress", to: "multimedia#get_multimedia_progress", via: [:get]
   match "api/update-view-count", to: "multimedia#update_view_count", via: [:post]
 
   # for angular page prefetch

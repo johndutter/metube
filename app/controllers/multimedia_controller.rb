@@ -93,6 +93,22 @@ class MultimediaController < ApplicationController
     render :json => { }, status: :bad_request
   end
 
+  def get_multimedia_progress
+    @multimedia = Multimedia.find(params[:multimedia_id])
+    delayed_job = @multimedia.delayed_job
+    if(delayed_job != nil)
+      progress = delayed_job[:job_progress]
+    else
+      #if job is complete send back progress of 100
+      progress = 100
+    end
+
+    render :json => {progress: progress}, status: :ok
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {}, status: :bad_request
+  end
+
   def update_view_count
     @multimedia = Multimedia.find(params[:id])
     @multimedia.increment(:views, by = 1)

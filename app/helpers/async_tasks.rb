@@ -1,43 +1,42 @@
 module AsyncTasks
-  class VideoTranscodingJob < Struct.new(:videoPath, :fileName)
+  class VideoTranscodingJob < Struct.new(:videoPath, :multimedia_id)
 
-    attr_accessor :newFilePath
+    attr_accessor :newFilePath, :regex_pattern
 
+    #set multimedia id in DJ table
     def before
-
+      #match delayed job whose handler contains :multimedia_id
+      @regex_pattern = "\'" + self[:multimedia_id].to_s + "\'" 
+      delayed_job = DelayedJob.where("handler REGEXP ?", @regex_pattern).to_a[0]
+      delayed_job.update(multimedia_id: self[:multimedia_id])
     end
 
     # convert to mp4 using default options
     def perform
       video = FFMPEG::Movie.new(self[:videoPath])
-      @newFilePath = '/uploads/' + self[:fileName]  + '.mp4'
-      video.transcode('public/uploads/' +self[:fileName] + '.mp4' ) {|progress| puts progress}
-    end
+      @newFilePath = '/uploads/' + self[:multimedia_id].to_s  + '.mp4'
+      delayed_job = DelayedJob.where("handler REGEXP ?", @regex_pattern).to_a[0]
 
-    def error
-
-    end
-
-    def after
-
+      video.transcode('public/uploads/' +self[:multimedia_id].to_s + '.mp4' ) do |progress| 
+        # progress is decimal so multiply by 100 for percentage
+        percentage_complete = progress * 100
+        delayed_job.update(job_progress: percentage_complete)
+      end
     end
 
     # update file path, delete old file
     def success
       Multimedia.delete_media(self[:videoPath])
-      multimedia = Multimedia.find(self[:fileName])
+      multimedia = Multimedia.find(self[:multimedia_id])
 
       multimedia.update(path: @newFilePath)
 
-    #record errors in db if rescue is needed.
+    #log error if there is failiure after successful transcodde
     rescue ApplicationHelper::FileDeleteError
-    # make some update to db?  schedule file deletion for later? 
+      # log the error
+      Rails.logger.info 'Error deleting file after successful transcoding.'
     rescue ActiveRecord::RecordNotFound
-    # do something
-    end
-
-    def failure
-
+      Rails.logger.info 'Error finding record in database after successful transcoding.'
     end
 
   end

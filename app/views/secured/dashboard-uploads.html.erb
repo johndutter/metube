@@ -16,10 +16,10 @@
       <div class='col-1 push-down'> <a ng-click='nextPage(videosPagingHash)'><span ng-show='videosPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
     </div>
 
-    <div class="media-header">
+    <div class='media-header'>
       <h2>Images</h2>
     </div>
-    <div class="row">
+    <div class='row'>
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(imagesPagingHash)'><span ng-show='imagesPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='image in images | startFrom: imagesPagingHash.startFrom | limitTo: 3'  class="col-3">
         <a href='/multimedia/{{image.id}}' class="thumbnail">
@@ -30,10 +30,10 @@
       <div class='col-1 push-down'> <a ng-click='nextPage(imagesPagingHash)'><span ng-show='imagesPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
     </div>
 
-    <div class="media-header">
+    <div class='media-header'>
       <h2>Audio</h2>
     </div>
-    <div class="row">
+    <div class='row'>
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(audioPagingHash)'><span ng-show='audioPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='audio in audios | startFrom: audioPagingHash.startFrom | limitTo: 3'  class="col-3">
         <a href='/multimedia/{{audio.id}}' class="thumbnail">
@@ -42,6 +42,18 @@
         <p> {{video.title}}</p>
       </div>
       <div class='col-1 push-down'> <a ng-click='nextPage(audioPagingHash)'><span ng-show='audioPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
+    </div>
+
+    <div class='media-header'>
+      <h2>In Progress</h2>
+    </div>
+    <div class='row'>
+      <div ng-repeat='video in videosInProgress | limitTo:3' class='col-4'>
+        <small>
+          <em> {{video.title}} </em>
+        </small>
+        <progressbar class='progress-striped' value='video.progress' type='info'> {{video.progress}}% </progressbar>
+      </div> 
     </div>
 
   </div>

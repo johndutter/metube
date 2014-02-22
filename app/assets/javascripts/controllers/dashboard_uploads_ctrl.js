@@ -3,8 +3,29 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
   $scope.videos = [];
   $scope.images = [];
   $scope.audios = [];
+  $scope.videosInProgress = [];
+  $scope.progressIndex = 0;
 
   $scope.numberOfThumbnailsToDisplay = 3;
+
+  $scope.init = function() {
+
+    // get multimedia uploaded by user
+    apiService.apiCall(function(data, status) {
+      if (status === 200) {
+        $scope.videos = data.videos;
+        $scope.images = data.images;
+        $scope.audio = data.audio;
+
+        initializePagingData();
+        
+      } else {
+        // error getting user data
+      }
+    }, 'GET', '/api/get-user-multimedia', {user_id: UserData.userid});
+  };
+
+  $scope.init();
 
   var initializePagingData = function() {
     // hashes for each multimedia type to keep track of paging information
@@ -69,25 +90,42 @@ function DashboardUploadsCtrl($scope, $timeout, UserData, apiService, startFromF
     }
   }
 
-  $scope.init = function() {
-
-      // get multimedia uploaded by user
+    var getMediaInProgress = function() {
+      //get multimedia objects that are being transcoded
       apiService.apiCall(function(data, status) {
         if (status === 200) {
-          $scope.videos = data.videos;
-          $scope.images = data.images;
-          $scope.audio = data.audio;
-
-          initializePagingData();
+          $scope.videosInProgress = data.videosInProgress;
+          //check for video being transcoded every 30 seconds
+          $timeout(function() {getMediaInProgress()}, 30000);
           
         } else {
-          // error getting user data
+          // error 
         }
-      }, 'GET', '/api/get-user-multimedia', {user_id: UserData.userid});
-    };
+      }, 'GET', '/api/get-user-multimedia-in-progress', {user_id: UserData.userid});
 
-    $scope.init();
+    }
 
+    var getProgressUpdates = function() {
+      //get updates on transcoding process for every media object in videosInProgress
+      for(var i = 0; i < $scope.videosInProgress.length; i++) {
+        $scope.progressIndex = i;
+
+        apiService.apiCall(function(data, status) {
+          if (status === 200) {
+            $scope.videosInProgress[$scope.progressIndex].progress = data.progress;
+          } else {
+            // error 
+          }
+        }, 'GET', '/api/get-multimedia-progress', {multimedia_id: $scope.videosInProgress[$scope.progressIndex].id});
+      }
+
+      // get transcoding progress every 2 seconds
+      $timeout(function() {getProgressUpdates()}, 2000);
+    }
+
+    //start checking for videos in progress
+    getMediaInProgress();
+    getProgressUpdates();
 }
 
 DashboardUploadsCtrl.$inject = ['$scope', '$timeout', 'UserData', 'apiService', 'startFromFilter'];
