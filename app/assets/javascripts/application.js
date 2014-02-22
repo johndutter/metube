@@ -15,8 +15,6 @@
 //= require underscore-min
 //= require bootstrap.min
 //= require angular.min
-//= require ui-bootstrap-custom-tpls-0.10.0.min
+//= require ui-bootstrap-custom-tpls-0.10.0.min.js
 //= require angular-ui-router
-//= require ui-bootstrap-tpls-0.10.0.min
-//= require flowplayer-5.4.6.min
 //= require app
