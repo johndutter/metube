@@ -3,6 +3,7 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
   $scope.multInfo = {};
   $scope.uploader = {};
   $scope.sentimentInfo = {};
+  $scope.movieFormat = {};
   $scope.show = {
     video: false,
     image: false,
@@ -22,6 +23,9 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
         if ($scope.multInfo.mediaType === 'image') {
           $scope.initImage();  
         }
+        if ($scope.multInfo.mediaType === 'audio') {
+          $scope.initAudio(); 
+        }
 
         $scope.getUploaderInfo();
         $scope.getSentimentInfo();
@@ -34,28 +38,58 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
     $scope.initFlowplayer = function() {
       $scope.show.video = true;
       var ending = $scope.multInfo.path.substr($scope.multInfo.path.lastIndexOf('.'));
-      var movieFormat = {};
       if (ending === '.mov' || ending === '.mp4' || ending === '.m4v') {
-        movieFormat['mp4'] = $scope.multInfo.path;
+        $scope.movieFormat['mp4'] = $scope.multInfo.path;
       }
       if (ending === '.flv') {
-        movieFormat['flv'] = $scope.multInfo.path;
+        $scope.movieFormat['flv'] = $scope.multInfo.path;
       }
 
-      $('#player').flowplayer({
-        embed: false,
-        flashfit: true,
-        swf: '/flowplayer.swf',
-        playlist: [
-          [
-            movieFormat
+      $.getScript('/assets/flowplayer-5.4.6.min.js', function () {
+        $('#player').flowplayer({
+          embed: false,
+          flashfit: true,
+          swf: '/flowplayer/flowplayer.swf',
+          playlist: [
+            [
+              $scope.movieFormat
+            ]
           ]
-        ]
+        });
       });
     };
 
     $scope.initImage = function() {
       $scope.show.image = true;
+    };
+
+    $scope.initAudio = function() {
+      $scope.show.audio = true;
+
+      $.getScript('/assets/flowplayer-3.2.13.min.js', function () {
+        $f('.audio', '/flowplayer/flowplayer-3.2.18.swf', {
+          plugins: {
+            audio: {
+              url: '/flowplayer/flowplayer.audio-3.2.11.swf'
+            },
+            controls: {
+              url: '/flowplayer/flowplayer.controls-3.2.16.swf',
+              fullscreen: false,
+              embed: false,
+              autoHide: false
+            }
+
+          },
+          clip: {
+            provider: 'audio',
+            url: $scope.multInfo.path,
+            coverImage: {
+              url: '/assets/wavform_lg_upper.jpg',
+              scaling: 'orig'
+            }
+          }
+        });
+      });
     };
 
     $scope.getUploaderInfo = function() {

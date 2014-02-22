@@ -41,8 +41,7 @@ class MultimediaController < ApplicationController
     when 'video'
       save_video_thumbnail(mediaFilePath)
     when 'audio'
-      #save_audio_thumbnail
-      render :json => {}, status: :ok
+      save_audio_thumbnail()
     when 'image'
       save_image_thumbnail(mediaFilePath)
     else
@@ -62,6 +61,16 @@ class MultimediaController < ApplicationController
 
   rescue FFMPEG::Error
     render :json => {message: 'ffmpeg could not generate thumbnail', status: :bad_request}
+  end
+
+  def save_audio_thumbnail()
+    thumbnail_path = '/assets/audio_thumb.jpg'
+
+    if(@multimedia.update(thumbnail_path: thumbnail_path))
+      render :json => {multimedia: @multimedia[:id]}, staus: :ok
+    else
+      render :json => {message: 'Thumbnail information could not be saved'}, status: :bad_request
+    end
   end
 
   def save_image_thumbnail(imageFilePath)
