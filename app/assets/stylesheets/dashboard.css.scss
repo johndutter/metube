@@ -8,25 +8,28 @@
   .nav-pills li.active a {
     color: white;
   }
-}
 
-.media-header{
-  h2{
-    border-bottom: 2px solid #eee;
-    font-size: 14px;
-    color: #000;
-    font-weight: 400;
+  .uploads {
+    .media-header{
+      p.lead {
+        margin-bottom: 0px !important;
+      }
+    }
+    .divider {
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+    .thumbnail{
+      margin-bottom: 0;
+    }
+
+    .push-down{
+      padding-top: 30px;
+    }
+
+    .slide-left{
+      margin-left: 30px;
+    }
   }
-}
 
-.thumbnail{
-  margin-bottom: 0;
-}
-
-.push-down{
-  padding-top: 30px;
-}
-
-.slide-left{
-  margin-left: 30px;
 }

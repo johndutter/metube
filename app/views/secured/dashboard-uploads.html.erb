@@ -1,10 +1,11 @@
-<div class="panel panel-default">
+<div class="panel panel-default uploads">
   <div class="panel-heading">My Uploads</div>
   <div class="panel-body">
 
     <div class="media-header">
-      <h2>Videos</h2>
+      <p class='lead'>Videos</p>
     </div>
+    <hr class='divider'>
     <div class="row">
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(videosPagingHash)'><span ng-show='videosPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='video in videos | startFrom: videosPagingHash.startFrom | limitTo: 3'  class="col-3">
@@ -17,8 +18,9 @@
     </div>
 
     <div class='media-header'>
-      <h2>Images</h2>
+      <p class='lead'>Images</p>
     </div>
+    <hr class='divider'>
     <div class='row'>
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(imagesPagingHash)'><span ng-show='imagesPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='image in images | startFrom: imagesPagingHash.startFrom | limitTo: 3'  class="col-3">
@@ -31,8 +33,9 @@
     </div>
 
     <div class='media-header'>
-      <h2>Audio</h2>
+      <p class='lead'>Audio</p>
     </div>
+    <hr class='divider'>
     <div class='row'>
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(audioPagingHash)'><span ng-show='audioPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='audio in audios | startFrom: audioPagingHash.startFrom | limitTo: 3'  class="col-3">
@@ -45,8 +48,9 @@
     </div>
 
     <div class='media-header' ng-show='videosInProgress.length'>
-      <h2>In Progress</h2>
+      <p class='lead'>In Progress</p>
     </div>
+    <hr class='divider'>
     <div class='row' ng-show='videosInProgress.length'>
       <div ng-repeat='video in videosInProgress | limitTo:3' class='col-4'>
         <small>
