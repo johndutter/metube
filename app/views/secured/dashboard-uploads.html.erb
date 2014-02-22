@@ -44,10 +44,10 @@
       <div class='col-1 push-down'> <a ng-click='nextPage(audioPagingHash)'><span ng-show='audioPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
     </div>
 
-    <div class='media-header'>
+    <div class='media-header' ng-show='videosInProgress.length'>
       <h2>In Progress</h2>
     </div>
-    <div class='row'>
+    <div class='row' ng-show='videosInProgress.length'>
       <div ng-repeat='video in videosInProgress | limitTo:3' class='col-4'>
         <small>
           <em> {{video.title}} </em>
