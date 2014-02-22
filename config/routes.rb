@@ -29,6 +29,8 @@ Metube::Application.routes.draw do
   match "api/get-multimedia-progress", to: "multimedia#get_multimedia_progress", via: [:get]
   match "api/update-view-count", to: "multimedia#update_view_count", via: [:post]
 
+  match "api/download", to: "multimedia#download", via: [:get]
+
   # for angular page prefetch
   match "api/loggedin", to: "session#loggedin", via: [:get]
 

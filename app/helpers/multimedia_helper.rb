@@ -11,7 +11,7 @@ module MultimediaHelper
         thumbnail_path = '/uploads/thumbnails/' + videoPath.split('/').last {} + '.jpg'
 
         #raises FFMPEG::Error on failure scale="'if(gt(a,4/3),320,-1)':'if(gt(a,4/3),-1,240)'"
-        video.screenshot( 'public/' + thumbnail_path, { seek_time: seek_time, custom: '-vf "scale=\'if(lt(a,200/120),200,-1)\':\'if(lt(a,200/120),-1,120)\', crop=200:120"' } )
+        video.screenshot( 'public' + thumbnail_path, { seek_time: seek_time, custom: '-vf "scale=\'if(lt(a,200/120),200,-1)\':\'if(lt(a,200/120),-1,120)\', crop=200:120"' } )
         return thumbnail_path
 	end
 
@@ -19,7 +19,7 @@ module MultimediaHelper
         img = Magick::Image::read(imagePath).first
         thumbnail_path = '/uploads/thumbnails/' + imagePath.split('/').last {} + '.jpg'
         thumb = img.resize_to_fill(200, 120)
-        thumb.write('public/' + thumbnail_path)
+        thumb.write('public' + thumbnail_path)
 
         return thumbnail_path
       end
