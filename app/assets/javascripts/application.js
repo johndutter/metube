@@ -18,5 +18,5 @@
 //= require ui-bootstrap-custom-tpls-0.10.0.min
 //= require angular-ui-router
 //= require ui-bootstrap-tpls-0.10.0.min
-//= require flowplayer.min
+//= require flowplayer-5.4.6.min
 //= require app
