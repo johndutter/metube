@@ -1,3 +1,3 @@
 class Category < ActiveRecord::Base
-  has_many :multimedia
+  has_many :multimedias
 end

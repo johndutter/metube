@@ -15,6 +15,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
     apiService.apiCall(function(data, status){
       if(status == 200){
         $scope.categories = data.categories;
+        $scope.formData.category_id = ($scope.categories[0]).id;
       } else {
       }
     }, 'GET', '/api/get-categories', {});

@@ -149,7 +149,7 @@ class MultimediaController < ApplicationController
   
   private
   def multimedia_params
-    params.require(:multimedia).permit(:title, :mediaType, :description, :user_id);
+    params.require(:multimedia).permit(:title, :mediaType, :description, :user_id, :category_id);
   end
   
   def set_user

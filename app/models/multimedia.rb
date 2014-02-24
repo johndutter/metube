@@ -1,9 +1,9 @@
 class Multimedia < ActiveRecord::Base
   belongs_to :user
+  belongs_to :category
   has_many :sentiments
   has_many :tags
   has_one :delayed_job
-  has_one :category
   
   include ActiveModel::ForbiddenAttributesProtection
   include ApplicationHelper
