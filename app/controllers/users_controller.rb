@@ -6,9 +6,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.encrypt_password
     if @user.save
-      render :json => { user: @user.username }, status: :ok
+      render :json => { user_id: @user[:id] }, status: :ok
     else
-      render :json => { user: '' }, status: :bad_request
+      render :json => { user_id: '' }, status: :bad_request
     end
   end
 

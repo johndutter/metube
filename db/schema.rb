@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220194235) do
+ActiveRecord::Schema.define(version: 20140224155225) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",      default: 0, null: false
@@ -43,6 +43,23 @@ ActiveRecord::Schema.define(version: 20140220194235) do
     t.string   "thumbnail_path"
   end
 
+  create_table "playlist_entries", force: true do |t|
+    t.integer  "playlist_id"
+    t.integer  "multimedia_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "playlists", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "description"
+    t.boolean  "public",      default: true
+    t.integer  "views",       default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sentiments", force: true do |t|
     t.integer  "user_id"
     t.integer  "multimedia_id"
@@ -57,6 +74,7 @@ ActiveRecord::Schema.define(version: 20140220194235) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "multimedia_id"
+    t.integer  "playlist_id"
   end
 
   create_table "users", force: true do |t|
