@@ -46,7 +46,6 @@ Metube::Application.routes.draw do
   # Playlist Routes
   # ===========================
   match "api/create_playlist", to: "playlists#create_playlist", via: [:post]
->>>>>>> playlist
 
   root to: "layout#index"
   resources :users
