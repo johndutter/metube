@@ -23,6 +23,7 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
 
     apiService.apiCall(function(data, status) {
       if (status === 200 && data.user !== '') {
+        createDefaultPlaylist();
         $location.path('/login');
       } else {
         $scope.errorMessage = 'try a different email and username';
@@ -30,6 +31,17 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
     }, 'POST', '/api/signup', $scope.formData);
 
   };
+
+  var createDefaultPlaylist = function(user_id){
+    apiService.apiCall(function(data, status) {
+      if (status !== 200) {
+        // display error, but don't halt user creation
+        // default favorites playlist can be generated later
+        $scope.errorMessage = 'unable to create default favorites playlist';
+      }
+
+    }, 'POST', '/api/create_playlist', {user_id: user_id})
+  }
 
   // watch error message
   $scope.$watch('errorMessage', function(newValue, oldValue) {
