@@ -3,6 +3,7 @@ class Multimedia < ActiveRecord::Base
   has_many :sentiments
   has_many :tags
   has_one :delayed_job
+  has_one :category
   
   include ActiveModel::ForbiddenAttributesProtection
   include ApplicationHelper

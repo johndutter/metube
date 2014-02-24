@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220194235) do
+ActiveRecord::Schema.define(version: 20140224035102) do
+
+  create_table "categories", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",      default: 0, null: false
@@ -41,6 +47,7 @@ ActiveRecord::Schema.define(version: 20140220194235) do
     t.text     "description"
     t.string   "path"
     t.string   "thumbnail_path"
+    t.integer  "category_id"
   end
 
   create_table "sentiments", force: true do |t|

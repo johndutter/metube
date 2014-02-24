@@ -31,6 +31,8 @@ Metube::Application.routes.draw do
 
   match "api/download", to: "multimedia#download", via: [:get]
 
+  match "api/get-categories", to: "categories#get_categories", via: [:get]  
+
   # for angular page prefetch
   match "api/loggedin", to: "session#loggedin", via: [:get]
 

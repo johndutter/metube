@@ -30,6 +30,16 @@
         </div>
 
         <div class='form-group'>
+          <label class='col-5 control-label' for='category'>Category</label>
+          <div class='col-7'>
+            <select id='category' class='form-control' type='text' name='category' ng-model='formData.category' ng-options='category as category for category in categories' required/>
+              <option value=''>choose category</option>
+            </select>
+            <p class='error-helper text-danger' ng-show='uploadform.category.$error.required && showErrors'>please pick a category</p>
+          </div>
+        </div>
+
+        <div class='form-group'>
           <label class='col-5 control-label' for='tags'>Tags</label>
           <div class='col-7'>
             <input id='tags' class='form-control' type='text' size='35' name='tags' placeholder='Delimit tags by comma' ng-model='formData.tags' required/>

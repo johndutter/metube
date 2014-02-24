@@ -9,6 +9,18 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
   $scope.videoWhiteList = ['.mov', '.mp4', '.avi', '.wmv', '.flv', '.m4v'];
   $scope.imageWhiteList = ['.jpg', '.jpeg', '.gif', '.png', '.bmp'];
   $scope.audioWhiteList = ['.mp3', '.aac'];
+  $scope.categories = [];
+
+  $scope.getCategories = function() {
+    apiService.apiCall(function(data, status){
+      if(status == 200){
+        $scope.categories = data.categories;
+      } else {
+      }
+    }, 'GET', '/api/get-categories', {});
+  };
+
+  $scope.getCategories();
   
   /*
     Angular does not support data binding for input tags with type=file.
