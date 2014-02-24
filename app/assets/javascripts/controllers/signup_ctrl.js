@@ -3,6 +3,13 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
   $scope.formData = {};
   $scope.errorMessage = '';
   $scope.showErrors = false;
+  $scope.defaultPlaylistInfo = {
+    playlist: {
+      user_id: '',
+      name: 'Favorites',
+      description: 'This playlist contains all of your favorite media.'
+    }
+  }
 
   // ==========================================================
   // Handle form validation and attempt to sign up user
@@ -22,7 +29,9 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
     }
 
     apiService.apiCall(function(data, status) {
-      if (status === 200 && data.user !== '') {
+      if (status === 200 && data.user_id !== '') {
+        $scope.defaultPlaylistInfo.playlist.user_id = data.user_id;
+
         createDefaultPlaylist();
         $location.path('/login');
       } else {
@@ -32,7 +41,7 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
 
   };
 
-  var createDefaultPlaylist = function(user_id){
+  var createDefaultPlaylist = function(){
     apiService.apiCall(function(data, status) {
       if (status !== 200) {
         // display error, but don't halt user creation
@@ -40,8 +49,8 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
         $scope.errorMessage = 'unable to create default favorites playlist';
       }
 
-    }, 'POST', '/api/create_playlist', {user_id: user_id})
-  }
+    }, 'POST', '/api/create_playlist', $scope.defaultPlaylistInfo)
+  };
 
   // watch error message
   $scope.$watch('errorMessage', function(newValue, oldValue) {

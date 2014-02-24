@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140224144136) do
+ActiveRecord::Schema.define(version: 20140224155225) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",      default: 0, null: false
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 20140224144136) do
     t.integer  "user_id"
     t.string   "name"
     t.string   "description"
-    t.boolean  "public"
-    t.integer  "views"
+    t.boolean  "public",      default: true
+    t.integer  "views",       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
