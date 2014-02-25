@@ -43,3 +43,6 @@ end
 
  #Use ImageMagick for resizing thumbnails
  gem 'rmagick', '2.13.2'
+
+ # make production work
+ gem 'protected_attributes'

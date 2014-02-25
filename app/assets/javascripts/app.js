@@ -4,7 +4,7 @@
 //= require_tree ./filters
 
 var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
-.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
+.config(['$locationProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider', function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
   
   authToken = $("meta[name=\"csrf-token\"]").attr("content");
   $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
@@ -119,8 +119,8 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
   });
 
 	$locationProvider.html5Mode(true);
-})
-.run(function ($rootScope, $location, apiService, UserData) {
+}])
+.run(['$rootScope', '$location', 'apiService', 'UserData', function ($rootScope, $location, apiService, UserData) {
   var userdata = UserData;
 
   // get some global user data
@@ -136,4 +136,4 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     }
   }, 'GET', '/api/get-user-info', {});
 
-});
+}]);
