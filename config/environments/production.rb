@@ -79,5 +79,5 @@ Metube::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # precompile some js for live
-  # config.assets.precompile += %w( bootstrap.min.css functional.css )
+  config.assets.precompile += %w( application.js application.css )
 end

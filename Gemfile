@@ -45,4 +45,4 @@ end
  gem 'rmagick', '2.13.2'
 
  # make production work
- gem 'protected_attributes'
+ # gem 'protected_attributes'

@@ -58,10 +58,21 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
 
 	$stateProvider
 	.state('home', {
-	  url: '/',
+	  url: '',
 	  templateUrl: '/partial/home.html',
-	  controller: 'HomeCtrl'
+	  controller: 'HomeCtrl',
+    abstract: true
 	})
+  .state('home.popular', {
+    url: '/',
+    templateUrl: '/partial/home-popular.html',
+    controller: 'HomePopularCtrl'
+  })
+  .state('home.category', {
+    url: '/:category',
+    templateUrl: '/partial/home-category.html',
+    controller: 'HomeCategoryCtrl'
+  })
 	.state('dashboard', {
 	  url: '/dashboard',
 	  templateUrl: '/secured/dashboard.html',
