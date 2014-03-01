@@ -1,10 +1,10 @@
 <div class='row home'>
   <div class='col-3'>
-    <ul class='nav nav-pills nav-stacked'>
+    <ul class='well nav nav-pills nav-stacked smaller'>
       <li ng-class='{active: tab=="popular"}'><a ui-sref='home.popular'>Popular on MeTube</a></li>
-      <li ng-repeat='category in categories' ng-class='{active: tab=="{{category.name}}"}'><a ng-href='/{{category.name}}'>{{category.name}}</a></li>
+      <li ng-repeat='category in categories' ng-class='{active: tab=="{{category.name}}"}'><a ui-sref='home.category({category: category.name})'>{{category.name}}</a></li>
     </ul>
   </div>
-  <div class='col-9' ui-view>
+  <div class='col-9 well well-sm' ui-view>
   </div>
 </div>

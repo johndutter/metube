@@ -69,7 +69,7 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     controller: 'HomePopularCtrl'
   })
   .state('home.category', {
-    url: '/:category',
+    url: '/category/:category',
     templateUrl: '/partial/home-category.html',
     controller: 'HomeCategoryCtrl'
   })

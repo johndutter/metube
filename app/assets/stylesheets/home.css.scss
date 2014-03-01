@@ -1,0 +1,63 @@
+.home {
+  .main-title {
+    margin-bottom: 16px;
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-left: 10px;
+  }
+  h2 {
+    margin: 0px;
+    padding: 10px;
+    border-top: 1px solid red;
+  }
+
+  .mult-area {
+    margin-left: -15px;
+    margin-right: -15px;
+    text-align: center;
+    .chevron {
+      line-height: 130px;
+      margin: 0px;
+    }
+    .glyphicon-chevron-left {
+      margin-left: 7px;
+    }
+    .glyphicon-chevron-right {
+      margin-right: 7px;
+    }
+    .chevron:hover {
+      cursor: pointer;
+    }
+    .chevdisabled {
+      color: #bbbbbb;
+    }
+    .chevdisabled:hover {
+      cursor: default;
+    }
+    .row {
+      margin-left: 0px;
+      margin-right: 0px;
+      width: 650px;
+      display: inline-block;
+      .col-4 {
+        padding: 3px;
+        a.thumbnail {
+          margin-bottom: 3px;
+          color: black;
+        }
+        a.thumbnail:hover {
+          border-color: #F57171;
+          color: black;
+        }
+      }
+    }
+  }
+  .col-3 {
+    .smaller {
+      a {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+  }
+}

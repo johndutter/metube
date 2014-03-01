@@ -29,6 +29,8 @@ Metube::Application.routes.draw do
   match "api/update-view-count", to: "multimedia#update_view_count", via: [:post]
   match "api/download", to: "multimedia#download", via: [:get]
 
+  match "api/get-multimedia", to: "multimedia#get_multimedia", via: [:get]
+
   # ===========================
   # User Routes
   # ===========================

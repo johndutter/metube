@@ -146,6 +146,20 @@ class MultimediaController < ApplicationController
   def download
     send_file 'public/uploads/' + params[:ending], :filename => params[:ending], :disposition => 'attachment'
   end
+
+  def get_multimedia
+    category_id = Category.where('name = ?', params[:category])[0][:id]
+    some_multimedia= []
+    if params[:ordering] == 'views'
+      some_multimedia = Multimedia.where('category_id = ?', category_id).order('views DESC').limit(params[:number]).offset(params[:offset])
+    end
+    if params[:ordering] == 'recent'
+      some_multimedia = Multimedia.where('category_id = ?', category_id).order('created_at DESC').limit(params[:number]).offset(params[:offset])
+    end
+    render :json => {multimedia: some_multimedia}, status: :ok
+  rescue
+    render :json => {}, status: :bad_request
+  end
   
   private
   def multimedia_params
