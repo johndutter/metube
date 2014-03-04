@@ -26,10 +26,10 @@
         <div class="thumbnail">
           <div class='playlist-preview'>
             <p> {{playlist.count}} videos </p>
-            <img class='preview-image' src='{{playlist.thumbnails[0]}}'/>
-            <img class='preview-image' src='{{playlist.thumbnails[1]}}'/>
+            <img class='preview-image' ng-src='{{playlist.thumbnails[0]}}'/>
+            <img class='preview-image' ng-src='{{playlist.thumbnails[1]}}'/>
           </div>
-          <img class='playlist-main-image' src='{{playlist.thumbnails[0]}}'/>
+          <img class='playlist-main-image' ng-src='{{playlist.thumbnails[0]}}'/>
         </div>
         <div class="caption mini">
           <a ng-href='/playlist/{{playlist.id}}'> {{playlist.name}}</a>

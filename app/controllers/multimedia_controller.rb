@@ -144,6 +144,8 @@ class MultimediaController < ApplicationController
 
   def get_playlist_multimedia
     playlist_entries = PlaylistEntry.where('playlist_id = ?', params[:playlist_id]).to_a
+    logger.info 'MY TEST'
+    logger.info params[:playlist_id]
     all_multimedia = []
 
     playlist_entries.each do |entry|

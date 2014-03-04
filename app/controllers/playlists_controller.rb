@@ -55,8 +55,11 @@ class PlaylistsController < ApplicationController
 
   def add_media_to_playlist
     @playlist = Playlist.find(params[:playlist_id])
+    # check to see if multimedia exists
+    multimedia = Multimedia.find(params[:multimedia_id])
+    
     @playlist.increment(:count, by = 1)
-    playlist_entry = PlaylistEntry.new({playlist_id: @playlist[:id], multimedia_id: params[:multimedia_id]})
+    playlist_entry = PlaylistEntry.new({playlist_id: @playlist[:id], multimedia_id: multimedia[:id]})
 
     if(playlist_entry.save && @playlist.save)
       render :json => {}, status: :ok
@@ -65,7 +68,7 @@ class PlaylistsController < ApplicationController
     end
 
   rescue ActiveRecord::RecordNotFound
-    render :json => {message: 'Unable to add media. Playlist with id:' + params[:playlist_id] + ' could not be found.'}, status: :bad_request
+    render :json => {message: 'Unable to add media. Media could not be found.'}, status: :bad_request
   end 
 
   def remove_media_from_playlist
