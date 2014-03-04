@@ -9,6 +9,31 @@
     color: white;
   }
 
+  .playlist-items {
+    ul{
+      margin-left: 20px;
+      padding: 5px;
+    }
+
+    .nav-pills li{
+      padding-bottom: 5px;
+    }
+
+    .nav-pills li a{
+      padding: 5px 0 5px 8px;
+      color: #232323;
+    }
+
+    .nav-pills li a:hover {
+      color: #232323;
+      background-color: #eee;
+    }
+    .nav-pills li.active a {
+      color: #fff;
+      background-color: #7C7777;
+    }
+  }
+
   .uploads {
     .media-header{
       p.lead {
@@ -29,6 +54,55 @@
 
     .slide-left{
       margin-left: 30px;
+    }
+  }
+
+  .playlists{
+    .mini{
+      font-size: 10px;
+    }
+
+    .small-btn{
+      width: 112px;
+    }
+
+    .thumbnail{
+      height: 98px;
+      position: relative;
+      margin-bottom: 5px;
+    }
+
+    .playlist-preview{
+      position: absolute;
+      top: 4px;
+      right: 4px;
+
+
+      height: 88px;
+      width: 50px;
+      border-radius: 4px;
+      background-color: rgba(66, 51, 69, .6);
+    }
+
+    .playlist-preview p{
+      margin: 5px auto 15px auto;
+      text-align: center;
+      font-size: 8px;
+      color: #eee;
+    }
+
+    .playlist-main-image{
+      height: 88px;
+      width: 98%;
+      border-radius: 4px;
+    }
+
+    .preview-image{
+      margin: 0 auto 5px auto;
+      width: 35px;
+      height: 20px;
+      border: solid 1px #eee;
+      display: block;
     }
   }
 

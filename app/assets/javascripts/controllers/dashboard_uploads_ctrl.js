@@ -4,7 +4,6 @@ function DashboardUploadsCtrl($scope, $timeout, $location, UserData, apiService,
   $scope.images = [];
   $scope.audios = [];
   $scope.videosInProgress = [];
-  $scope.progressIndex = 0;
 
   $scope.numberOfThumbnailsToDisplay = 3;
 
@@ -114,15 +113,15 @@ function DashboardUploadsCtrl($scope, $timeout, $location, UserData, apiService,
       if($location.$$path == '/dashboard/uploads') {
         //get updates on transcoding process for every media object in videosInProgress
         for(var i = 0; i < $scope.videosInProgress.length; i++) {
-          $scope.progressIndex = i;
-
-          apiService.apiCall(function(data, status) {
+        // wrap in function so that state of loop counter is saved in closure
+         (function (loopCounter) { apiService.apiCall(function(data, status) {
             if (status === 200) {
-              $scope.videosInProgress[$scope.progressIndex].progress = data.progress;
+              $scope.videosInProgress[loopCounter].progress = data.progress;
             } else {
               // error 
             }
-          }, 'GET', '/api/get-multimedia-progress', {multimedia_id: $scope.videosInProgress[$scope.progressIndex].id});
+          }, 'GET', '/api/get-multimedia-progress', {multimedia_id: $scope.videosInProgress[i].id});
+        })(i)
         }
       }
 

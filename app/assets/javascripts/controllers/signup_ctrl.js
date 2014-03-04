@@ -49,7 +49,7 @@ function SignupCtrl($scope, $location, $timeout, apiService) {
         $scope.errorMessage = 'unable to create default favorites playlist';
       }
 
-    }, 'POST', '/api/create_playlist', $scope.defaultPlaylistInfo)
+    }, 'POST', '/api/create-playlist', $scope.defaultPlaylistInfo)
   };
 
   // watch error message

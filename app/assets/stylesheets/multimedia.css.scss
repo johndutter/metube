@@ -42,6 +42,33 @@
       }
     }
   }
+  .info-area{
+    .mini{
+      font-size:  10px;
+    }
+    .tab-content{
+      padding: 5px 0 5px 100px;
+    }
+    dl{
+      padding-bottom: 60px;
+    }
+    dt{
+      text-align: left;
+    }
+    .playlist-panel{
+      background-color: #AAA3AD;
+    }
+    .list-group{
+      margin-bottom: 0;
+      margin-top: 10px;
+      overflow: scroll;
+      max-height: 480px;
+      a:hover{
+        background-color: #232323;
+        color: #fff;
+      }
+    }
+  }
   #image_box {
     background-color: black;
     width: 617px;

@@ -33,13 +33,31 @@
           </div>
         </div>
       </div>
-      <div class='well'>
-        <dl class='dl-horizontal'>
-          <dt>Tags</dt>
-          <dd>{{multInfo.tags}}</dd>
-          <dt>Description</dt>
-          <dd>{{multInfo.description}}</dd>
-        </dl>
+      <div class='well info-area'>
+
+        <ul class="nav nav-tabs mini">
+          <li class="active"><a href="#media-info" data-toggle="tab">Info</a></li>
+          <li ng-show='show.playlists'><a href="#add-to" data-toggle="tab">Add To</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="media-info">
+            <dl class='dl-horizontal'>
+              <dt>Tags</dt>
+              <dd>{{multInfo.tags}}</dd>
+              <dt>Description</dt>
+              <dd>{{multInfo.description}}</dd>
+            </dl>
+          </div>
+          <div class="tab-pane fade" id="add-to" ng-show='show.playlists'>
+            <div class='list-group mini'>
+              <a class='list-group-item' ng-repeat='playlist in playlists' ng-href='' ng-click='performPlaylistAction(playlist.id)'>
+                {{playlist.name}} ( {{playlist.count}} )
+              </a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class='panel panel-default'>

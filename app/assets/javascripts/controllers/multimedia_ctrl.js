@@ -1,5 +1,5 @@
 // dashboard controller
-function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
+function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal) {
   $scope.multInfo = {};
   $scope.uploader = {};
   $scope.sentimentInfo = {};
@@ -7,8 +7,10 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
   $scope.show = {
     video: false,
     image: false,
-    audio: false
+    audio: false,
+    playlists: false
   };
+  $scope.playlists = [];
 
   $scope.init = function() {
 
@@ -31,6 +33,11 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
         $scope.getUploaderInfo();
         $scope.getSentimentInfo();
         $scope.updateViewCount();
+
+        if(UserData.userid != '') {
+          $scope.show.playlists = true;
+          $scope.getUserPlaylists();
+        }
       } else {
         
       }
@@ -100,7 +107,7 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
         } else {
         }
       }, 'GET', '/api/get-uploader-info', { id: $scope.multInfo.user_id });
-    }
+    };
 
     $scope.updateViewCount = function() {
       apiService.apiCall(function(data, status) {
@@ -117,8 +124,16 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
         } else {
         }
       }, 'GET', '/api/get-sentiment-info', { multimedia_id: $scope.multInfo.id });
-    }
+    };
     
+    $scope.getUserPlaylists = function() {
+      apiService.apiCall(function(data,status){
+        if(status == 200) {
+          $scope.playlists = data.uploaded_playlists;
+        }
+
+      }, 'GET', '/api/get-user-playlists', {user_id: UserData.userid});
+    };
 
   }
   $scope.init();
@@ -144,5 +159,40 @@ function MultimediaCtrl($scope, $stateParams, apiService, $modal) {
     });
   };
 
+  $scope.addMediaToPlaylist = function(playlistId) {
+    apiService.apiCall(function(data,status){
+      if(status == 200) {
+        //update playlist count
+        $scope.getUserPlaylists();
+      }
+    }, 'POST', '/api/add-media-to-playlist', {multimedia_id: $scope.multInfo.id, playlist_id: playlistId })
+  };
+
+  $scope.removeMediaFromPlaylist = function(playlistId) {
+    apiService.apiCall(function(data,status){
+      if(status == 200) {
+        //update playlist count
+        $scope.getUserPlaylists();
+      }
+    }, 'POST', '/api/remove-media-from-playlist', {multimedia_id: $scope.multInfo.id, playlist_id: playlistId })
+  };
+
+  // determine if media is added or removed
+  $scope.performPlaylistAction = function(playlistId) {
+      apiService.apiCall(function(data,status){
+        if(status == 200) {
+          if(data.has_multimedia)
+          {
+            // media is already in playlist so remove it
+            $scope.removeMediaFromPlaylist(playlistId);
+          } else {
+            // media isn't in playlist so add it
+            $scope.addMediaToPlaylist(playlistId);
+          }
+        }
+
+      }, 'GET', '/api/playlist-has-multimedia', {playlist_id: playlistId, multimedia_id: $scope.multInfo.id});
+  };
+
 }
-MultimediaCtrl.$inject = ['$scope', '$stateParams', 'apiService', '$modal'];
+MultimediaCtrl.$inject = ['$scope', '$stateParams', 'UserData', 'apiService', '$modal'];
