@@ -4,15 +4,15 @@
 //= require_tree ./filters
 
 var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
-.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
+.config(['$locationProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider','$provide',function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider, $provide) {
   
   authToken = $("meta[name=\"csrf-token\"]").attr("content");
   $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
 
-	delete $httpProvider.defaults.headers.common["X-Requested-With"];
+  delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
-	// check if the user is connected
-	var checkLoggedin = function($q, $timeout, apiService, $location){
+  // check if the user is connected
+  var checkLoggedin = function($q, $timeout, apiService, $location){
     // Initialize a new promise
     var deferred = $q.defer();
     
@@ -53,23 +53,23 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     };
   });
 
-	// declare routes and states
-	$urlRouterProvider.otherwise('/');
+  // declare routes and states
+  $urlRouterProvider.otherwise('/');
 
-	$stateProvider
-	.state('home', {
-	  url: '/',
-	  templateUrl: '/partial/home.html',
-	  controller: 'HomeCtrl'
-	})
-	.state('dashboard', {
-	  url: '/dashboard',
-	  templateUrl: '/secured/dashboard.html',
-	  controller: 'DashboardCtrl',
-	  resolve: {
+  $stateProvider
+  .state('home', {
+    url: '/',
+    templateUrl: '/partial/home.html',
+    controller: 'HomeCtrl'
+  })
+  .state('dashboard', {
+    url: '/dashboard',
+    templateUrl: '/secured/dashboard.html',
+    controller: 'DashboardCtrl',
+    resolve: {
       loggedin: checkLoggedin
     }
-	})
+  })
   .state('dashboard.home', {
     url: '/home',
     templateUrl: '/secured/dashboard-home.html',
@@ -90,6 +90,14 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     url: '/uploads',
     templateUrl: '/secured/dashboard-uploads.html',
     controller: 'DashboardUploadsCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
+  .state('dashboard.playlists', {
+    url: '/playlists',
+    templateUrl: '/secured/dashboard-playlists.html',
+    controller: 'DashboardPlaylistsCtrl',
     resolve: {
       loggedin: checkLoggedin
     }
@@ -116,11 +124,16 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     url: '/multimedia/:id',
     templateUrl: '/partial/multimedia.html',
     controller: 'MultimediaCtrl'
+  })
+  .state('playlist', {
+    url: '/playlist/:id',
+    templateUrl: '/partial/playlist.html',
+    controller: 'PlaylistCtrl'
   });
 
 	$locationProvider.html5Mode(true);
-})
-.run(function ($rootScope, $location, apiService, UserData) {
+}])
+.run(['$rootScope', '$location', 'apiService', 'UserData',function ($rootScope, $location, apiService, UserData) {
   var userdata = UserData;
 
   // get some global user data
@@ -136,4 +149,4 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     }
   }, 'GET', '/api/get-user-info', {});
 
-});
+}]);

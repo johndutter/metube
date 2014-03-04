@@ -27,6 +27,7 @@ Metube::Application.routes.draw do
   match "api/get-multimedia-info", to: "multimedia#get_multimedia_info", via: [:get]
   match "api/get-multimedia-progress", to: "multimedia#get_multimedia_progress", via: [:get]
   match "api/update-view-count", to: "multimedia#update_view_count", via: [:post]
+  match "api/get-playlist-multimedia", to: "multimedia#get_playlist_multimedia", via: [:get]
   match "api/download", to: "multimedia#download", via: [:get]
 
   # ===========================
@@ -36,16 +37,27 @@ Metube::Application.routes.draw do
   match "api/update-user-profile", to: "users#update_user_profile", via: [:post]
   match "api/update-user-password", to: "users#update_user_password", via: [:post]
   match "api/get-uploader-info", to: "users#get_uploader_info", via: [:get]
+  match "api/update-playlist-sentiment", to: "users#update_playlist_sentiment", via: [:post]
   
   match "api/get-user-info", to: "users#get_user_info", via: [:get]
   match "api/get-sentiment-info", to: "users#get_sentiment_info", via: [:get]
   match "api/sentiment-multimedia", to: "users#sentiment_multimedia", via: [:post]
+  match "api/get-playlist-sentiment", to: "users#get_playlist_sentiment", via: [:get]
   match "api/get-user-multimedia-in-progress", to: "users#get_user_multimedia_in_progress", via: [:get]
 
   # ===========================
   # Playlist Routes
   # ===========================
-  match "api/create_playlist", to: "playlists#create_playlist", via: [:post]
+  match "api/create-playlist", to: "playlists#create_playlist", via: [:post]
+  match "api/get-playlist-info", to: "playlists#get_playlist_info", via: [:get]
+  match "api/get-user-playlists", to: "playlists#get_user_playlists", via: [:get]
+  match "api/get-user-liked-playlists", to: "playlists#get_user_liked_playlists", via: [:get]
+  match "api/update-playlist-view-count", to: "playlists#update_view_count", via: [:post]
+
+  match "api/get-playlist-thumbnails", to: "playlists#get_playlist_thumbnails", via: [:get]
+  match "api/add-media-to-playlist", to: "playlists#add_media_to_playlist", via: [:post]
+  match "api/remove-media-from-playlist", to: "playlists#remove_media_from_playlist", via: [:post]
+  match "api/playlist-has-multimedia", to: "playlists#playlist_has_multimedia?", via: [:get]
 
   root to: "layout#index"
   resources :users

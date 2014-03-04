@@ -36,7 +36,6 @@ class MultimediaController < ApplicationController
   end
 
   def save_thumbnail(mediaFilePath, mediaType)
-    logger.info "inside save_thumbnail"
     case mediaType
     when 'video'
       save_video_thumbnail(mediaFilePath)
@@ -141,6 +140,20 @@ class MultimediaController < ApplicationController
     all_audio  = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'audio').to_a
 
     render :json => {videos: all_videos, images: all_images, audio:all_audio}, status: :ok
+  end
+
+  def get_playlist_multimedia
+    playlist_entries = PlaylistEntry.where('playlist_id = ?', params[:playlist_id]).to_a
+    all_multimedia = []
+
+    playlist_entries.each do |entry|
+      multimedia = Multimedia.find(entry[:multimedia_id])
+      all_multimedia.push(multimedia)
+    end
+    render :json => {all_multimedia: all_multimedia}, status: :ok
+    
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Playlist with id: ' + params[:playlist_id] + ' could not be found.'}, status: :bad_request
   end
 
   def download

@@ -162,6 +162,43 @@ class UsersController < ApplicationController
     render :json => {}, status: :bad_request
   end
 
+  # get user sentiment for specified playlist
+  def get_playlist_sentiment
+    playlist_sentiment = PlaylistSentiment.where('user_id = ? AND playlist_id = ?', params[:user_id], params[:playlist_id]).to_a[0]
+    if(playlist_sentiment != nil)
+      render :json => {like: playlist_sentiment[:like]}, status: :ok
+    else
+      render :json => {like: 0}, status: :ok
+    end
+  end
+
+  # like or unlike a playlist
+  def update_playlist_sentiment
+    if check_login
+      playlist_sentiment = PlaylistSentiment.where('user_id = ? AND playlist_id = ?', params[:user_id], params[:playlist_id]).to_a[0]
+      update_success = false
+      # sentiment must be created if it doesn't exist
+      if(playlist_sentiment == nil)
+        PlaylistSentiment.create({user_id: params[:user_id], playlist_id: params[:playlist_id], like: true})
+        update_success =true
+      else
+        if(params[:sentiment] == 'like')
+          update_success = playlist_sentiment.update_attribute(:like, true)
+        else
+          update_success = playlist_sentiment.update_attribute(:like, false)
+        end
+      end
+
+      if(update_success)
+        render :json => {}, status: :ok
+      else
+        render :json =>{message: 'Unable to update playlist sentiment.'}, status: :bad_request
+      end
+    else
+      render :json => {message: 'Unable to update playlist sentiment.'}, status: :bad_request
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -1,0 +1,81 @@
+<div class='well well-lg playlist'>
+  <div class='panel panel-default'>
+    <div class='panel-body'>
+      <div class='row'>
+
+        <div class='col-4'>
+          <a ng-href=''> 
+            <img class='playlist-main-thumbnail' ng-src='{{multimedia[0].thumbnail_path}}' ng-show='multimedia.length'/>
+            <img class='playlist-main-thumbnail' src='/uploads/thumbnails/empty_playlist_thumbnail.png' ng-hide='multimedia.length'/>
+          </a>
+        </div>
+
+        <div class='col-8'>
+          <h2> {{playlistInfo.name}} </h2>
+          <p class='mini'> by {{playlistInfo.creator}}  <span class='glyphicon glyphicon-certificate separator'></span> {{playlistInfo.count}} videos <span class='glyphicon glyphicon-certificate separator'></span> {{playlistInfo.views}} views</p>
+          <div class='owner-options' ng-show='isOwner'>
+            <div class='btn-group'>
+              <button class='btn btn-default'> <span class='glyphicon glyphicon-play-circle'> </span> Play All </button>
+              <button class='btn btn-default'> <span class='glyphicon glyphicon-cog'></span> Playlist Settings </button>
+            </div>
+            <button class='btn btn-sm red-background pull-right' ng-click='toggleAddVideo()' ng-show='!showAddVideo'> Add Media </button> 
+
+            <div class='addVideo pull-right' ng-show='showAddVideo'>
+
+              <form novalidate role='form'  name='form.addvideo' ng-submit='addMediaToPlaylist()'>
+                  <a ng-href='' ng-click='toggleAddVideo()'> <span class='glyphicon glyphicon-circle-arrow-left red'> </span> </a>
+                  <label for='name'> Url</label>
+                  <input class='mediaUrl' type='url' name='url' ng-model='formData.url' ng-pattern='/\/[0-9]+$/'  required/>
+
+                  <button class='btn btn-sm red-background'> Submit </button>
+                  <p class='error-helper text-danger' ng-show='form.addvideo.url.$invalid && showErrors'>please enter a valid url</p>
+                  <div class='text-danger'>{{errorMessage}}</div>
+              </form>
+
+          </div>
+        </div>
+
+        <div class='viewer-options' ng-show='isViewer'>
+          <div class='btn-group'>
+            <button class='btn btn-default'> <span class='glyphicon glyphicon-play-circle'> </span> Play All </button>
+            <button class='btn btn-default' ng-click="updateSentiment('like')" ng-hide='isLiked' ng-disabled='isAnonViewer'> <span class='glyphicon glyphicon-thumbs-up'></span> Like </button>
+            <button class='btn btn-default' ng-click="updateSentiment('dislike')" ng-show='isLiked'> <span class='glyphicon glyphicon-thumbs-down'></span> Unlike </button>
+          </div>
+        </div>
+
+        </div>
+    </div>
+  </div>
+  </div>
+
+  <div class='panel panel-default entry' ng-repeat='media in multimedia'>
+  <div class='panel-body'>
+    <div class='row'>
+      <div class='col-1'>
+        <p class='push-down gray'> {{$index + 1}} </p>
+      </div>
+
+      <div class='col-3 entry-thumbnail-container'>
+        <a ng-href='/multimedia/{{media.id}}'> <img class='entry-thumbnail' ng-src='{{media.thumbnail_path}}'/>  </a>
+      </div>
+
+      <div class='col-3'>
+        <p class='push-down'> {{media.title}} </p>
+      </div>
+
+      <div class='col-3'>
+        <p class='push-down'> {{media.mediaType}} </p>
+      </div>
+
+      <div class='col-1'>
+        <p class='push-down'> {{media.views}}</p>
+      </div>
+
+      <div class='col-1 remove'>
+        <p class='push-down'> <a class='red' ng-href='' ng-click='removeMediaFromPlaylist(media.id)' ng-hide='isViewer'> <span class='glyphicon glyphicon-remove'></span> </a></p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140224155225) do
+ActiveRecord::Schema.define(version: 20140303154448) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",      default: 0, null: false
@@ -50,6 +50,14 @@ ActiveRecord::Schema.define(version: 20140224155225) do
     t.datetime "updated_at"
   end
 
+  create_table "playlist_sentiments", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "playlist_id"
+    t.boolean  "like"
+  end
+
   create_table "playlists", force: true do |t|
     t.integer  "user_id"
     t.string   "name"
@@ -58,6 +66,7 @@ ActiveRecord::Schema.define(version: 20140224155225) do
     t.integer  "views",       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "count",       default: 0
   end
 
   create_table "sentiments", force: true do |t|
