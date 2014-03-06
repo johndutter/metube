@@ -125,6 +125,16 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     templateUrl: '/partial/multimedia.html',
     controller: 'MultimediaCtrl'
   })
+  .state('multimedia.playlist', {
+    url: '/playlist/:playlist_id',
+    templateUrl: '/partial/multimedia-playlist.html',
+    controller: 'MultimediaPlaylistCtrl'
+  })
+  .state('multimedia.sidebar', {
+    url: '/',
+    templateUrl: '/partial/multimedia-sidebar.html',
+    controller: 'MultimediaSidebarCtrl'
+  })
   .state('playlist', {
     url: '/playlist/:id',
     templateUrl: '/partial/playlist.html',

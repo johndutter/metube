@@ -7,7 +7,9 @@
       <span class='helper'></span>
       <img ng-src='{{multInfo.path}}' ng-click='openModal()' class='user_image'></img>
     </div>
-    <div ng-show='show.audio' class='audio flowplayer functional'><img src='/assets/wavform_lg_play.jpg' width='617' height='347'></img></div>
+    <div ng-show='show.audio' class='audio flowplayer functional'>
+      <img src='/assets/wavform_lg_play.jpg' width='617' height='347'></img>
+    </div>
     <div class='multimedia-info'>
       <div class='title-area clearfix'>
         <div class='title pull-left'>
@@ -69,12 +71,7 @@
   <!-- end main col -->
 
   <!-- sidebar -->
-  <div class='col-4'>
-    <div class='panel panel-default'>
-      <div class='panel-heading'>Sidebar Area</div>
-      <div class='panel-body'>
-      </div>
-    </div>
+  <div class='col-4'  ui-view>
   </div>
   <!-- end sidebar -->
   

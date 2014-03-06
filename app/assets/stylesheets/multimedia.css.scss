@@ -87,10 +87,51 @@
   .audio {
     height: 347px;
   }
+
+  .playlist-sidebar {
+    .panel-body {
+      background-color: #eee;
+    }
+
+    .now-playing {
+      background-color: #232323;
+      color: #fff;
+    }
+
+    .now-playing:hover {
+      font-weight: 500;
+    }
+
+    .not-playing {
+      color: #232323;
+    }
+
+    .not-playing:hover {
+      font-weight: 500;
+    }
+
+    .thumbnail {
+      width: 80px;
+      height: 48px;
+      margin-bottom: 5px;
+      padding: 0;
+    }
+
+    .push-down {
+      padding-top: 15px;
+    }
+
+    .small {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 10px;
+    }
+  }  
 }
 .leftModal {
   .modal-dialog {
     margin: 20px;
     width: 0px;
   }
+
 }

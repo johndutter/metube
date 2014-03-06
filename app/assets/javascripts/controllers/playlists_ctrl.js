@@ -1,4 +1,4 @@
-function PlaylistCtrl($scope, $stateParams, apiService, UserData, $timeout) {
+function PlaylistCtrl($scope, $stateParams, apiService, UserData, $timeout, $location) {
   $scope.multimedia;
   $scope.playlistInfo;
   $scope.isOwner  = false;
@@ -110,6 +110,10 @@ function PlaylistCtrl($scope, $stateParams, apiService, UserData, $timeout) {
     }, 'POST', '/api/update-playlist-sentiment', {sentiment: sentiment, user_id: UserData.userid, playlist_id: $stateParams.id});
   }
 
+  $scope.playAll = function() {
+    $location.url('/multimedia/' + $scope.multimedia[0].id + '/playlist/' + $stateParams.id);
+  }
+
     // watch error message
   $scope.$watch('errorMessage', function(newValue, oldValue) {
     if (newValue !== '') {
@@ -120,4 +124,4 @@ function PlaylistCtrl($scope, $stateParams, apiService, UserData, $timeout) {
   }, true);
 }
 
-PlaylistCtrl.$inject = ['$scope', '$stateParams', 'apiService', 'UserData', '$timeout'];
+PlaylistCtrl.$inject = ['$scope', '$stateParams', 'apiService', 'UserData', '$timeout', '$location'];

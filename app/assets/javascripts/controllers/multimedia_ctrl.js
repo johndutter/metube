@@ -1,5 +1,5 @@
 // dashboard controller
-function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal) {
+function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $location) {
   $scope.multInfo = {};
   $scope.uploader = {};
   $scope.sentimentInfo = {};
@@ -11,6 +11,10 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal) {
     playlists: false
   };
   $scope.playlists = [];
+
+  //necessary for looping through playlist
+  $scope.nextToPlay;
+  $scope.playlistId;
 
   $scope.init = function() {
 
@@ -64,6 +68,15 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal) {
             ]
           ]
         });
+
+        // continous play if we're viewing a playlist
+        var api = flowplayer();
+        api.bind('finish', function(e, api) {
+          if($scope.nextToPlay && $scope.playlistId) {
+            $location.url('/multimedia/' + $scope.nextToPlay + '/playlist/'  + $scope.playlistId);
+            $scope.$apply();
+          }
+        });
       });
     };
 
@@ -90,10 +103,18 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal) {
           },
           clip: {
             provider: 'audio',
+            autoPlay: true,
             url: $scope.multInfo.path,
             coverImage: {
               url: '/assets/wavform_lg_upper.jpg',
               scaling: 'orig'
+            },
+            onFinish: function() {
+              // continous play if we're viewing a playlist
+              if($scope.nextToPlay && $scope.playlistId) {
+                $location.url('/multimedia/' + $scope.nextToPlay + '/playlist/'  + $scope.playlistId);
+                $scope.$apply();
+              }
             }
           }
         });
@@ -195,4 +216,4 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal) {
   };
 
 }
-MultimediaCtrl.$inject = ['$scope', '$stateParams', 'UserData', 'apiService', '$modal'];
+MultimediaCtrl.$inject = ['$scope', '$stateParams', 'UserData', 'apiService', '$modal', '$location'];

@@ -15,8 +15,7 @@
           <p class='mini'> by {{playlistInfo.creator}}  <span class='glyphicon glyphicon-certificate separator'></span> {{playlistInfo.count}} videos <span class='glyphicon glyphicon-certificate separator'></span> {{playlistInfo.views}} views</p>
           <div class='owner-options' ng-show='isOwner'>
             <div class='btn-group'>
-              <button class='btn btn-default'> <span class='glyphicon glyphicon-play-circle'> </span> Play All </button>
-              <button class='btn btn-default'> <span class='glyphicon glyphicon-cog'></span> Playlist Settings </button>
+              <button class='btn btn-default' ng-click='playAll()'> <span class='glyphicon glyphicon-play-circle'> </span> Play All </button>
             </div>
             <button class='btn btn-sm red-background pull-right' ng-click='toggleAddVideo()' ng-show='!showAddVideo'> Add Media </button> 
 
@@ -37,7 +36,7 @@
 
         <div class='viewer-options' ng-show='isViewer'>
           <div class='btn-group'>
-            <button class='btn btn-default'> <span class='glyphicon glyphicon-play-circle'> </span> Play All </button>
+            <button class='btn btn-default' ng-click='playAll()'> <span class='glyphicon glyphicon-play-circle'> </span> Play All </button>
             <button class='btn btn-default' ng-click="updateSentiment('like')" ng-hide='isLiked' ng-disabled='isAnonViewer'> <span class='glyphicon glyphicon-thumbs-up'></span> Like </button>
             <button class='btn btn-default' ng-click="updateSentiment('dislike')" ng-show='isLiked'> <span class='glyphicon glyphicon-thumbs-down'></span> Unlike </button>
           </div>

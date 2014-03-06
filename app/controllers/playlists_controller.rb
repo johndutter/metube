@@ -12,7 +12,7 @@ class PlaylistsController < ApplicationController
     @playlist = Playlist.find(params[:playlist_id])
     user = User.find(@playlist[:user_id])
 
-    render :json => {playlist_info: {name: @playlist[:name], views: @playlist[:views], description: @playlist[:description], creator: user[:username]} }, status: :ok
+    render :json => {playlist_info: {id: @playlist[:id], name: @playlist[:name], views: @playlist[:views], description: @playlist[:description], creator: user[:username]} }, status: :ok
 
   rescue ActiveRecord::RecordNotFound
     render :json => {message: 'Unable to retrieve playlist information for playlist with id:' + params[:playlist_id]}
