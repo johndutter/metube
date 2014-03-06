@@ -8,6 +8,110 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  def get_playlist_info
+    @playlist = Playlist.find(params[:playlist_id])
+    user = User.find(@playlist[:user_id])
+
+    render :json => {playlist_info: {id: @playlist[:id], name: @playlist[:name], views: @playlist[:views], description: @playlist[:description], creator: user[:username]} }, status: :ok
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to retrieve playlist information for playlist with id:' + params[:playlist_id]}
+  end
+
+  def get_user_playlists
+    user = User.find(params[:user_id])
+    results_limit = params[:limit]
+    results_offset = params[:offset]
+
+    uploaded_playlists = user.playlists.limit(results_limit).offset(results_offset).to_a
+    render :json => {uploaded_playlists: uploaded_playlists}, status: :ok
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to load playlists.  User with userid: ' + params[:user_id] + ' could not be found.'}, status: :bad_request
+  end
+
+  def get_user_liked_playlists
+    results_limit = params[:limit]
+    results_offset = params[:offset]
+
+    liked_playlists = Playlist.joins(:playlist_sentiments).where('playlist_sentiments.user_id = ? AND playlist_sentiments.like = ?', params[:user_id], true).to_a
+    render :json => {liked_playlists: liked_playlists}, status: :ok
+  end
+
+  def get_playlist_thumbnails
+    playlist_entries = Playlist.find(params[:playlist_id]).playlist_entries.to_a
+    thumbnails = []
+
+    playlist_entries.each do |entry|
+      multimedia = Multimedia.find(entry[:multimedia_id])
+      thumbnails.push(multimedia[:thumbnail_path])
+    end
+
+    render :json => {thumbnails: thumbnails}, status: :ok
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to load thumbnails.  Playlist with playlistid: ' + params[:playlist_id] + ' could not be found.'}, status: :bad_request
+  end
+
+  def add_media_to_playlist
+    @playlist = Playlist.find(params[:playlist_id])
+    # check to see if multimedia exists
+    multimedia = Multimedia.find(params[:multimedia_id])
+    
+    @playlist.increment(:count, by = 1)
+    playlist_entry = PlaylistEntry.new({playlist_id: @playlist[:id], multimedia_id: multimedia[:id]})
+
+    if(playlist_entry.save && @playlist.save)
+      render :json => {}, status: :ok
+    else
+      render :json => {message: 'Unable to add media to playlist.'}
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to add media. Media could not be found.'}, status: :bad_request
+  end 
+
+  def remove_media_from_playlist
+    @playlist = Playlist.find(params[:playlist_id])
+    @playlist.decrement(:count, by = 1)
+    playlist_entry = PlaylistEntry.where('playlist_id = ? AND multimedia_id = ?', params[:playlist_id], params[:multimedia_id]).to_a[0]
+    playlist_entry.delete
+
+    if(playlist_entry.destroyed? && @playlist.save)
+      render :json => {}, status: :ok
+    else
+      render :json => {message: 'Unable to delete media with id:' + params[:multimedia_id] + ' from playlist wth id:' + params[playlist_id]}, status: :bad_request
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to remove media.  Playlist with id:' + params[:playlist_id] + ' could not be found'}, status: :bad_request
+  end
+
+  def playlist_has_multimedia?
+    playlist_entry = PlaylistEntry.where('playlist_id = ? AND multimedia_id = ?', params[:playlist_id], params[:multimedia_id]).to_a[0]
+    if(playlist_entry == nil)
+      render :json => {has_multimedia: false}, status: :ok
+    else
+      render :json => {has_multimedia: true}, status: :ok
+    end
+
+  rescue ActiveRecord::ActiveRecordError
+    render :json => {message: 'Database error. Please try again later.'}, status: :bad_request
+  end
+
+  def update_view_count
+    @playlist = Playlist.find(params[:playlist_id])
+    @playlist.increment(:views, by=1)
+    if(@playlist.save)
+      render :json => {}, status: :ok
+    else
+      render :json => {message: 'Unable to update view count for playlist with id ' + params[:playlist_id]}
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to update view count.  Playlist with id:' + params[:playlist_id] + ' could not be found.'}
+  end
+
   private
     def playlist_params
       params.require(:playlist).permit(:user_id, :name, :description)

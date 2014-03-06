@@ -9,10 +9,10 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
   authToken = $("meta[name=\"csrf-token\"]").attr("content");
   $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
 
-	delete $httpProvider.defaults.headers.common["X-Requested-With"];
+  delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
-	// check if the user is connected
-	var checkLoggedin = function($q, $timeout, apiService, $location){
+  // check if the user is connected
+  var checkLoggedin = function($q, $timeout, apiService, $location){
     // Initialize a new promise
     var deferred = $q.defer();
     
@@ -53,8 +53,8 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     };
   });
 
-	// declare routes and states
-	$urlRouterProvider.otherwise('/');
+  // declare routes and states
+  $urlRouterProvider.otherwise('/');
 
 	$stateProvider
 	.state('home', {
@@ -80,7 +80,7 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
 	  resolve: {
       loggedin: checkLoggedin
     }
-	})
+  })
   .state('dashboard.home', {
     url: '/home',
     templateUrl: '/secured/dashboard-home.html',
@@ -101,6 +101,14 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     url: '/uploads',
     templateUrl: '/secured/dashboard-uploads.html',
     controller: 'DashboardUploadsCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
+  .state('dashboard.playlists', {
+    url: '/playlists',
+    templateUrl: '/secured/dashboard-playlists.html',
+    controller: 'DashboardPlaylistsCtrl',
     resolve: {
       loggedin: checkLoggedin
     }
@@ -127,6 +135,21 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     url: '/multimedia/:id',
     templateUrl: '/partial/multimedia.html',
     controller: 'MultimediaCtrl'
+  })
+  .state('multimedia.playlist', {
+    url: '/playlist/:playlist_id',
+    templateUrl: '/partial/multimedia-playlist.html',
+    controller: 'MultimediaPlaylistCtrl'
+  })
+  .state('multimedia.sidebar', {
+    url: '/',
+    templateUrl: '/partial/multimedia-sidebar.html',
+    controller: 'MultimediaSidebarCtrl'
+  })
+  .state('playlist', {
+    url: '/playlist/:id',
+    templateUrl: '/partial/playlist.html',
+    controller: 'PlaylistCtrl'
   });
 
 	$locationProvider.html5Mode(true);

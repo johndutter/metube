@@ -1,0 +1,60 @@
+.playlist{
+  .mini{
+    font-size: 10px;
+  }
+
+  .entry {
+    margin-bottom: 10px;
+  }
+
+  .separator {
+    font-size: 6px;
+    margin: 0 3px 0 3px;
+  }
+
+  .entry-thumbnail-container {
+    margin-left: -14px;
+  }
+
+  .addVideo a:hover {
+    text-decoration: none;
+  }
+
+  .panel{
+    border-bottom: 1px solid #2C2C2E;
+  }
+
+  .entry-thumbnail {
+    height: 84px;
+    width: 140px;
+  }
+
+  .playlist-main-thumbnail {
+    height: 120px;
+    width: 200px;
+  }
+
+  .push-down {
+    padding-top: 36px;
+  }
+
+  .gray {
+    color: #999;
+  }
+  .red {
+    color: #731732;
+  }
+
+  .red-background {
+    background-color: #731732;
+    color: white;
+  }
+
+  .mediaUrl {
+    border-radius: 4px;
+  }
+
+  .remove a:hover{
+    color: #AB354F;
+  }
+}

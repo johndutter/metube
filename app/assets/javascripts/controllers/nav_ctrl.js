@@ -11,6 +11,7 @@ function NavCtrl($scope, $location, apiService, UserData) {
 
         // successful logout, make another call to clear user data
         apiService.apiCall(function(data, status) {
+          console.log(status);
           if (status === 200) {
             // set global data
             delete data.success;
@@ -26,6 +27,7 @@ function NavCtrl($scope, $location, apiService, UserData) {
 
       } else {
         // error logging out
+        console.log('error?');
       }
     }, 'POST', '/api/logout', {});
 

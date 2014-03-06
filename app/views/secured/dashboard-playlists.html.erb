@@ -1,0 +1,41 @@
+<div class='panel panel-default playlists'>
+  <div class='panel-heading'>
+    My Playlists
+    <div class='pull-right'>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default mini small-btn">{{selectedOption}}</button>
+        <button type="button" class="btn btn-default dropdown-toggle mini" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu mini" role="menu">
+          <li ng-repeat='option in playlistOptions'><a ng-href='' ng-click='showPlaylists(option.value, option.label)'>{{option.label}}</a></li>
+        </ul>
+      </div>
+      <div class='btn-group'>
+        <button class='btn btn-default mini small-btn' ng-click='openModal()'>  Create Playlist </button>
+            <button type='button' class='btn btn-default dropdown-toggle mini' ng-click='openModal()'>
+              <span class="glyphicon-plus"></span> 
+            </button>
+      </div>
+    </div>
+  </div>
+
+  <div class='panel-body'>
+    <div class='row'>
+      <div class="col-3" ng-repeat='playlist in playlists'>
+        <div class="thumbnail">
+          <div class='playlist-preview'>
+            <p> {{playlist.count}} videos </p>
+            <img class='preview-image' ng-src='{{playlist.thumbnails[0]}}'/>
+            <img class='preview-image' ng-src='{{playlist.thumbnails[1]}}'/>
+          </div>
+          <img class='playlist-main-image' ng-src='{{playlist.thumbnails[0]}}'/>
+        </div>
+        <div class="caption mini">
+          <a ng-href='/playlist/{{playlist.id}}'> {{playlist.name}}</a>
+          <p> Has {{playlist.count}} videos. </p>
+        </div>
+      </div>
+    </div>
+</div>
+</div>

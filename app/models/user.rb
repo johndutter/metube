@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :sentiments
   has_many :multimedias
+  has_many :playlist_sentiments
   has_many :playlists
 
   include ActiveModel::ForbiddenAttributesProtection

@@ -1,0 +1,22 @@
+<div class='panel panel-default playlist-sidebar'>
+  <div class='panel-heading'>Playlist Area</div>
+  <div class='panel-body'>
+    <div class='list-group'>
+      <a ng-repeat='media in playlistMedia' class='list-group-item {{isPlayingNow(media.id, $index)}}' ng-href='/multimedia/{{media.id}}/playlist/{{playlistId}}'> 
+        <div class='row'>
+          <div class='col-4'>
+            <div class='thumbnail'>
+              <img class='playlist-thumbnail' ng-src='{{media.thumbnail_path}}'/>
+            </div>
+          </div>
+          <div class='col-4 push-down'>
+            <p class='small'> {{media.title}} </p>
+          </div>
+          <div class='col-4 push-down'>
+            <p class='small'> {{media.views}} </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
