@@ -93,7 +93,10 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
       $scope.show.image = true;
       // cycle image every 5 seconds if in playlist
       $scope.imagePlaylistTimeoutPromise = $timeout(function() {
-        $scope.cyclePlaylist();
+        console.log('/multimedia/' + $stateParams.id + '/playlist/' + $scope.playlistId);
+        if($location.$$path == '/multimedia/' + $stateParams.id + '/playlist/' + $scope.playlistId) {
+          $scope.cyclePlaylist();
+        }
       }, '5000');
     };
 
