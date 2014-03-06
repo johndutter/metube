@@ -71,6 +71,10 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
 
         // continous play if we're viewing a playlist
         var api = flowplayer();
+        api.one('ready', function(e, api) {
+          api.resume();
+        });
+
         api.bind('finish', function(e, api) {
           if($scope.nextToPlay && $scope.playlistId) {
             $location.url('/multimedia/' + $scope.nextToPlay + '/playlist/'  + $scope.playlistId);
@@ -118,6 +122,7 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
             }
           }
         });
+        $f().play();
       });
     };
 
