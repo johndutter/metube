@@ -1,9 +1,7 @@
 <div class='row home'>
-  <div class='col-3'>
-    <ul class='well nav nav-pills nav-stacked smaller'>
-      <li ng-class='{active: tab=="popular"}'><a ui-sref='home.popular'>Popular on MeTube</a></li>
-      <li ng-repeat='category in categories' ng-class='{active: tab=="{{category.name}}"}'><a ui-sref='home.category({category: category.name})'>{{category.name}}</a></li>
-    </ul>
+  <div class='col-3 list-group'>
+    <a ng-class='{active: tab=="popular"}' class='list-group-item' ui-sref='home.popular'>Popular on MeTube</a>
+    <a ng-repeat='category in categories' class='list-group-item' ng-class='{active: tab=="{{category.name}}"}' ui-sref='home.category({category: category.name})'>{{category.name}}</a>
   </div>
   <div class='col-9 well well-sm' ui-view>
   </div>
