@@ -1,5 +1,5 @@
 // dashboard controller
-function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $location) {
+function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $location, $timeout) {
   $scope.multInfo = {};
   $scope.uploader = {};
   $scope.sentimentInfo = {};
@@ -11,6 +11,7 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     playlists: false
   };
   $scope.playlists = [];
+  $scope.imagePlaylistTimeoutPromise;
 
   //necessary for looping through playlist
   $scope.nextToPlay;
@@ -47,6 +48,13 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
       }
     }, 'GET', '/api/get-multimedia-info', { id: $stateParams.id });
 
+    $scope.cyclePlaylist = function() {
+      if($scope.nextToPlay && $scope.playlistId) {
+        $location.url('/multimedia/' + $scope.nextToPlay + '/playlist/'  + $scope.playlistId);
+        $scope.$apply();
+      }
+    }
+
     $scope.initFlowplayer = function() {
       $scope.show.video = true;
       var ending = $scope.multInfo.path.substr($scope.multInfo.path.lastIndexOf('.'));
@@ -76,16 +84,17 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
         });
 
         api.bind('finish', function(e, api) {
-          if($scope.nextToPlay && $scope.playlistId) {
-            $location.url('/multimedia/' + $scope.nextToPlay + '/playlist/'  + $scope.playlistId);
-            $scope.$apply();
-          }
+          $scope.cyclePlaylist();
         });
       });
     };
 
     $scope.initImage = function() {
       $scope.show.image = true;
+      // cycle image every 5 seconds if in playlist
+      $scope.imagePlaylistTimeoutPromise = $timeout(function() {
+        $scope.cyclePlaylist();
+      }, '5000');
     };
 
     $scope.initAudio = function() {
@@ -115,13 +124,11 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
             },
             onFinish: function() {
               // continous play if we're viewing a playlist
-              if($scope.nextToPlay && $scope.playlistId) {
-                $location.url('/multimedia/' + $scope.nextToPlay + '/playlist/'  + $scope.playlistId);
-                $scope.$apply();
-              }
+              $scope.cyclePlaylist();
             }
           }
         });
+        // auto play audio
         $f().play();
       });
     };
@@ -183,6 +190,8 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
       template: '<img src="' + $scope.multInfo.path + '"></img>',
       windowClass: 'leftModal'
     });
+    // if this is an image playlist, pause cycling
+    $timeout.cancel($scope.imagePlaylistTimeoutPromise);
   };
 
   $scope.addMediaToPlaylist = function(playlistId) {
@@ -221,4 +230,4 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
   };
 
 }
-MultimediaCtrl.$inject = ['$scope', '$stateParams', 'UserData', 'apiService', '$modal', '$location'];
+MultimediaCtrl.$inject = ['$scope', '$stateParams', 'UserData', 'apiService', '$modal', '$location', '$timeout'];
