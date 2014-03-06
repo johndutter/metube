@@ -1,22 +1,19 @@
 .home {
   $red-color: #f73232;
-  $border-grey: #555555;
   .list-group {
     .list-group-item {
-      background-color: #7c7c7c;
-      border-color: $border-grey;
-      color: white;
+      color: red;
     }
     .list-group-item:hover {
-      background-color: #888888;
     }
     .active {
       background-color: $red-color;
-      border-color: $border-grey;
+      border-color: $red-color;
+      color: white;
     }
     .active:hover {
       background-color: $red-color;
-      border-color: $border-grey; 
+      border-color: $red-color; 
     }
   }
   .main-title {
