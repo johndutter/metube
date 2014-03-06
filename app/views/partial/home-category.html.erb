@@ -44,7 +44,7 @@
   <div class="panel-body">
     <h2>Browse</h2>
     <div class='mult-area clearfix'>
-      <span class='chevron glyphicon glyphicon-chevron-left pull-left' ng-click='moveRecent("left");' ng-class='{chevdisabled: recent.offset==0}'></span>
+      <span class='chevron glyphicon glyphicon-chevron-left pull-left' ng-click='moveBrowse("left");' ng-class='{chevdisabled: browse.offset==0}'></span>
       <div class='row'>
         <div ng-repeat='file in browseTabs' class='col-4'>
           <a ui-sref='multimedia({id: file.id})' class='thumbnail'>
@@ -54,7 +54,7 @@
 
         </div>
       </div>
-      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='moveRecent("right");'></span>
+      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='moveBrowse("right");'></span>
     </div>
   </div>
 </div>

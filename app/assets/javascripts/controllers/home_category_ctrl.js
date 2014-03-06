@@ -80,6 +80,18 @@ function HomeCategoryCtrl($scope, $stateParams, apiService) {
       }
   };
 
+  $scope.moveBrowse = function(direction) {
+      if (direction === 'left') {
+        if ($scope.browse.offset !== 0) {
+          $scope.browse['offset'] = $scope.browse['offset'] - $scope.browse['length'];
+          $scope.getBrowse();
+        }
+      } else {
+        $scope.browse['offset'] = $scope.browse['offset'] + $scope.browse['length'];
+        $scope.getBrowse();
+      }
+  };
+
 
 }
 HomeCategoryCtrl.$inject = ['$scope', '$stateParams', 'apiService'];
