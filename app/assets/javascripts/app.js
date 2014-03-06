@@ -56,11 +56,11 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
   // declare routes and states
   $urlRouterProvider.otherwise('/');
 
-	$stateProvider
-	.state('home', {
-	  url: '',
-	  templateUrl: '/partial/home.html',
-	  controller: 'HomeCtrl',
+  $stateProvider
+  .state('home', {
+    url: '',
+    templateUrl: '/partial/home.html',
+    controller: 'HomeCtrl',
     abstract: true
 	})
   .state('home.popular', {
@@ -109,6 +109,14 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     url: '/playlists',
     templateUrl: '/secured/dashboard-playlists.html',
     controller: 'DashboardPlaylistsCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
+  .state('dashboard.subscriptions', {
+    url: '/subscriptions',
+    templateUrl: '/secured/dashboard-subscriptions.html',
+    controller: 'DashboardSubscriptionsCtrl',
     resolve: {
       loggedin: checkLoggedin
     }
