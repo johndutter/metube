@@ -16,7 +16,7 @@ function DashboardPlaylistsCtrl($scope, UserData, apiService, $modal, $location,
   $scope.uploadedPlaylists = [];
   $scope.likedPlaylists;
 
-  $scope.maxToDisplay = 4;
+  $scope.maxToDisplay = 12;
   $scope.displayOffset = 0;
   $scope.counter;
 
