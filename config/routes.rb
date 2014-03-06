@@ -68,6 +68,7 @@ Metube::Application.routes.draw do
   match "api/add-media-to-playlist", to: "playlists#add_media_to_playlist", via: [:post]
   match "api/remove-media-from-playlist", to: "playlists#remove_media_from_playlist", via: [:post]
   match "api/playlist-has-multimedia", to: "playlists#playlist_has_multimedia?", via: [:get]
+  match "api/delete-playlist", to: "playlists#delete_playlist", via: [:post]
 
   root to: "layout#index"
   resources :users

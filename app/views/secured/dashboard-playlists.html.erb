@@ -25,15 +25,17 @@
       <div class="col-3" ng-repeat='playlist in playlists'>
         <div class="thumbnail">
           <div class='playlist-preview'>
-            <p> {{playlist.count}} videos </p>
-            <img class='preview-image' ng-src='{{playlist.thumbnails[0]}}'/>
-            <img class='preview-image' ng-src='{{playlist.thumbnails[1]}}'/>
+            <p> {{playlist.count}} media </p>
+            <img class='preview-image' ng-src='{{playlist.media[0].thumbnail_path}}'/>
+            <img class='preview-image' ng-src='{{playlist.media[1].thumbnail_path}}'/>
           </div>
-          <img class='playlist-main-image' ng-src='{{playlist.thumbnails[0]}}'/>
+          <a class='play-all' ng-href='' ng-click='playAll(playlist.media[0].id, playlist.id)'>
+            <img class='playlist-main-image' ng-src='{{playlist.media[0].thumbnail_path}}'/>
+          </a>
         </div>
         <div class="caption mini">
           <a ng-href='/playlist/{{playlist.id}}'> {{playlist.name}}</a>
-          <p> Has {{playlist.count}} videos. </p>
+          <p> Has {{playlist.count}} media. </p>
         </div>
       </div>
     </div>

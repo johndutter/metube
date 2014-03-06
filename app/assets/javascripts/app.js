@@ -133,18 +133,19 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
   })
   .state('multimedia', {
     url: '/multimedia/:id',
+    abstract: true,
     templateUrl: '/partial/multimedia.html',
     controller: 'MultimediaCtrl'
+  })
+  .state('multimedia.sidebar', {
+    url: '',
+    templateUrl: '/partial/multimedia-sidebar.html',
+    controller: 'MultimediaSidebarCtrl'
   })
   .state('multimedia.playlist', {
     url: '/playlist/:playlist_id',
     templateUrl: '/partial/multimedia-playlist.html',
     controller: 'MultimediaPlaylistCtrl'
-  })
-  .state('multimedia.sidebar', {
-    url: '/',
-    templateUrl: '/partial/multimedia-sidebar.html',
-    controller: 'MultimediaSidebarCtrl'
   })
   .state('playlist', {
     url: '/playlist/:id',

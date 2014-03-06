@@ -38,16 +38,19 @@ class PlaylistsController < ApplicationController
     render :json => {liked_playlists: liked_playlists}, status: :ok
   end
 
+  #get media necessary to create playlist thumbnails
   def get_playlist_thumbnails
     playlist_entries = Playlist.find(params[:playlist_id]).playlist_entries.to_a
-    thumbnails = []
+    thumbnail_media = []
+    entry_counter = 0
 
-    playlist_entries.each do |entry|
-      multimedia = Multimedia.find(entry[:multimedia_id])
-      thumbnails.push(multimedia[:thumbnail_path])
+    while (entry_counter < playlist_entries.length && entry_counter < 2) do
+      multimedia = Multimedia.find(playlist_entries[entry_counter][:multimedia_id])
+      thumbnail_media.push(multimedia)
+      entry_counter+=1
     end
 
-    render :json => {thumbnails: thumbnails}, status: :ok
+    render :json => {thumbnail_media: thumbnail_media}, status: :ok
 
   rescue ActiveRecord::RecordNotFound
     render :json => {message: 'Unable to load thumbnails.  Playlist with playlistid: ' + params[:playlist_id] + ' could not be found.'}, status: :bad_request
@@ -110,6 +113,20 @@ class PlaylistsController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     render :json => {message: 'Unable to update view count.  Playlist with id:' + params[:playlist_id] + ' could not be found.'}
+  end
+
+  def delete_playlist
+    @playlist = Playlist.find(params[:playlist_id])
+    @playlist.destroy
+
+    if(@playlist.is_destroyed?)
+      render :json => {}, status: :ok
+    else
+      render :json => {message: "Unable to delete playlist with id:" + params[:playlist_id]}
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to delete playlist.  Playist with id:' + params[:playlist_id] + ' could not be found'}
   end
 
   private

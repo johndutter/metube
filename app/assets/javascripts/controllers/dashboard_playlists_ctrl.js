@@ -26,14 +26,16 @@ function DashboardPlaylistsCtrl($scope, UserData, apiService, $modal, $location,
       (function (loopCounter) { apiService.apiCall(function(data,status){
         if(status == 200) {
           // load in default images if playlist is empty
-          if(data.thumbnails[0] === undefined) {
-            data.thumbnails[0] = '/uploads/thumbnails/empty_playlist_thumbnail.png'
+          if(data.thumbnail_media[0] === undefined) {
+            data.thumbnail_media[0] = {id: 0};
+            data.thumbnail_media[0].thumbnail_path = '/uploads/thumbnails/empty_playlist_thumbnail.png';
           }
-          if(data.thumbnails[1] === undefined) {
-            data.thumbnails[1] = '/uploads/thumbnails/empty_playlist_thumbnail.png'
+          if(data.thumbnail_media[1] === undefined) {
+            data.thumbnail_media[1] = {id: 0};
+            data.thumbnail_media[1].thumbnail_path = '/uploads/thumbnails/empty_playlist_thumbnail.png';
           }
 
-          $scope.playlists[loopCounter].thumbnails = data.thumbnails;
+          $scope.playlists[loopCounter].media = data.thumbnail_media;
         } else {
 
         }
@@ -119,6 +121,16 @@ function DashboardPlaylistsCtrl($scope, UserData, apiService, $modal, $location,
   $scope.cancel = function () {
     $scope.$dismiss('cancel');
   };
+
+  // play all media in playlist
+  $scope.playAll = function(mediaId, playlistId) {
+    if(mediaId != 0) {
+      $location.url('/multimedia/' + mediaId + '/playlist/' + playlistId);
+    }
+    else {
+      $location.url('/playlist/' + playlistId);
+    }
+  }
 
   // watch error message
   $scope.$watch('errorMessage', function(newValue, oldValue) {
