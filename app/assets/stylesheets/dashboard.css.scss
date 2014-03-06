@@ -107,9 +107,21 @@
       border: solid 1px #eee;
       display: block;
     }
-
+    
     .play-all:hover {
       cursor: pointer;
+    }
+
+    .remove {
+      color: #731732;
+      position: absolute;
+      right: 15px;
+    }
+
+    .remove:hover {
+      cursor: pointer;
+      text-decoration: none;
+      color: #721631;
     }
   }
 

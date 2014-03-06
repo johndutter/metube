@@ -16,10 +16,6 @@ function DashboardPlaylistsCtrl($scope, UserData, apiService, $modal, $location,
   $scope.uploadedPlaylists = [];
   $scope.likedPlaylists;
 
-  $scope.maxToDisplay = 12;
-  $scope.displayOffset = 0;
-  $scope.counter;
-
   $scope.getPlaylistThumbnails = function() {
     for(var i = 0; i < $scope.playlists.length; i++) {
       //wrap call in function to save value of counter 
@@ -56,10 +52,10 @@ function DashboardPlaylistsCtrl($scope, UserData, apiService, $modal, $location,
             $scope.getPlaylistThumbnails();
           }
 
-        }, 'GET', '/api/get-user-liked-playlists', {user_id: UserData.userid, limit: $scope.maxToDisplay, offset: $scope.displayOffset});
+        }, 'GET', '/api/get-user-liked-playlists', {user_id: UserData.userid});
       };
 
-    }, 'GET', '/api/get-user-playlists', {user_id: UserData.userid, limit: $scope.maxToDisplay, offset: $scope.displayOffset});
+    }, 'GET', '/api/get-user-playlists', {user_id: UserData.userid});
   };
 
   $scope.init();
@@ -115,6 +111,15 @@ function DashboardPlaylistsCtrl($scope, UserData, apiService, $modal, $location,
 
     }, 'POST', '/api/create-playlist', $scope.formData);
 
+  };
+
+  $scope.deletePlaylist = function(playlistId) {
+    apiService.apiCall(function(data, status) {
+      if(status == 200) {
+        //reload the page
+        $state.go($state.$current, null, { reload: true });
+      }
+    }, 'POST', '/api/delete-playlist', {playlist_id: playlistId});
   };
 
   // cancel form creation

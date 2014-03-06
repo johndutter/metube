@@ -20,10 +20,8 @@ class PlaylistsController < ApplicationController
 
   def get_user_playlists
     user = User.find(params[:user_id])
-    results_limit = params[:limit]
-    results_offset = params[:offset]
 
-    uploaded_playlists = user.playlists.limit(results_limit).offset(results_offset).to_a
+    uploaded_playlists = user.playlists.to_a
     render :json => {uploaded_playlists: uploaded_playlists}, status: :ok
 
   rescue ActiveRecord::RecordNotFound
@@ -31,9 +29,6 @@ class PlaylistsController < ApplicationController
   end
 
   def get_user_liked_playlists
-    results_limit = params[:limit]
-    results_offset = params[:offset]
-
     liked_playlists = Playlist.joins(:playlist_sentiments).where('playlist_sentiments.user_id = ? AND playlist_sentiments.like = ?', params[:user_id], true).to_a
     render :json => {liked_playlists: liked_playlists}, status: :ok
   end
@@ -119,7 +114,7 @@ class PlaylistsController < ApplicationController
     @playlist = Playlist.find(params[:playlist_id])
     @playlist.destroy
 
-    if(@playlist.is_destroyed?)
+    if(@playlist.destroyed?)
       render :json => {}, status: :ok
     else
       render :json => {message: "Unable to delete playlist with id:" + params[:playlist_id]}
