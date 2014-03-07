@@ -11,7 +11,7 @@
       <span class='chevron glyphicon glyphicon-chevron-left pull-left' ng-click='move("left", $index)' ng-class='{chevdisabled: category.paging.offset==0}'></span>
       <div class='row'>
         <div ng-repeat='file in category.multimedia' class='col-4'>
-          <a ui-sref='multimedia({id: file.id})' class='thumbnail'>
+          <a ui-sref='multimedia.sidebar({id: file.id})' class='thumbnail'>
             <img ng-src='{{file.thumbnail_path}}' width='200' height='120' alt='{{file.title}}'></img>
             {{file.title}}
           </a>
