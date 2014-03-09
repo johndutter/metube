@@ -40,6 +40,8 @@
         <ul class="nav nav-tabs mini">
           <li class="active"><a href="#media-info" data-toggle="tab">Info</a></li>
           <li ng-show='show.playlists'><a href="#add-to" data-toggle="tab">Add To</a></li>
+          <button ng-show='!show.subscribed' class='btn pull-right spacer red' ng-click='subscribe()'> <span class='glyphicon glyphicon-star'> </span> Subscribe</button>
+          <button ng-show='show.subscribed' class='btn pull-right spacer red' ng-click='unsubscribe()'> <span class='glyphicon glyphicon-remove-sign'> </span> Unsubscribe</button>
         </ul>
 
         <div class="tab-content">

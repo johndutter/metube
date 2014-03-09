@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :multimedias
   has_many :playlist_sentiments
   has_many :playlists
+  has_many :subscriptions
 
   include ActiveModel::ForbiddenAttributesProtection
   require 'digest/sha2'

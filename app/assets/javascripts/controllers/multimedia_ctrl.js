@@ -8,7 +8,8 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     video: false,
     image: false,
     audio: false,
-    playlists: false
+    playlists: false,
+    subscribed: false
   };
   $scope.playlists = [];
   $scope.imagePlaylistTimeoutPromise;
@@ -42,6 +43,7 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
         if(UserData.userid != '') {
           $scope.show.playlists = true;
           $scope.getUserPlaylists();
+          $scope.getUserSubscription();
         }
       } else {
         
@@ -163,12 +165,24 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     };
     
     $scope.getUserPlaylists = function() {
+      console.log(UserData.userid);
       apiService.apiCall(function(data,status){
         if(status == 200) {
           $scope.playlists = data.uploaded_playlists;
         }
 
       }, 'GET', '/api/get-user-playlists', {user_id: UserData.userid});
+    };
+
+    $scope.getUserSubscription = function() {
+      console.log(UserData.userid);
+      apiService.apiCall(function(data,status) {
+        if(status == 200) {
+          $scope.show.subscribed = data.subscribed;
+          console.log(data);
+        }
+
+      }, 'GET', '/api/is-user-subscribed', {user_id: UserData.userid, subscription_id: $scope.multInfo.user_id});
     };
 
   }
@@ -231,6 +245,23 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
 
       }, 'GET', '/api/playlist-has-multimedia', {playlist_id: playlistId, multimedia_id: $scope.multInfo.id});
   };
+
+  $scope.subscribe = function() {
+    apiService.apiCall(function(data, status) {
+      if(status == 200) {
+        $scope.show.subscribed = true;
+      }
+
+    }, 'POST', '/api/subscribe', {user_id: UserData.userid, subscription_id: $scope.multInfo.user_id})
+  };
+
+$scope.unsubscribe = function() {
+  apiService.apiCall(function(data, status) {
+    if(status == 200) {
+      $scope.show.subscribed = false;
+    }
+  }, 'POST', '/api/unsubscribe', {user_id: UserData.userid, subscription_id: $scope.multInfo.user_id});
+};
 
 }
 MultimediaCtrl.$inject = ['$scope', '$stateParams', 'UserData', 'apiService', '$modal', '$location', '$timeout'];

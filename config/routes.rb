@@ -56,6 +56,15 @@ Metube::Application.routes.draw do
   match "api/get-categories", to: "categories#get_categories", via: [:get]  
 
   # ===========================
+  # Subscription Routes
+  # ===========================  
+  match "api/subscribe", to: "subscriptions#create_subscription", via: [:post]
+  match "api/get-user-subscriptions", to: "subscriptions#get_user_subscriptions", via: [:get]
+  match "api/is-user-subscribed", to: "subscriptions#is_user_subscribed?", via: [:get]
+  match "api/unsubscribe", to: "subscriptions#delete_subscription", via: [:post]
+
+
+  # ===========================
   # Playlist Routes
   # ===========================
   match "api/create-playlist", to: "playlists#create_playlist", via: [:post]
