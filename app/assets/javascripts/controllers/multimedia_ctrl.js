@@ -95,7 +95,6 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
       $scope.show.image = true;
       // cycle image every 5 seconds if in playlist
       $scope.imagePlaylistTimeoutPromise = $timeout(function() {
-        console.log('/multimedia/' + $stateParams.id + '/playlist/' + $scope.playlistId);
         if($location.$$path == '/multimedia/' + $stateParams.id + '/playlist/' + $scope.playlistId) {
           $scope.cyclePlaylist();
         }
@@ -165,7 +164,6 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     };
     
     $scope.getUserPlaylists = function() {
-      console.log(UserData.userid);
       apiService.apiCall(function(data,status){
         if(status == 200) {
           $scope.playlists = data.uploaded_playlists;
@@ -175,11 +173,9 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     };
 
     $scope.getUserSubscription = function() {
-      console.log(UserData.userid);
       apiService.apiCall(function(data,status) {
         if(status == 200) {
           $scope.show.subscribed = data.subscribed;
-          console.log(data);
         }
 
       }, 'GET', '/api/is-user-subscribed', {user_id: UserData.userid, subscription_id: $scope.multInfo.user_id});

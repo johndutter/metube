@@ -134,12 +134,12 @@ class MultimediaController < ApplicationController
   end
 
   def get_user_multimedia
-    #returns empty set if where query doesn't match anything
-    all_videos = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'video').to_a
-    all_images = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'image').to_a
-    all_audio  = Multimedia.where('user_id = ? AND mediaType=?', params[:user_id], 'audio').to_a
+    user = User.find(params[:user_id])
+    all_multimedia = user.multimedias
 
-    render :json => {videos: all_videos, images: all_images, audio:all_audio}, status: :ok
+    render :json => {all_multimedia: all_multimedia}, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to get user multimedia.  User with id:' + params[:user_id] + ' could not be found.'}, status: :bad_request
   end
 
   def get_playlist_multimedia

@@ -155,10 +155,15 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     templateUrl: '/partial/multimedia-playlist.html',
     controller: 'MultimediaPlaylistCtrl'
   })
+  .state('channel', {
+    url: '/channel/:id',
+    templateUrl: '/partial/channel.html',
+    controller: 'ChannelsCtrl'
+  })
   .state('playlist', {
     url: '/playlist/:id',
     templateUrl: '/partial/playlist.html',
-    controller: 'PlaylistCtrl'
+    controller: 'PlaylistsCtrl'
   });
 
 	$locationProvider.html5Mode(true);

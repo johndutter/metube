@@ -12,9 +12,20 @@ function DashboardUploadsCtrl($scope, $timeout, $location, UserData, apiService,
     // get multimedia uploaded by user
     apiService.apiCall(function(data, status) {
       if (status === 200) {
-        $scope.videos = data.videos;
-        $scope.images = data.images;
-        $scope.audios = data.audio;
+        for(var i = 0; i < data.all_multimedia.length; i++) {
+          media = data.all_multimedia[i];
+          switch(media.mediaType) {
+            case 'video':
+              $scope.videos.push(media);
+              break;
+            case 'audio':
+              $scope.audios.push(media);
+              break;
+            case 'image':
+              $scope.images.push(media);
+              break;
+          }
+        }
 
         initializePagingData();
         

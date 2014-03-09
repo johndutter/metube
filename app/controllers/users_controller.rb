@@ -86,8 +86,8 @@ class UsersController < ApplicationController
   def get_uploader_info
     @user = User.find(params[:id])
     render :json => { username: @user[:username] }, status: :ok
-  rescue
-    render :json => { }, status: :bad_request
+  rescue ActiveRecord::RecordNotFound
+    render :json => { message: 'Unable to get uploader info.' }, status: :bad_request
   end
 
   def get_sentiment_info

@@ -1,4 +1,4 @@
-function PlaylistCtrl($scope, $stateParams, apiService, UserData, $timeout, $location) {
+function PlaylistsCtrl($scope, $stateParams, apiService, UserData, $timeout, $location) {
   $scope.multimedia;
   $scope.playlistInfo;
   $scope.isOwner  = false;
@@ -124,4 +124,4 @@ function PlaylistCtrl($scope, $stateParams, apiService, UserData, $timeout, $loc
   }, true);
 }
 
-PlaylistCtrl.$inject = ['$scope', '$stateParams', 'apiService', 'UserData', '$timeout', '$location'];
+PlaylistsCtrl.$inject = ['$scope', '$stateParams', 'apiService', 'UserData', '$timeout', '$location'];

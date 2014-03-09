@@ -1,0 +1,48 @@
+<div class='well well-lg playlist'>
+  <div class='panel panel-default'>
+    <div class='panel-body'>
+      <div class='row'>
+
+        <div class='col-4'>
+          {{channelInfo.username}}
+        </div>
+
+        <div class='col-8'>
+            <p> some channel options </p>
+        </div>
+    </div>
+  </div>
+  </div>
+
+  <div class='panel panel-default entry'>
+  <div class='panel-body'>
+    <div class="row">
+      <div class='col-1 push-down slide-left' > <a ng-click='previousPage(videosPagingHash)'><span ng-show='videosPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
+      <div ng-repeat='media in allMultimedia | limitTo: 3'  class="col-3">
+        <a href='/multimedia/{{media.id}}' class="thumbnail">
+          <img src={{media.thumbnail_path}} alt={{video.title}}>
+        </a>
+        <p> {{media.title}}</p>
+      </div>
+      <div class='col-1 push-down'> <a ng-click='nextPage(videosPagingHash)'><span ng-show='videosPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
+    </div>
+  </div>
+  </div>
+
+<div class='panel panel-default entry'>
+  <div class='panel-body'>
+    <div class="row">
+      <div class='col-1 push-down slide-left' > <a ng-click='previousPage(videosPagingHash)'><span ng-show='videosPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
+      <div ng-repeat='playlist in allPlaylists | limitTo: 3'  class="col-3">
+        <a href='/playlist/{{playlist.id}}' class="thumbnail">
+          <!--<img src={{media.thumbnail_path}} alt={{video.title}}>-->
+        
+        <p> {{playlist.name}}</p>
+        </a>
+      </div>
+      <div class='col-1 push-down'> <a ng-click='nextPage(videosPagingHash)'><span ng-show='videosPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
+    </div>
+  </div>
+  </div>
+
+</div>

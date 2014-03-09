@@ -5,9 +5,10 @@ My Subscriptions
 <div class='panel-body'>
 
   <div class='list-group'>
-    <a class='list-group-item'>
-      <p> Text </p>
+    <a class='list-group-item' ng-repeat='subscription in subscriptions' ng-href='/channel/{{subscription.subscription_id}}'>
+      {{subscription.username}}
     </a>
+
   </div>
 
 </div>
