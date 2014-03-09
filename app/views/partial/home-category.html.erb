@@ -5,7 +5,7 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
+  <div class="panel-body height">
     <h2>Popular</h2>
     <div class='mult-area clearfix'>
       <span class='chevron glyphicon glyphicon-chevron-left pull-left' ng-click='movePopular("left");' ng-class='{chevdisabled: popular.offset==0}'></span>
@@ -17,13 +17,13 @@
           </a>
         </div>
       </div>
-      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='movePopular("right");'></span>
+      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='movePopular("right");' ng-class='{chevdisabled: popularTabs.length<popular.length}'></span>
     </div>
   </div>
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
+  <div class="panel-body height">
     <h2>Most Recent</h2>
     <div class='mult-area clearfix'>
       <span class='chevron glyphicon glyphicon-chevron-left pull-left' ng-click='moveRecent("left");' ng-class='{chevdisabled: recent.offset==0}'></span>
@@ -35,13 +35,13 @@
           </a>
         </div>
       </div>
-      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='moveRecent("right");'></span>
+      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='moveRecent("right");' ng-class='{chevdisabled: recentTabs.length<recent.length}'></span>
     </div>
   </div>
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
+  <div class="panel-body browse-height">
     <h2>Browse</h2>
     <div class='mult-area clearfix'>
       <span class='chevron glyphicon glyphicon-chevron-left pull-left' ng-click='moveBrowse("left");' ng-class='{chevdisabled: browse.offset==0}'></span>
@@ -54,7 +54,7 @@
 
         </div>
       </div>
-      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='moveBrowse("right");'></span>
+      <span class='chevron glyphicon glyphicon-chevron-right pull-right' ng-click='moveBrowse("right");' ng-class='{chevdisabled: browseTabs.length<browse.length}'></span>
     </div>
   </div>
 </div>

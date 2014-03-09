@@ -1,7 +1,23 @@
 <div class='row home'>
-  <div class='col-3 list-group'>
-    <a ng-class='{active: tab=="popular"}' class='list-group-item' ui-sref='home.popular'>Popular on MeTube</a>
-    <a ng-repeat='category in categories' class='list-group-item' ng-class='{active: tab=="{{category.name}}"}' ui-sref='home.category({category: category.name})'>{{category.name}}</a>
+  <div class='col-3'>
+    <div class='list-group list-group-dark'>
+      <a ng-class='{active: tab=="popular"}' class='list-group-item' ui-sref='home.popular'>Popular on MeTube</a>
+      <a ng-repeat='category in categories' class='list-group-item' ng-class='{active: tab=="{{category.name}}"}' ui-sref='home.category({category: category.name})'>{{category.name}}</a>
+    </div>
+    <div class='list-group'>
+      <a class='list-group-item header' href='#'>Channels</a>
+      <a class='list-group-item' href='#'>User 1</a>
+      <a class='list-group-item' href='#'>User 2</a>
+      <a class='list-group-item' href='#'>User 3</a>
+      <a class='list-group-item' href='#'>User 4</a>
+    </div>
+    <div class='list-group'>
+      <a class='list-group-item header' href='#'>Playlists</a>
+      <a class='list-group-item' href='#'>Playlist 1</a>
+      <a class='list-group-item' href='#'>Playlist 2</a>
+      <a class='list-group-item' href='#'>Playlist 3</a>
+      <a class='list-group-item' href='#'>Playlist 4</a>
+    </div>
   </div>
   <div class='col-9 well well-sm' ui-view>
   </div>

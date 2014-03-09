@@ -63,8 +63,10 @@ function HomeCategoryCtrl($scope, $stateParams, apiService) {
         $scope.getPopular();
       }
     } else {
-      $scope.popular['offset'] = $scope.popular['offset'] + $scope.popular['length'];
-      $scope.getPopular();
+      if ($scope.popularTabs.length === $scope.popular['length']) {
+        $scope.popular['offset'] = $scope.popular['offset'] + $scope.popular['length'];
+        $scope.getPopular();
+      }
     }
   };
 
@@ -75,8 +77,10 @@ function HomeCategoryCtrl($scope, $stateParams, apiService) {
           $scope.getMostRecent();
         }
       } else {
-        $scope.recent['offset'] = $scope.recent['offset'] + $scope.recent['length'];
-        $scope.getMostRecent();
+        if ($scope.recentTabs.length === $scope.recent['length']) {
+          $scope.recent['offset'] = $scope.recent['offset'] + $scope.recent['length'];
+          $scope.getMostRecent();
+        }
       }
   };
 
@@ -87,8 +91,10 @@ function HomeCategoryCtrl($scope, $stateParams, apiService) {
           $scope.getBrowse();
         }
       } else {
-        $scope.browse['offset'] = $scope.browse['offset'] + $scope.browse['length'];
-        $scope.getBrowse();
+        if ($scope.browseTabs.length === $scope.browse['length']) {
+          $scope.browse['offset'] = $scope.browse['offset'] + $scope.browse['length'];
+          $scope.getBrowse();
+        }
       }
   };
 

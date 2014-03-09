@@ -1,21 +1,4 @@
 .home {
-  $red-color: #f73232;
-  .list-group {
-    .list-group-item {
-      color: red;
-    }
-    .list-group-item:hover {
-    }
-    .active {
-      background-color: $red-color;
-      border-color: $red-color;
-      color: white;
-    }
-    .active:hover {
-      background-color: $red-color;
-      border-color: $red-color; 
-    }
-  }
   .main-title {
     margin-bottom: 16px;
     margin-top: 0px;
@@ -26,6 +9,14 @@
     margin: 0px;
     padding: 10px;
     border-top: 1px solid red;
+  }
+
+  .height {
+    min-height: 248px;
+  }
+
+  .browse-height {
+    min-height: 725px;
   }
 
   .mult-area {
@@ -70,10 +61,37 @@
     }
   }
   .col-3 {
-    .smaller {
-      a {
-        padding-top: 5px;
-        padding-bottom: 5px;
+    $red-color: #f73232;
+    $grey-color: #606060;
+    $grey-darker: #505050;
+    $gery-ligher: #777777;
+    .list-group-dark {
+      .list-group-item {
+        background-color: $grey-color;
+        color: white;
+        border-color: $grey-darker;
+      }
+      .list-group-item:hover {
+        background-color: $gery-ligher;
+      }
+      .active {
+        background-color: $red-color;
+        border-color: $red-color;
+        color: white;
+      }
+      .active:hover {
+        background-color: $red-color;
+        border-color: $red-color; 
+      }
+    }
+    .list-group {
+      a.header, a.header:hover {
+        border: 1px solid #e3e3e3;
+        cursor: default;
+        background-color: #f5f5f5;
+        color: #3c3c3c;
+        font-weight: bold;
+        font-size: 18px;
       }
     }
   }

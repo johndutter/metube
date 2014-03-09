@@ -50,8 +50,10 @@ function HomePopularCtrl($scope, apiService) {
           $scope.getPagedVideos($scope.categories[index]['name'], 'views', $scope.categories[index]['paging']['length'], $scope.categories[index]['paging']['offset'], index);
         }
       } else {
-        $scope.categories[index]['paging']['offset'] = $scope.categories[index]['paging']['offset'] + $scope.categories[index]['paging']['length'];
-        $scope.getPagedVideos($scope.categories[index]['name'], 'views', $scope.categories[index]['paging']['length'], $scope.categories[index]['paging']['offset'], index);
+        if ($scope.categories[index]['multimedia'].length === $scope.categories[index]['paging']['length']) {
+          $scope.categories[index]['paging']['offset'] = $scope.categories[index]['paging']['offset'] + $scope.categories[index]['paging']['length'];
+          $scope.getPagedVideos($scope.categories[index]['name'], 'views', $scope.categories[index]['paging']['length'], $scope.categories[index]['paging']['offset'], index);
+        }
       }
   };
 
