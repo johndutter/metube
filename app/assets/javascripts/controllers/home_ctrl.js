@@ -1,7 +1,17 @@
 // homepage controller
-function HomeCtrl($scope, apiService) {
+function HomeCtrl($scope, apiService, UserData) {
   $scope.tab = '';
   $scope.categories = [];
+  $scope.userdata = UserData;
+
+  $scope.init = function() {
+    $scope.getCategories();
+    if ($scope.userdata.loggedin === true) {
+      $scope.getUserPlaylists();
+    } else {
+      $scope.getRandomPlaylists();
+    }
+  };
 
   $scope.getCategories = function() {
     apiService.apiCall(function(data, status){
@@ -12,6 +22,22 @@ function HomeCtrl($scope, apiService) {
     }, 'GET', '/api/get-categories', {});
   };
 
-  $scope.getCategories();
+  $scope.getRandomChannels = function() {
+
+  };
+
+  $scope.getRandomPlaylists = function() {
+
+  };
+
+  $scope.getUserPlaylists = function() {
+
+  };
+
+  $scope.getUserSubscriptions = function() {
+
+  };
+
+  $scope.init();
 }
-HomeCtrl.$inject = ['$scope', 'apiService'];
+HomeCtrl.$inject = ['$scope', 'apiService', 'UserData'];
