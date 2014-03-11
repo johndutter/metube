@@ -40,27 +40,36 @@
         <ul class="nav nav-tabs mini">
           <li class="active"><a href="#media-info" data-toggle="tab">Info</a></li>
           <li ng-show='show.playlists'><a href="#add-to" data-toggle="tab">Add To</a></li>
-          <button ng-show='!show.subscribed' class='btn pull-right spacer red' ng-click='subscribe()'> <span class='glyphicon glyphicon-star'> </span> Subscribe</button>
-          <button ng-show='show.subscribed' class='btn pull-right spacer red' ng-click='unsubscribe()'> <span class='glyphicon glyphicon-remove-sign'> </span> Unsubscribe</button>
         </ul>
 
-        <div class="tab-content">
-          <div class="tab-pane fade in active" id="media-info">
+        <button ng-show='!show.subscribed' class='btn pull-right subscribe-btn red' ng-click='subscribe()'> <span class='glyphicon glyphicon-star'> </span> Subscribe</button>
+        <button ng-show='show.subscribed' class='btn pull-right subscribe-btn red' ng-click='unsubscribe()'> <span class='glyphicon glyphicon-remove-sign'> </span> Unsubscribe</button>
+
+        <div class='tab-content'>
+          <div class='tab-pane fade in active' id='media-info'>
+            <div class='panel panel-default'>
+            <div class='panel-body'>
             <dl class='dl-horizontal'>
               <dt>Tags</dt>
               <dd>{{multInfo.tags}}</dd>
               <dt>Description</dt>
               <dd>{{multInfo.description}}</dd>
             </dl>
-          </div>
-          <div class="tab-pane fade" id="add-to" ng-show='show.playlists'>
+            </div>
+            </div>
+        </div>
+        <div class='tab-pane fade' id='add-to' ng-show='show.playlists'>
+          <div class='panel panel-default panel-override'>
+          <div class='panel-body panel-body-override'>
             <div class='list-group mini'>
               <a class='list-group-item' ng-repeat='playlist in playlists' ng-href='' ng-click='performPlaylistAction(playlist.id)'>
                 {{playlist.name}} ( {{playlist.count}} )
               </a>
             </div>
           </div>
+          </div>
         </div>
+      </div>
 
       </div>
     </div>
