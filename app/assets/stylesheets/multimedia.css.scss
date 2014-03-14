@@ -44,6 +44,7 @@
   }
   .info-area{
     position: relative;
+    padding-bottom: 0;
     ul.nav-tabs a {
       color: black;
     }
@@ -52,7 +53,7 @@
     }
     .subscribe-btn {
       position: absolute;
-      top: 18px;
+      top: 15px;
       right: 19px;
     }
     .list-group-item {
