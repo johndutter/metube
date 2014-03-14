@@ -127,30 +127,35 @@ function ChannelsCtrl($scope, apiService, UserData, $stateParams, startFromFilte
 
 //display previous 3 items in a multimedia array
 $scope.previousPage = function(mediaHash){
-  mediaHash.pageNumber--;
+  if(mediaHash.showPrevious) {  
+    mediaHash.pageNumber--;
 
-  if(mediaHash.pageNumber ==1){
-    mediaHash.showPrevious = false;
-    mediaHash.showNext = true;
-  }
+    if(mediaHash.pageNumber ==1){
+      mediaHash.showPrevious = false;
+      mediaHash.showNext = true;
+    }
 
-  mediaHash.startFrom = (mediaHash.pageNumber - 1) * $scope.numberOfThumbnailsToDisplay;
+    mediaHash.startFrom = (mediaHash.pageNumber - 1) * $scope.numberOfThumbnailsToDisplay;
+    }
 };
 
 //display next 3 itms in multimedia array
 $scope.nextPage = function(mediaHash){
-  mediaHash.pageNumber++;
 
-  //see if another page is available
-  if(mediaHash.pageNumber == mediaHash.totalPages) {
-    mediaHash.showNext = false;
-  }
-  mediaHash.showPrevious = true;
-  mediaHash.startFrom = (mediaHash.pageNumber - 1) * $scope.numberOfThumbnailsToDisplay;
+  if(mediaHash.showNext){
+    mediaHash.pageNumber++;
 
-  //make sure there are at least 3 to display
-  if(mediaHash.totalItems - mediaHash.startFrom < $scope.numberOfThumbnailsToDisplay ) {
-    mediaHash.startFrom--;
+    //see if another page is available
+    if(mediaHash.pageNumber == mediaHash.totalPages) {
+      mediaHash.showNext = false;
+    }
+    mediaHash.showPrevious = true;
+    mediaHash.startFrom = (mediaHash.pageNumber - 1) * $scope.numberOfThumbnailsToDisplay;
+
+    //make sure there are at least 3 to display
+    if(mediaHash.totalItems - mediaHash.startFrom < $scope.numberOfThumbnailsToDisplay ) {
+      mediaHash.startFrom--;
+    }
   }
 };
 }
