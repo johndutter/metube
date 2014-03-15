@@ -63,6 +63,8 @@ Metube::Application.routes.draw do
   match "api/is-user-subscribed", to: "subscriptions#is_user_subscribed?", via: [:get]
   match "api/unsubscribe", to: "subscriptions#delete_subscription", via: [:post]
 
+  match "api/get-channel-stats", to: "subscriptions#get_channel_stats", via: [:get]
+
 
   # ===========================
   # Playlist Routes

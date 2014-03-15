@@ -49,6 +49,7 @@
     }
     .thumbnail{
       margin-bottom: 0;
+      min-height: 81px;
     }
 
     .push-down{
@@ -57,6 +58,10 @@
 
     .slide-left{
       margin-left: 30px;
+    }
+
+    .min-view-height {
+      min-height: 120px;
     }
   }
 
@@ -122,6 +127,10 @@
       text-decoration: none;
       color: #721631;
     }
+  }
+
+  .subscriptions {
+    
   }
 
 }

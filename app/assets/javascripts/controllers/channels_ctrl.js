@@ -2,15 +2,20 @@ function ChannelsCtrl($scope, apiService, UserData, $stateParams, startFromFilte
   $scope.videos= [];
   $scope.audios = [];
   $scope.images = [];
+  $scope.channelStats = {};
 
   $scope.playlists = [];
   $scope.channelInfo = {};
   $scope.numberOfThumbnailsToDisplay = 3;
+  $scope.isSubscribed = false;
 
   $scope.init = function () {
     apiService.apiCall(function(data, status) {
       if(status == 200) {
         $scope.channelInfo.username = data.username;
+
+        $scope.getUserSubscription();
+        $scope.getChannelStats();
 
         $scope.getMultimedia();
         $scope.getPlaylists();
@@ -80,7 +85,6 @@ function ChannelsCtrl($scope, apiService, UserData, $stateParams, startFromFilte
                 $scope.images.push(media);
                 break;
             }
-            console.log($scope.videos);
             initializeMediaPagingData();
           }
         } else {
@@ -121,6 +125,25 @@ function ChannelsCtrl($scope, apiService, UserData, $stateParams, startFromFilte
       }
       initializePlaylistPagingData();
     };
+
+    $scope.getChannelStats = function() {
+      apiService.apiCall(function(data, status) {
+        if(status == 200) {
+          $scope.channelStats = data.channel_stats;
+          console.log($scope.channelStats);
+        }
+      }, 'GET', '/api/get-channel-stats', {subscription_id: $stateParams.id});
+    };
+
+    $scope.getUserSubscription = function() {
+      apiService.apiCall(function(data,status) {
+        if(status == 200) {
+          $scope.isSubscribed = data.subscribed;
+        }
+
+      }, 'GET', '/api/is-user-subscribed', {user_id: UserData.userid, subscription_id: $stateParams.id});
+    };
+
   };
 
   $scope.init();
@@ -158,6 +181,24 @@ $scope.nextPage = function(mediaHash){
     }
   }
 };
+
+$scope.subscribe = function() {
+  apiService.apiCall(function(data, status) {
+    if(status == 200) {
+      $scope.isSubscribed = true;
+    }
+
+  }, 'POST', '/api/subscribe', {user_id: UserData.userid, subscription_id: $stateParams.id})
+};
+
+$scope.unsubscribe = function() {
+  apiService.apiCall(function(data, status) {
+    if(status == 200) {
+      $scope.isSubscribed = false;
+    }
+  }, 'POST', '/api/unsubscribe', {user_id: UserData.userid, subscription_id: $stateParams.id});
+};
+
 }
 
 ChannelsCtrl.$inject = ['$scope', 'apiService', 'UserData', '$stateParams', 'startFromFilter'];

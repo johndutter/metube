@@ -1,26 +1,38 @@
 <div class='well well-lg channel'>
   <div class='panel panel-default'>
     <div class='panel-body'>
-      <div class='row row-override'>
+      <div class='row'>
 
-        <div class='col-4 slide-right'>
-          <span class='glyphicon glyphicon-user large'></span>
+        <div class='col-3'>
+          <span class='glyphicon glyphicon-user'></span>
         </div>
 
-        <div class='col-4 slide-right'>
+        <div class='col-3'>
             <h2> {{channelInfo.username}} </h2>
-            <p class='mini'>  </p>
-            <div class='btn-group'>
-              <button class='btn red'> <span class='glyphicon glyphicon-star'></span> Subscribe </button>
+            <div ng-show='!isSubscribed' class='btn-group'>
+              <button  class='btn subscribe-btn' ng-click='subscribe()'> <span class='glyphicon glyphicon-star'></span> Subscribe </button>
+            </div>
+            <div class='btn-group' ng-show='isSubscribed'>
+              <button  class='btn subscribe-btn' ng-click='unsubscribe()'> <span class='glyphicon glyphicon-remove-sign'></span> Unsubscribe </button>
             </div>
         </div>
 
-        <div class='col-4 slide-right'>
+        <div class='col-6'>
         <h2 class='channel-heading'> Breakdown </h2>
         <hr/>
         <div class='breakdown-info mini'>
-          <p> <span class='glyphicon glyphicon-film'></span> some stat</p>
-          <p> <span class='glyphicon glyphicon-music'></span> another stat</p>
+          <div class='row breakdown-glyphs'>
+            <div class='col-6'>
+              <p> <span class='glyphicon glyphicon-film'></span> Videos: {{channelStats.total_videos}}</p>
+              <p> <span class='glyphicon glyphicon-music'></span> Audio: {{channelStats.total_audio}}</p>
+              <p> <span class='glyphicon glyphicon-picture'></span> Images: {{channelStats.total_images}}</p>
+            </div>
+            <div class='col-6'>
+              <p> <span class='glyphicon glyphicon-list-alt'></span> Playlists: {{channelStats.total_playlists}}</p>
+              <p> <span class='glyphicon glyphicon-heart'></span> Subscribers: {{channelStats.total_subscriptions}}</p>
+              <p> <span class='glyphicon glyphicon-eye-open'></span> Views: {{channelStats.total_views}}</p>
+            </div>
+          </div>
         </div>
         </div>
 
@@ -101,7 +113,7 @@
     <span ng-click='previousPage(playlistPagingHash)' class='glyphicon glyphicon-chevron-left chevron chev-left pull-left' ng-class='{chevdisabled: playlistPagingHash.showPrevious == false}'></span>
 
     <div class='row row-override'>
-      <div class='col-4' ng-repeat='playlist in playlists'>
+      <div class='col-4' ng-repeat='playlist in playlists | startFrom: playlistPagingHash.startFrom | limitTo: 3'>
         <div class="thumbnail thumbnail-override">
           <div class='playlist-preview'>
             <p> {{playlist.count}} media </p>
