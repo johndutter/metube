@@ -62,6 +62,10 @@ Metube::Application.routes.draw do
   match "api/get-user-subscriptions", to: "subscriptions#get_user_subscriptions", via: [:get]
   match "api/is-user-subscribed", to: "subscriptions#is_user_subscribed?", via: [:get]
   match "api/unsubscribe", to: "subscriptions#delete_subscription", via: [:post]
+  match "api/get-user-subscriptions-overview", to: "subscriptions#get_user_subscriptions_overview", via: [:get]
+
+  match "api/get-channels", to: "users#get_channels", via: [:get]
+  match "api/get-few-channels", to: "users#get_few_channels", via: [:get]
 
 
   # ===========================
@@ -72,6 +76,9 @@ Metube::Application.routes.draw do
   match "api/get-user-playlists", to: "playlists#get_user_playlists", via: [:get]
   match "api/get-user-liked-playlists", to: "playlists#get_user_liked_playlists", via: [:get]
   match "api/update-playlist-view-count", to: "playlists#update_view_count", via: [:post]
+  match "api/get-playlists", to: "playlists#get_playlists", via: [:get]
+  match "api/get-few-playlists", to: "playlists#get_few_playlists", via: [:get]
+  match "api/get-user-playlists-overview", to: "playlists#get_user_playlists_overview", via: [:get]
 
   match "api/get-playlist-thumbnails", to: "playlists#get_playlist_thumbnails", via: [:get]
   match "api/add-media-to-playlist", to: "playlists#add_media_to_playlist", via: [:post]

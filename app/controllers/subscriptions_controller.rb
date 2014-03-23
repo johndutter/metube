@@ -36,6 +36,14 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def get_user_subscriptions_overview
+    subscriptions = Subscription.where('user_id = ?', params[:user_id]).find(:all, :select => 'subscriptions.subscription_id as id, users.username', :joins => 'left outer join users on users.id = subscriptions.subscription_id', :order => 'subscriptions.created_at DESC', :limit => 5).to_a
+    render :json => {subscriptions: subscriptions}, status: :ok
+
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to get user subscriptions. Could not find user with id:' + params[:user_id]}, status: :bad_request
+  end
+
   private
   def subscription_params
     params.require(:subscription).permit(:user_id, :subscription_id)

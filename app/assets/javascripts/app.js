@@ -164,6 +164,22 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     url: '/playlist/:id',
     templateUrl: '/partial/playlist.html',
     controller: 'PlaylistsCtrl'
+  })
+  .state('browse', {
+    url: '/browse',
+    abstract: true,
+    templateUrl: '/partial/browse.html',
+    controller: 'BrowseCtrl'
+  })
+  .state('browse.channels', {
+    url: '/channels',
+    templateUrl: '/partial/browse-channels.html',
+    controller: 'BrowseChannelCtrl'
+  })
+  .state('browse.playlists', {
+    url: '/playlists',
+    templateUrl: '/partial/browse-playlists.html',
+    controller: 'BrowsePlaylistCtrl'
   });
 
 	$locationProvider.html5Mode(true);

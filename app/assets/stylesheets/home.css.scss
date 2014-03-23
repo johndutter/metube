@@ -84,7 +84,7 @@
         border-color: $red-color; 
       }
     }
-    .list-group {
+    .list-group-normal {
       a.header, a.header:hover {
         border: 1px solid #e3e3e3;
         cursor: default;
@@ -92,6 +92,15 @@
         color: #3c3c3c;
         font-weight: bold;
         font-size: 18px;
+      }
+      .hoverable {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .hoverable:hover {
+        border-left: 3px solid red;
+        padding-left: 13px;
       }
     }
   }

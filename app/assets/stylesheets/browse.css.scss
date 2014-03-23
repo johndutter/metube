@@ -1,0 +1,39 @@
+.browse {
+  .header-area {
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      margin-top: 0px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid red;
+    }
+  }
+  .table {
+    td {
+      vertical-align: middle;
+      a.btn {
+        width: 120px;
+        overflow: hidden;
+      }
+      button.fixed-width {
+        width: 105px;
+      }
+      a.btn.wider {
+        width: 160px;
+        overflow: hidden;
+      }
+    }
+    .description {
+      width: 280px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .description-header {
+      width: 320px;
+    }
+    .playlist {
+      width: 250px;
+    }
+  }
+}

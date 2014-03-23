@@ -1,0 +1,28 @@
+<div class='header-area'>
+  <h2 class='lead'><span class='glyphicon glyphicon-user'></span>Browse Playlists</h2>
+</div>
+<div class='channel area panel panel-default'>
+  <div class='panel-body'>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th class='playlist'>Playlist</th>
+          <th>Uploader</th>
+          <th>Size</th>
+          <th class='description-header'>Description</th>
+          <th>Views</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat='playlist in playlists'>
+          <td><a ui-sref='playlist({id: playlist.id})' class='btn btn-default btn-sm wider'>{{playlist.name}}</a></td>
+          <td>{{playlist.username}}</td>
+          <td>{{playlist.count}}</td>
+          <td><div class='description'>{{playlist.description}}</div></td>
+          <td>{{playlist.views}}</td>
+          <!-- <td><button ng-disabled='!userdata.loggedin || userdata.userid == channel.id || isSubscribed($index)' class='btn fixed-width btn-sm' ng-class='isClass($index)' ng-click='subscribe($index)'><span><span class='glyphicon glyphicon-star'></span>{{condText($index)}}</button></td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

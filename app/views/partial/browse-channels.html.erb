@@ -1,0 +1,29 @@
+<div class='header-area'>
+  <h2 class='lead'><span class='glyphicon glyphicon-user'></span>Browse Channels</h2>
+</div>
+<div class='channel area panel panel-default'>
+  <div class='panel-body'>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th>Profile</th>
+          <th>Subscribers</th>
+          <th>Uploads</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Subscription</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat='channel in channels'>
+          <td><a ui-sref='channel({id: channel.id})' class='btn btn-default btn-sm'>{{channel.username}}</a></td>
+          <td>{{channel.subscriber_count}}</td>
+          <td>{{channel.multimedia_count}}</td>
+          <td>{{channel.firstname}}</td>
+          <td>{{channel.lastname}}</td>
+          <td><button ng-disabled='!userdata.loggedin || userdata.userid == channel.id || isSubscribed($index)' class='btn fixed-width btn-sm' ng-class='isClass($index)' ng-click='subscribe($index)'><span><span class='glyphicon glyphicon-star'></span>{{condText($index)}}</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

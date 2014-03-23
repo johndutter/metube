@@ -124,6 +124,27 @@ class PlaylistsController < ApplicationController
     render :json => {message: 'Unable to delete playlist.  Playist with id:' + params[:playlist_id] + ' could not be found'}
   end
 
+  def get_playlists
+    playlists = Playlist.find(:all, :select => 'playlists.id, playlists.count, playlists.description, playlists.name, playlists.views, users.username as username', :joins => 'left outer join users on users.id = playlists.user_id', :order => 'playlists.created_at DESC').to_a
+    render :json => {playlists: playlists}, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to return playlists.'}, status: :bad_request
+  end
+
+  def get_few_playlists
+    playlists = Playlist.find(:all, :select => 'playlists.id, playlists.name, users.username as username', :joins => 'left outer join users on users.id = playlists.user_id', :order => 'playlists.created_at DESC', :limit => 5).to_a
+    render :json => {playlists: playlists}, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to return playlists.'}, status: :bad_request
+  end
+
+  def get_user_playlists_overview
+    playlists = Playlist.where('user_id = ?', params[:user_id]).find(:all, :select => 'playlists.id, playlists.name, users.username as username', :joins => 'left outer join users on users.id = playlists.user_id', :order => 'playlists.created_at DESC', :limit => 5).to_a
+    render :json => {playlists: playlists}, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render :json => {message: 'Unable to return playlists.'}, status: :bad_request
+  end
+
   private
     def playlist_params
       params.require(:playlist).permit(:user_id, :name, :description)

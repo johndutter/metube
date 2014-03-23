@@ -199,6 +199,30 @@ class UsersController < ApplicationController
     end
   end
 
+  # get a list of channels (users)
+  def get_channels
+    channels = User.find(:all, :select => 'id, username, firstname, lastname', :order => 'created_at DESC')
+    return_channels = Array.new
+    for channel in channels
+      subscriber_count = Subscription.where(subscription_id: channel.id).count
+      media_count = User.find(channel.id).multimedias.count
+      return_channels.push({id: channel.id, username: channel.username, firstname: channel.firstname, lastname: channel.lastname, subscriber_count: subscriber_count, multimedia_count: media_count })
+    end
+    render :json => {channels: return_channels}, status: :ok
+  end
+
+  # out of the top 20 randomly select 5 channels
+  def get_few_channels
+    channels = User.find(:all, :select => 'users.id, users.username, count(subscriptions.subscription_id) as subscribers', :joins => 'left outer join subscriptions on subscriptions.subscription_id = users.id', :group => 'users.id', :order => 'subscribers DESC', :limit => 20)
+    
+    # if array > 5 then shuffle and pick 5
+    if channels.length > 5
+      channels = channels.shuffle
+      channels = channels.slice(0,5)
+    end
+    render :json => {channels: channels}, status: :ok
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
