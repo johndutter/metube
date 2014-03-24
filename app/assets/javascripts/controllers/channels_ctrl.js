@@ -19,6 +19,7 @@ function ChannelsCtrl($scope, apiService, UserData, $stateParams, startFromFilte
 
         $scope.getMultimedia();
         $scope.getPlaylists();
+        $scope.updateViewCount();
       } else {
       }
     }, 'GET', '/api/get-uploader-info', {id: $stateParams.id});
@@ -143,6 +144,12 @@ function ChannelsCtrl($scope, apiService, UserData, $stateParams, startFromFilte
 
       }, 'GET', '/api/is-user-subscribed', {user_id: UserData.userid, subscription_id: $stateParams.id});
     };
+
+    $scope.updateViewCount = function() {
+      apiService.apiCall(function(data, status) {
+        if( status == 200) {} else {}
+      }, 'POST', '/api/update-channel-view-count', {subscription_id: $stateParams.id});
+    }
 
   };
 

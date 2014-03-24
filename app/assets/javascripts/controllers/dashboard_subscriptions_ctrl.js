@@ -31,6 +31,14 @@ function DashboardSubscriptionsCtrl($scope, apiService, UserData) {
   };
 
   $scope.init();
+
+  $scope.unsubscribe = function(subscriptionId) {
+    apiService.apiCall(function(data, status) {
+      if(status == 200) {
+        $scope.init();
+      }
+    }, 'POST', '/api/unsubscribe', {user_id: UserData.userid, subscription_id: subscriptionId})
+  }
 }
 
 DashboardSubscriptionsCtrl.$inject = ['$scope', 'apiService', 'UserData'];

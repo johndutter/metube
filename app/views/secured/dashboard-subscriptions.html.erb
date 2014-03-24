@@ -9,17 +9,13 @@ My Subscriptions
     <table class='table table-striped'>
       <tr>
         <th> Channel </th>
-        <th> Total Media </th>
-        <th> Subscribers </th>
-        <th> Subscribe? </th>
+        <th> Unsubscribe? </th>
         <th> View </th>
       </tr>
 
       <tr ng-repeat='subscription in subscriptions'>
         <td> {{subscription.username}} </td>
-        <td> 23 </td>
-        <td> 1000</td>
-        <td> <button class='btn btn-danger'> <span class='glyphicon glyphicon-star'></span> Subscribe</button> </td>
+        <td> <a ng-click='unsubscribe(subscription.subscription_id)'> <button class='btn btn-danger'> <span class='glyphicon glyphicon-remove-sign'></span> Unsubscribe</button> </a> </td>
         <td> <a ng-href='/channel/{{subscription.subscription_id}}'><button class='btn btn-info'> View </button></a> </td>
       </tr>
     </table>

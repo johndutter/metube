@@ -51,11 +51,10 @@ class SubscriptionsController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     render :json =>{message: 'Unable to get channel stats. Channel with id:' + params[:subscription_id] + ' could not be found'}, status: :bad_request
-
   end
 
   def update_view_count
-    @subscription = Subscription.find(params[:subscription_id])
+    @subscription = Subscription.where('subscription_id = ?', params[:subscription_id]).to_a[0]
 
     @subscription.increment(:views)
     if(@subscription.save)
@@ -63,9 +62,6 @@ class SubscriptionsController < ApplicationController
     else
       render :json => {message: 'Unable to update view count.'}, status: :bad_request
     end
-
-  rescue ActiveRecord::RecordNotFound
-    render :Json => {message: 'Unable to update view count. Subscription with id:' + params[:subscription_id] + ' could not be found'};
   end
 
   private
