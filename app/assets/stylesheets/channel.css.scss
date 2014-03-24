@@ -1,0 +1,146 @@
+.channel{
+  .mini {
+    font-size: 10px;
+  }
+
+  .col-4 {
+    text-align: center;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .row-override {
+    margin-left: 15px;
+    margin-right: 0;
+    width: 808px;
+    display: inline-block;
+  }
+
+  .thumbnail {
+    width: 210px;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+
+  .thumbnail img {
+    max-height: 120px;
+  }
+
+  .thumbnail-caption {
+    padding-left: 25px;
+    text-align: left;
+  }
+
+  .thumbnail a {
+    min-height: 110px;
+  }
+
+ .thumbnail-override {
+    position: relative;
+  }
+
+  .playlist-main-image{
+    height: 88px;
+    width: 98%;
+    border-radius: 4px;
+  }
+
+  .playlist-preview {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+
+    height: 88px;
+    width: 50px;
+    background-color: rgba(66, 51, 69, .6);
+  }
+
+  .playlist-preview p {
+    margin: 5px auto 15px auto;
+    text-align: center;
+    font-size: 8px;
+    color: #eee;
+  }
+
+  .preview-image {
+    margin: 0 auto 5px auto;
+    width: 35px;
+    height: 20px;
+    border: solid 1px #eee;
+    display: block;
+  }
+
+  .play-all:hover {
+    cursor: pointer;
+  }
+
+  .remove {
+    color: #731732;
+    position: absolute;
+    right: 35px;
+  }
+
+  .remove:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #721631;
+  }
+
+  .min-view-height {
+    height: 199px;
+  }
+
+  .chevron {
+    line-height: 130px;
+    margin: 0px;
+  }
+
+  .chevdisabled {
+    color: #bbb;
+  }
+
+  .glyphicon-user {
+    font-size: 150px;
+    color: black;
+  }
+
+  .col-8 h2 {
+    font-size: 30px;
+    font-style: 'Helvetica';
+  }
+
+  .slide-right {
+    padding-left: 40px;
+  }
+
+  .breakdown-info p {
+    text-align: justify;
+  }
+
+  h5 {
+    font-style: Helvetica;
+    font-size: 20px;
+    color: black;
+  }
+
+  hr {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+
+  .subscribe-btn {
+    background-color: red;
+    color: white;   
+    padding: 2px 5px 2px 5px;
+  }
+
+  .separator {
+    font-size: 6px;
+    margin: 0 3px 0 3px;
+  }
+
+  .breakdown-glyphs .glyphicon {
+    color: #790F74;
+  }
+
+}

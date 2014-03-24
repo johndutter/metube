@@ -1,48 +1,140 @@
-<div class='well well-lg playlist'>
+<div class='well well-lg channel'>
   <div class='panel panel-default'>
     <div class='panel-body'>
       <div class='row'>
 
-        <div class='col-4'>
-          {{channelInfo.username}}
+        <div class='col-3'>
+          <span class='glyphicon glyphicon-user'></span>
         </div>
 
-        <div class='col-8'>
-            <p> some channel options </p>
+        <div class='col-3'>
+            <h2> {{channelInfo.username}} </h2>
+            <div ng-show='!isSubscribed' class='btn-group'>
+              <button  class='btn subscribe-btn' ng-click='subscribe()'> <span class='glyphicon glyphicon-star'></span> Subscribe </button>
+            </div>
+            <div class='btn-group' ng-show='isSubscribed'>
+              <button  class='btn subscribe-btn' ng-click='unsubscribe()'> <span class='glyphicon glyphicon-remove-sign'></span> Unsubscribe </button>
+            </div>
         </div>
+
+        <div class='col-6'>
+        <h2 class='channel-heading'> Breakdown </h2>
+        <hr/>
+        <div class='breakdown-info mini'>
+          <div class='row breakdown-glyphs'>
+            <div class='col-6'>
+              <p> <span class='glyphicon glyphicon-film'></span> Videos: {{channelStats.total_videos}}</p>
+              <p> <span class='glyphicon glyphicon-music'></span> Audio: {{channelStats.total_audio}}</p>
+              <p> <span class='glyphicon glyphicon-picture'></span> Images: {{channelStats.total_images}}</p>
+            </div>
+            <div class='col-6'>
+              <p> <span class='glyphicon glyphicon-list-alt'></span> Playlists: {{channelStats.total_playlists}}</p>
+              <p> <span class='glyphicon glyphicon-heart'></span> Subscribers: {{channelStats.total_subscriptions}}</p>
+              <p> <span class='glyphicon glyphicon-eye-open'></span> Views: {{channelStats.total_views}}</p>
+            </div>
+          </div>
+        </div>
+        </div>
+
     </div>
   </div>
   </div>
 
   <div class='panel panel-default entry'>
-  <div class='panel-body'>
-    <div class="row">
-      <div class='col-1 push-down slide-left' > <a ng-click='previousPage(videosPagingHash)'><span ng-show='videosPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
-      <div ng-repeat='media in allMultimedia | limitTo: 3'  class="col-3">
-        <a href='/multimedia/{{media.id}}' class="thumbnail">
-          <img src={{media.thumbnail_path}} alt={{video.title}}>
+  <div class='panel-heading'>
+    <h5> {{channelInfo.username}}'s Videos </h5>
+  </div>
+  <div class='panel-body min-view-height'>
+
+    <span ng-click='previousPage(videosPagingHash)' class='glyphicon glyphicon-chevron-left chevron pull-left' ng-class='{chevdisabled: videosPagingHash.showPrevious == false}'></span>
+
+    <div class="row row-override">
+      <div ng-repeat='video in videos | startFrom: videosPagingHash.startFrom | limitTo: 3'  class="col-4">
+        <a href='/multimedia/{{video.id}}' class="thumbnail">
+          <img src={{video.thumbnail_path}} alt={{video.title}}>
         </a>
-        <p> {{media.title}}</p>
+        <p class='thumbnail-caption'> {{video.title}}</p>
       </div>
-      <div class='col-1 push-down'> <a ng-click='nextPage(videosPagingHash)'><span ng-show='videosPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
     </div>
+
+    <span ng-click='nextPage(videosPagingHash)' class='glyphicon glyphicon-chevron-right chevron pull-right' ng-class='{chevdisabled: videosPagingHash.showNext == false}'></span>
+
   </div>
   </div>
 
-<div class='panel panel-default entry'>
-  <div class='panel-body'>
-    <div class="row">
-      <div class='col-1 push-down slide-left' > <a ng-click='previousPage(videosPagingHash)'><span ng-show='videosPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
-      <div ng-repeat='playlist in allPlaylists | limitTo: 3'  class="col-3">
-        <a href='/playlist/{{playlist.id}}' class="thumbnail">
-          <!--<img src={{media.thumbnail_path}} alt={{video.title}}>-->
-        
-        <p> {{playlist.name}}</p>
-        </a>
-      </div>
-      <div class='col-1 push-down'> <a ng-click='nextPage(videosPagingHash)'><span ng-show='videosPagingHash.showNext' class='glyphicon glyphicon-chevron-right'></span></a></div>
-    </div>
+  <div class='panel panel-default entry'>
+  <div class='panel-heading'>
+    <h5> {{channelInfo.username}}'s Audio </h5>
   </div>
+  <div class='panel-body min-view-height'>
+
+    <span ng-click='previousPage(audioPagingHash)' class='glyphicon glyphicon-chevron-left chevron pull-left' ng-class='{chevdisabled: audioPagingHash.showPrevious == false}'></span>
+
+    <div class="row row-override">
+      <div ng-repeat='audio in audios | startFrom: audioPagingHash.startFrom | limitTo: 3'  class="col-4">
+        <a href='/multimedia/{{audio.id}}' class="thumbnail">
+          <img src={{audio.thumbnail_path}} alt={{audio.title}}>
+        </a>
+        <p class='thumbnail-caption'> {{audio.title}}</p>
+      </div>
+    </div>
+
+    <span ng-click='nextPage(audioPagingHash)' class='glyphicon glyphicon-chevron-right chevron pull-right' ng-class='{chevdisabled: audioPagingHash.showNext == false}'></span>
+    </div>
+
+  </div>
+
+  <div class='panel panel-default entry'>
+  <div class='panel-heading'>
+    <h5> {{channelInfo.username}}'s Images </h5>
+  </div>
+  <div class='panel-body min-view-height'>
+    <span ng-click='previousPage(imagesPagingHash)' class='glyphicon glyphicon-chevron-left chevron pull-left' ng-class='{chevdisabled: imagesPagingHash.showPrevious == false}'></span>
+
+    <div class="row row-override">
+      <div ng-repeat='image in images | startFrom: imagesPagingHash.startFrom | limitTo: 3'  class="col-4">
+        <a href='/multimedia/{{image.id}}' class="thumbnail">
+          <img src={{image.thumbnail_path}} alt={{image.title}}>
+        </a>
+        <p class='thumbnail-caption'> {{image.title}}</p>
+      </div>
+    </div>
+
+     <span ng-click='nextPage(imagesPagingHash)' class='glyphicon glyphicon-chevron-right chevron pull-right' ng-class='{chevdisabled: imagesPagingHash.showNext == false}'></span>
+  </div>
+</div>
+
+  <div class='panel panel-default entry'>
+  <div class='panel-heading'>
+    <h5> {{channelInfo.username}}'s Playlists </h5>
+  </div>
+  <div class='panel-body min-view-height'>
+
+    <span ng-click='previousPage(playlistPagingHash)' class='glyphicon glyphicon-chevron-left chevron chev-left pull-left' ng-class='{chevdisabled: playlistPagingHash.showPrevious == false}'></span>
+
+    <div class='row row-override'>
+      <div class='col-4' ng-repeat='playlist in playlists | startFrom: playlistPagingHash.startFrom | limitTo: 3'>
+        <div class="thumbnail thumbnail-override">
+          <div class='playlist-preview'>
+            <p> {{playlist.count}} media </p>
+            <img class='preview-image' ng-src='{{playlist.media[0].thumbnail_path}}'/>
+            <img class='preview-image' ng-src='{{playlist.media[1].thumbnail_path}}'/>
+          </div>
+          <a class='play-all' ng-href='' ng-click='playAll(playlist.media[0].id, playlist.id)'>
+            <img ng-src='{{playlist.media[0].thumbnail_path}}'/>
+          </a>
+        </div>
+        <div class="thumbnail-caption mini">
+          <a ng-href='/playlist/{{playlist.id}}'> {{playlist.name}}</a>
+          <a class='remove' ng-href='' ng-click='deletePlaylist(playlist.id)'> Remove </a>
+          <p> Has {{playlist.count}} media. </p>
+      </div>
+    </div>
+</div>
+
+<span ng-click='nextPage(playlistPagingHash)' class='glyphicon glyphicon-chevron-right chevron chev-right pull-right' ng-class='{chevdisabled: playlistPagingHash.showNext== false}'></span>
+
+</div>
   </div>
 
 </div>

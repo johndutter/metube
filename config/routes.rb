@@ -67,6 +67,9 @@ Metube::Application.routes.draw do
   match "api/get-channels", to: "users#get_channels", via: [:get]
   match "api/get-few-channels", to: "users#get_few_channels", via: [:get]
 
+  match "api/get-channel-stats", to: "subscriptions#get_channel_stats", via: [:get]
+  match "api/update-channel-view-count", to: "subscriptions#update_view_count", via: [:post]
+
 
   # ===========================
   # Playlist Routes

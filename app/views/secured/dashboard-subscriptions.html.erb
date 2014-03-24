@@ -1,13 +1,24 @@
-<div class='panel panel-danger'>
+<div class='panel panel-default'>
 <div class='panel-heading'>
 My Subscriptions
 </div>
 <div class='panel-body'>
 
   <div class='list-group'>
-    <a class='list-group-item' ng-repeat='subscription in subscriptions' ng-href='/channel/{{subscription.subscription_id}}'>
-      {{subscription.username}}
-    </a>
+
+    <table class='table table-striped'>
+      <tr>
+        <th> Channel </th>
+        <th> Unsubscribe? </th>
+        <th> View </th>
+      </tr>
+
+      <tr ng-repeat='subscription in subscriptions'>
+        <td> {{subscription.username}} </td>
+        <td> <a ng-click='unsubscribe(subscription.subscription_id)'> <button class='btn btn-danger'> <span class='glyphicon glyphicon-remove-sign'></span> Unsubscribe</button> </a> </td>
+        <td> <a ng-href='/channel/{{subscription.subscription_id}}'><button class='btn btn-info'> View </button></a> </td>
+      </tr>
+    </table>
 
   </div>
 

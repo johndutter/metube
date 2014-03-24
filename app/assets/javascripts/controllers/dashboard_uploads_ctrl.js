@@ -98,7 +98,7 @@ function DashboardUploadsCtrl($scope, $timeout, $location, UserData, apiService,
     if(mediaHash.totalItems - mediaHash.startFrom < $scope.numberOfThumbnailsToDisplay ) {
       mediaHash.startFrom--;
     }
-  }
+  };
 
     var getMediaInProgress = function() {
       //only call api if user is on uploads page

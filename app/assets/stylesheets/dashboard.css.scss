@@ -49,6 +49,7 @@
     }
     .thumbnail{
       margin-bottom: 0;
+      min-height: 81px;
     }
 
     .push-down{
@@ -57,6 +58,10 @@
 
     .slide-left{
       margin-left: 30px;
+    }
+
+    .min-view-height {
+      min-height: 120px;
     }
   }
 
@@ -70,9 +75,9 @@
     }
 
     .thumbnail{
-      height: 98px;
       position: relative;
       margin-bottom: 5px;
+      max-height: 126px;
     }
 
     .playlist-preview{
@@ -95,9 +100,8 @@
     }
 
     .playlist-main-image{
-      height: 88px;
-      width: 98%;
       border-radius: 4px;
+      max-height: 120px;
     }
 
     .preview-image{
@@ -123,6 +127,10 @@
       text-decoration: none;
       color: #721631;
     }
+  }
+
+  .subscriptions {
+    
   }
 
 }
