@@ -53,7 +53,7 @@
     }
     .subscribe-btn {
       position: absolute;
-      top: 15px;
+      top: 11px;
       right: 19px;
     }
     .list-group-item {
@@ -155,6 +155,36 @@
       font-size: 10px;
     }
   }  
+  .comments {
+    blockquote {
+      border-left: 5px solid #FF9191;
+      padding-bottom: 5px;
+    }
+    .reply-link span {
+      color: #ccc;
+      padding-left: 10px;
+    }
+    .inner-reply {
+      padding-left: 10px;
+      margin-left: 30px;
+      border-left: 3px solid #eee;
+
+      .form-group {
+        margin-bottom: 8px;
+      }
+      .remove-span {
+        line-height: 26px;
+        margin-left: 5px;
+      }
+    }
+    .child-block {
+      margin-left: 30px;
+      border-left: 3px solid #FF9191;
+    }
+    small {
+      line-height: 1.7em;
+    }
+  }
 }
 .leftModal {
   .modal-dialog {

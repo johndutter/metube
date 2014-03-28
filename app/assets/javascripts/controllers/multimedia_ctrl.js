@@ -1,5 +1,6 @@
 // dashboard controller
 function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $location, $timeout) {
+  $scope.userdata = UserData;
   $scope.multInfo = {};
   $scope.uploader = {};
   $scope.sentimentInfo = {};
@@ -17,6 +18,10 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
   //necessary for looping through playlist
   $scope.nextToPlay;
   $scope.playlistId;
+
+  // comment variables
+  $scope.comments = [];
+  $scope.maincomment = '';
 
   $scope.init = function() {
 
@@ -45,6 +50,8 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
           $scope.getUserPlaylists();
           $scope.getUserSubscription();
         }
+
+        $scope.getComments();
       } else {
         
       }
@@ -182,7 +189,6 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     };
 
   }
-  $scope.init();
 
   $scope.sentiment = function(sentiment) {
     apiService.apiCall(function(data, status) {
@@ -251,13 +257,87 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     }, 'POST', '/api/subscribe', {user_id: UserData.userid, subscription_id: $scope.multInfo.user_id})
   };
 
-$scope.unsubscribe = function() {
-  apiService.apiCall(function(data, status) {
-    if(status == 200) {
-      $scope.show.subscribed = false;
+  $scope.unsubscribe = function() {
+    apiService.apiCall(function(data, status) {
+      if(status == 200) {
+        $scope.show.subscribed = false;
+      }
+    }, 'POST', '/api/unsubscribe', {user_id: UserData.userid, subscription_id: $scope.multInfo.user_id});
+  };
+
+  /* ******** */
+  /* Comments */
+  /* ******** */
+  $scope.getComments = function() {
+    apiService.apiCall(function(data,status){
+      if(status == 200) {
+        for (var i = 0; i < data.comments.length; ++i) {
+          data.comments[i]['showreply'] = false;
+          data.comments[i]['usercomment'] = '';
+        }
+        $scope.comments = data.comments;
+      } else {
+      }
+    }, 'GET', '/api/get-comments', { multimedia_id: $scope.multInfo.id });
+  };
+
+  $scope.commentReply = function(index) {
+    if (!$scope.userdata.loggedin) {
+      return;
     }
-  }, 'POST', '/api/unsubscribe', {user_id: UserData.userid, subscription_id: $scope.multInfo.user_id});
-};
+    if ($scope.comments[index].usercomment === '') {
+      return;
+    }
+    var args = {
+      multimedia_id: $scope.multInfo.id,
+      text: $scope.comments[index].usercomment,
+      user_id: $scope.userdata.userid,
+      parent_id: $scope.comments[index].id
+    }
+    apiService.apiCall(function(data,status){
+      if(status == 200) {
+        $scope.comments[index].usercomment = '';
+        $scope.cancelForm(index);
+        $scope.getComments();
+      } else {
+      }
+    }, 'POST', '/api/comment', args);
+  };
+
+  $scope.comment = function() {
+    if (!$scope.userdata.loggedin) {
+      return;
+    }
+    if ($scope.commentform.$valid === false) {
+      return;
+    }
+    var args = {
+      multimedia_id: $scope.multInfo.id,
+      text: $scope.maincomment,
+      user_id: $scope.userdata.userid
+    }
+    apiService.apiCall(function(data,status){
+      if(status == 200) {
+        $scope.maincomment = '';
+        $scope.getComments();
+      } else {
+      }
+    }, 'POST', '/api/comment', args);
+  };
+
+  $scope.showReply = function(index) {
+    if ($scope.userdata.loggedin) {
+      $scope.comments[index].showreply = true;
+    }
+  };
+
+  $scope.cancelForm = function(index) {
+    if ($scope.userdata.loggedin) {
+      $scope.comments[index].showreply = false;
+    }
+  };
+
+  $scope.init();
 
 }
 MultimediaCtrl.$inject = ['$scope', '$stateParams', 'UserData', 'apiService', '$modal', '$location', '$timeout'];

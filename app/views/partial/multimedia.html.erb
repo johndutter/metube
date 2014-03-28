@@ -73,9 +73,48 @@
 
       </div>
     </div>
-    <div class='panel panel-default'>
-      <div class='panel-heading'>Comments</div>
+    <div class='panel panel-danger comments'>
+      <div class='panel-heading'>
+        <h3 class='panel-title'>Comments</h3>
+      </div>
       <div class='panel-body'>
+        <div class='comment-block' ng-repeat='comment in comments'>
+          <blockquote>
+            <p>{{comment.text}}</p>
+            <div class='clearfix'>
+              <a href='#' class='reply-link pull-left' ng-click='showReply($index)' ng-show='!comment.showreply'><span class='glyphicon glyphicon-share-alt'></span></a>
+              <small class='pull-right'>{{comment.username}}</small>
+            </div>
+          </blockquote>
+          <blockquote class='child-block' ng-repeat='child in comment.children'>
+            <p>{{child.text}}</p>
+            <div class='clearfix'>
+              <a href='#' class='reply-link pull-left' ng-click='showReply($parent.$index)' ng-show='!comment.showreply'><span class='glyphicon glyphicon-share-alt'></span></a>
+              <small class='pull-right'>{{child.username}}</small>
+            </div>
+          </blockquote>
+          <div class='inner-reply' ng-show='comment.showreply'>
+            <form novalidate role='form' ng-submit='commentReply($index)'>
+              <div class='form-group'>
+                <textarea class='form-control' rows='2' ng-model='comment.usercomment' ng-disabled='!userdata.loggedin' required></textarea>
+              </div>
+              <div class='clearfix'>
+                <a href='#' class='reply-link pull-left' ng-click='cancelForm($index)' ng-show='comment.showreply'><span class='remove-span glyphicon glyphicon-remove'></span></a>
+                <button class='btn btn-default pull-right' type='submit' ng-disabled='!userdata.loggedin'>Reply</button>
+              </div>
+            </form>
+          </div>
+          <hr>
+        </div>
+
+        <form novalidate role='form' name='commentform' ng-submit='comment()'>
+          <div class='form-group'>
+            <textarea class='form-control' rows='3' ng-model='maincomment' ng-disabled='!userdata.loggedin' required></textarea>
+          </div>
+          <div class='clearfix'>
+            <button class='btn btn-default pull-right' type='submit' ng-disabled='!userdata.loggedin'>Comment</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -17,4 +17,6 @@
 //= require angular.min
 //= require ui-bootstrap-custom-tpls-0.10.0.min.js
 //= require angular-ui-router
+//= require d3.min.js
+//= require dimple.v1.1.5.min.js
 //= require app

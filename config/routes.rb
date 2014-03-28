@@ -31,6 +31,7 @@ Metube::Application.routes.draw do
   match "api/download", to: "multimedia#download", via: [:get]
 
   match "api/get-multimedia", to: "multimedia#get_multimedia", via: [:get]
+  match "api/get-analytics", to: "multimedia#get_analytics", via: [:get]
 
   # ===========================
   # User Routes
@@ -88,6 +89,12 @@ Metube::Application.routes.draw do
   match "api/remove-media-from-playlist", to: "playlists#remove_media_from_playlist", via: [:post]
   match "api/playlist-has-multimedia", to: "playlists#playlist_has_multimedia?", via: [:get]
   match "api/delete-playlist", to: "playlists#delete_playlist", via: [:post]
+
+  # ===========================
+  # Comment Routes
+  # ===========================
+  match "api/comment", to: "comments#create_comment", via: [:post]
+  match "api/get-comments", to: "comments#get_comments", via: [:get]
 
   root to: "layout#index"
   resources :users

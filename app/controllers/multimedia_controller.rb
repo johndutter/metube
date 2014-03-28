@@ -173,6 +173,24 @@ class MultimediaController < ApplicationController
   rescue
     render :json => {}, status: :bad_request
   end
+
+  def get_analytics
+    multimedia = Multimedia.select('id, user_id, title, created_at, views, path, mediaType').order('created_at DESC').limit(100).to_a
+    completed_multimedia = []
+    multimedia.each do |entry|
+      sentiments = Multimedia.find(entry.id).sentiments.count
+      date = String(entry.created_at)[0..18]
+      tmp_entry = {:id => entry.id, :user_id => entry.user_id, :title => entry.title, :Date => date, :Views => entry.views, :path => entry.path, :mediaType => entry.mediaType, :sentiments => sentiments}
+      completed_multimedia.push(tmp_entry)
+    end
+
+    early_side = String(multimedia[-1].created_at)[0..9]
+    late_side = String(multimedia[0].created_at)[0..9]
+
+    render :json => {multimedia: completed_multimedia, info: {early_side: early_side, late_side: late_side}}, status: :ok
+  rescue
+    render :json => {}, status: :bad_request
+  end
   
   private
   def multimedia_params
