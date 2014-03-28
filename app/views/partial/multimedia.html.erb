@@ -42,8 +42,10 @@
           <li ng-show='show.playlists'><a href="#add-to" data-toggle="tab">Add To</a></li>
         </ul>
 
-        <button ng-show='!show.subscribed' class='btn pull-right subscribe-btn red' ng-click='subscribe()'> <span class='glyphicon glyphicon-star'> </span> Subscribe</button>
-        <button ng-show='show.subscribed' class='btn pull-right subscribe-btn red' ng-click='unsubscribe()'> <span class='glyphicon glyphicon-remove-sign'> </span> Unsubscribe</button>
+        <div ng-show='show.subscriptionOptions'>
+          <button ng-show='!show.subscribed' class='btn pull-right subscribe-btn red' ng-click='subscribe()'> <span class='glyphicon glyphicon-star'> </span> Subscribe</button>
+          <button ng-show='show.subscribed' class='btn pull-right subscribe-btn red' ng-click='unsubscribe()'> <span class='glyphicon glyphicon-remove-sign'> </span> Unsubscribe</button>
+        </div>
 
         <div class='tab-content'>
           <div class='tab-pane fade in active' id='media-info'>

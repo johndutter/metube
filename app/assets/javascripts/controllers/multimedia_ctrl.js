@@ -10,7 +10,8 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
     image: false,
     audio: false,
     playlists: false,
-    subscribed: false
+    subscribed: false,
+    subscriptionOptions: true
   };
   $scope.playlists = [];
   $scope.imagePlaylistTimeoutPromise;
@@ -148,6 +149,9 @@ function MultimediaCtrl($scope, $stateParams, UserData, apiService, $modal, $loc
       apiService.apiCall(function(data, status) {
         if (status === 200) {
           $scope.uploader = data;
+          if($scope.uploader.username === UserData.username) {
+            $scope.show.subscriptionOptions = false;
+          }
         } else {
         }
       }, 'GET', '/api/get-uploader-info', { id: $scope.multInfo.user_id });
