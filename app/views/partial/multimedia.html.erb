@@ -84,14 +84,14 @@
           <blockquote>
             <p>{{comment.text}}</p>
             <div class='clearfix'>
-              <a href='#' class='reply-link pull-left' ng-click='showReply($index)' ng-show='!comment.showreply'><span class='glyphicon glyphicon-share-alt'></span></a>
+              <a href='#' class='reply-link pull-left' ng-click='showReply($index)' ng-show='!comment.showreply && comment.children.length == 0'><span class='glyphicon glyphicon-share-alt'></span></a>
               <small class='pull-right'>{{comment.username}}</small>
             </div>
           </blockquote>
           <blockquote class='child-block' ng-repeat='child in comment.children'>
             <p>{{child.text}}</p>
             <div class='clearfix'>
-              <a href='#' class='reply-link pull-left' ng-click='showReply($parent.$index)' ng-show='!comment.showreply'><span class='glyphicon glyphicon-share-alt'></span></a>
+              <a href='#' class='reply-link pull-left' ng-click='showReply($parent.$index)' ng-show='!comment.showreply && $last'><span class='glyphicon glyphicon-share-alt'></span></a>
               <small class='pull-right'>{{child.username}}</small>
             </div>
           </blockquote>
