@@ -175,12 +175,12 @@ class MultimediaController < ApplicationController
   end
 
   def get_analytics
-    multimedia = Multimedia.select('id, user_id, title, created_at, views, path, mediaType').order('created_at DESC').limit(100).to_a
+    multimedia = Multimedia.select('id, user_id, title, created_at, views, thumbnail_path, mediaType').order('created_at DESC').limit(100).to_a
     completed_multimedia = []
     multimedia.each do |entry|
       sentiments = Multimedia.find(entry.id).sentiments.count
       date = String(entry.created_at)[0..18]
-      tmp_entry = {:id => entry.id, :user_id => entry.user_id, :title => entry.title, :Date => date, :Views => entry.views, :path => entry.path, :mediaType => entry.mediaType, :sentiments => sentiments}
+      tmp_entry = {:id => entry.id, :user_id => entry.user_id, :title => entry.title, :Date => date, :Views => entry.views, :thumbnail_path => entry.thumbnail_path, :mediaType => entry.mediaType, :sentiments => sentiments}
       completed_multimedia.push(tmp_entry)
     end
 
@@ -190,6 +190,57 @@ class MultimediaController < ApplicationController
     render :json => {multimedia: completed_multimedia, info: {early_side: early_side, late_side: late_side}}, status: :ok
   rescue
     render :json => {}, status: :bad_request
+  end
+
+  def get_recommended
+    mainMult = Multimedia.find(params[:multimedia_id])
+    tags = Multimedia.find(params[:multimedia_id]).tags.to_a
+    recommended = []
+
+    # get multimedia with similar tags
+    tags.each do |tag|
+      added_tags = Tag.where('name = ?', tag.name).to_a
+      added_tags.each do |inner_tag|
+        mult = Multimedia.find(inner_tag.multimedia_id)
+        if (!recommended.include?(mult) && mult.id != params[:multimedia_id].to_i && recommended.length < 11)
+          recommended.push(mult)
+        end
+      end
+    end
+
+    # get multimedia by same uploader
+    if (recommended.length < 11)
+      uploader_mult = Multimedia.where('user_id = ?', mainMult.user_id).limit(10).to_a
+      uploader_mult.each do |entry|
+        if (!recommended.include?(entry) && entry.id != params[:multimedia_id].to_i && recommended.length < 11)
+          recommended.push(entry)
+        end
+      end
+    end
+
+    # get multimedia from same category
+    if (recommended.length < 11)
+      category_mult = Multimedia.where('category_id = ?', mainMult.category_id).limit(10).to_a
+      category_mult.each do |entry|
+        if (!recommended.include?(entry) && entry.id != params[:multimedia_id].to_i && recommended.length < 11)
+          recommended.push(entry)
+        end
+      end
+    end
+
+    if (recommended.length > 10)
+      recommended = recommended[0 .. 9]
+    end
+
+    rec_return = []
+    recommended.each do |entry|
+      username = User.find(entry.user_id).username
+      rec_return.push({:id => entry.id, :title => entry.title, :username => username, :thumbnail_path => entry.thumbnail_path})
+    end
+
+    render :json => {recommended: rec_return}, status: :ok
+  rescue
+    render :json => {message: 'Error finding recommended multimedia.'}, status: :bad_request
   end
   
   private
