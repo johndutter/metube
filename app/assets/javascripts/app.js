@@ -12,7 +12,7 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
   delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
   // check if the user is connected
-  var checkLoggedin = function($q, $timeout, apiService, $location){
+  var checkLoggedin = ['$q', '$timeout', 'apiService', '$location', function($q, $timeout, apiService, $location){
     // Initialize a new promise
     var deferred = $q.defer();
     
@@ -35,7 +35,7 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     }, 'GET', '/api/loggedin', {});
 
     return deferred.promise;
-  };
+  }];
 
   $httpProvider.interceptors.push(function($q, $location) {
     return {

@@ -64,7 +64,7 @@ class SubscriptionsController < ApplicationController
   def update_view_count
     @subscription = Subscription.where('subscription_id = ?', params[:subscription_id]).to_a[0]
 
-    @subscription.increment(:views)
+    @subscription.increment!(:views)
     if(@subscription.save)
       render :json => {}, status: :ok
     else
