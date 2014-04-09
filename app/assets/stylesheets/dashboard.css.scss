@@ -129,7 +129,65 @@
     }
   }
 
-  .subscriptions {
+  .messages {
+
+    .table, .table-striped {
+
+      th {
+        text-align: center;
+        background-color: #357EBD;
+        color: white;
+
+        letter-spacing: 1px;
+        font-weight: normal;
+      }
+
+      td {
+        padding: 0px;
+
+        .mail {
+          cursor: pointer;
+          position: relative;
+          color: black;
+
+          width: 100%;
+          display:inline-block;
+          padding: 15px;
+        }
+        
+        .mail:hover {
+          text-decoration: none;
+          background-color: #eee;
+        }
+      }
+    }
+
+    .success-message {
+      color: green;
+      font-size: 14px;
+    }
+
+    .list-group-item:hover {
+      color: white;
+      background-color: #232323;
+    }
+
+    .compose {
+      margin-top: 1px;
+      margin-bottom: 10px;
+    }
+
+    .view-message {
+      margin-top: 40px;
+    }
+
+    .reply {
+      border-radius: 4px;
+    }
+
+    .unread {
+      font-weight: bold;
+    }
     
   }
 

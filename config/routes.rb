@@ -56,6 +56,19 @@ Metube::Application.routes.draw do
   match "api/get-categories", to: "categories#get_categories", via: [:get]  
 
   # ===========================
+  # Message Routes
+  # ===========================  
+  match "api/send-message", to: "messages#create_message", via: [:post]
+  match "api/get-sent-messages", to: "messages#get_sent_messages", via: [:get]
+  match "api/get-message", to: "messages#get_message", via: [:get]
+  match "api/get-received-messages", to: "messages#get_received_messages", via: [:get]
+
+  match "api/mark-as-read", to: "messages#mark_as_read", via: [:post]
+  match "api/delete-as-sender", to: "messages#delete_as_sender", via: [:post]
+  match "api/delete-as-recipient", to: "messages#delete_as_recipient", via: [:post]
+
+  
+  # ===========================
   # Subscription Routes
   # ===========================  
   match "api/subscribe", to: "subscriptions#create_subscription", via: [:post]
@@ -66,7 +79,6 @@ Metube::Application.routes.draw do
 
   match "api/get-channels", to: "users#get_channels", via: [:get]
   match "api/get-few-channels", to: "users#get_few_channels", via: [:get]
-
   match "api/get-channel-stats", to: "subscriptions#get_channel_stats", via: [:get]
   match "api/update-channel-view-count", to: "subscriptions#update_view_count", via: [:post]
 
