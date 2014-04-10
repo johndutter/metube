@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406163336) do
+ActiveRecord::Schema.define(version: 20140410182404) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -111,7 +111,6 @@ ActiveRecord::Schema.define(version: 20140406163336) do
     t.datetime "updated_at"
     t.integer  "subscription_id"
     t.integer  "user_id"
-    t.integer  "views",           default: 0
   end
 
   create_table "tags", force: true do |t|
@@ -133,6 +132,7 @@ ActiveRecord::Schema.define(version: 20140406163336) do
     t.string   "firstname"
     t.string   "lastname"
     t.string   "phone"
+    t.integer  "views",                                       default: 0
   end
 
 end

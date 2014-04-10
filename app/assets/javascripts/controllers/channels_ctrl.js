@@ -131,7 +131,6 @@ function ChannelsCtrl($scope, apiService, UserData, $stateParams, startFromFilte
       apiService.apiCall(function(data, status) {
         if(status == 200) {
           $scope.channelStats = data.channel_stats;
-          console.log($scope.channelStats);
         }
       }, 'GET', '/api/get-channel-stats', {subscription_id: $stateParams.id});
     };
