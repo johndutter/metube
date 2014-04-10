@@ -94,6 +94,9 @@ class MessagesController < ApplicationController
 
   def suggest_recipients
     partial_recipient = params[:partial_recipient]
+    suggested_recipients = User.where('username LIKE ?', '%' + partial_recipient + '%')
+
+    render :json => {suggested_recipients: suggested_recipients}, status: :ok
   end
 
   private

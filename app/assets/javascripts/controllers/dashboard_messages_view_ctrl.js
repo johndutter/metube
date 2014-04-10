@@ -2,7 +2,7 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
   $scope.message;
   $scope.showErrors = false;
   $scope.errorMessage = '';
-  $scope.userIsSender = false;
+  $scope.userIsRecipient = false;
 
   $scope.form = {};
   $scope.formData = {};
@@ -15,11 +15,10 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
         
         //Get sender's username, and determine if current viewer is sender
         $scope.getUserNameFromId($scope.message.user_id);
-        $scope.userIsSender = (UserData.userid == $scope.message.user_id);
-        console.log($scope.userIsSender);
+        $scope.userIsRecipient = (UserData.username == $scope.message.recipient_name);
 
         //mark message as read
-        if(!$scope.userIsSender) {
+        if($scope.userIsRecipient) {
           $scope.markAsRead(data.message.id);
         }
       } else {
@@ -38,7 +37,7 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
     };
 
     //append reply to original message and send as one message
-    $scope.formData.contents = $scope.message.contents + "\n\n-------------------------\n\n" + "Reply:\n" + $scope.formData.contents;
+    $scope.formData.contents = $scope.message.contents + "\n\n-------------------------\n\n" + "Reply\nFrom:" +UserData.username + '\n' + $scope.formData.contents;
 
     //add key for rails strong parameters + extra necessary parameters
     $scope.formData.user_id = UserData.userid;
@@ -90,7 +89,7 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
           return [$scope.message];
         },
         isSender: function () {
-          return $scope.userIsSender;
+          return !$scope.userIsRecipient;
         }
       }
       });

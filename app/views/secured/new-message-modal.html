@@ -8,7 +8,10 @@
      <div class='form-group'>
       <label class='col-3 control-label' for='recipient'> To: </label>
       <div class='col-7'>
-        <input id='recipient_name' class='form-control' type='text' name='recipient_name' ng-model='formData.recipient_name' ng-keypress='startSuggestionTimeout()'  ng-pattern="/[a-zA-z0-9]+/" ng-minlength="3" ng-maxlength="60" required/>
+        <input id='recipient_name' class='form-control' type='text' name='recipient_name' ng-model='formData.recipient_name' ng-keyup='startSuggestionTimeout()'  ng-pattern="/[a-zA-z0-9]+/" ng-minlength="3" ng-maxlength="60" required/>
+        <div class='list-group'>
+          <a ng-repeat='recipient in suggestedRecipients | limitTo:3' ng-click='selectRecipient(recipient.username)' class='list-group-item'> {{recipient.username}} </a>
+        </div>
         <p class='error-helper text-danger' ng-show='form.newmessage.recipient_name.$invalid && showErrors'>recipient is necessary</p>
       </div>
     </div>

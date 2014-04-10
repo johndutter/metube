@@ -19,6 +19,13 @@ function DashboardMessagesCtrl($rootScope, $scope, apiService, UserData, $modal,
     });
   };
 
+  $scope.openSuccessModal = function () {
+    $scope.modalInstance = $modal.open({
+      templateUrl: '/partial/success-modal.html',
+      controller: DashboardMessagesCtrl
+    });
+  }
+
   $scope.sendMessage = function() {
     // handle form validation
     if ($scope.form.newmessage.$valid === false) {
@@ -34,6 +41,7 @@ function DashboardMessagesCtrl($rootScope, $scope, apiService, UserData, $modal,
       if(status == 200) {
         //display success
         $scope.cancel();
+        $scope.openSuccessModal();
 
       } else {
         $scope.showErrors = true;
@@ -48,26 +56,26 @@ function DashboardMessagesCtrl($rootScope, $scope, apiService, UserData, $modal,
     $scope.$dismiss('cancel');
   };
 
-  $scope.openSuccessModal = function () {
-
-  };
-
   $scope.startSuggestionTimeout = function() {
     $timeout.cancel($scope.timeout);
-    $scope.timeout = $timeout($scope.suggestRecipient, 1000);
+    $scope.timeout = $timeout($scope.suggestRecipient, 500);
   }
 
   $scope.suggestRecipient = function () {
+    // mixed a little jquery in, probably bad practice
     var partialRecipient = $('#recipient_name').val();
-    console.log('timeout is working');
 
     apiService.apiCall(function(data, status) {
       if(status == 200) {
         $scope.suggestedRecipients = data.suggested_recipients;
-      } else {
-        $scope.suggestedRecipients = ['no match'];
-      }
+      } else {}
     }, 'GET', '/api/suggest-recipients', {partial_recipient: partialRecipient});
+  };
+
+  $scope.selectRecipient = function (recipient) {
+    $scope.formData.recipient_name = recipient;
+    //clear suggested recipients
+    $scope.suggestedRecipients = [];
   }
 
   // watch error message
