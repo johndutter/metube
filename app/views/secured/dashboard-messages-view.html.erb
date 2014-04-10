@@ -1,0 +1,23 @@
+<div class="btn-group btn-group-xs pull-right">
+  <a class='btn' href='#reply' data-toggle='tab'><button type="button" class="btn btn-default">Reply</button></a>
+  <a class='btn' ng-click='confirmDeleteMessage()'><button type="button" class="btn btn-default">Delete</button></a>
+</div>
+
+<div class='view-message'>
+  <p class='subject'>Subject: {{message.subject}}</p>
+  <p> From: {{originalSenderName}}
+  <hr/>
+  <div class='well well-sm'>
+    <p><pre>Message: <br/> {{message.contents}}</pre></p>
+    <div class="tab-content">
+      <div class="tab-pane fade in" id="reply">
+        <form novalidate role='form' class='form' name='form.replytomessage' ng-submit='replyToMessage()'>
+          <textarea class='reply' rows='4' cols='50' name='contents' ng-model='formData.contents' required> </textarea>
+          <button class='btn btn-sm red-background'> Send <span class='glyphicon glyphicon-send'></span> </button>
+          <p class='error-helper text-danger' ng-show='form.replytomessage.contents.$invalid && showErrors'>please enter a message to send</p>
+          <div class='text-danger'>{{errorMessage}}</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

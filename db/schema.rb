@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327144541) do
+ActiveRecord::Schema.define(version: 20140406163336) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -45,6 +45,18 @@ ActiveRecord::Schema.define(version: 20140327144541) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "messages", force: true do |t|
+    t.integer  "user_id"
+    t.string   "subject"
+    t.text     "contents"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "recipient_name"
+    t.boolean  "deleted_by_sender",    default: false
+    t.boolean  "deleted_by_recipient", default: false
+    t.boolean  "unread",               default: true
+  end
 
   create_table "multimedia", force: true do |t|
     t.string   "title"

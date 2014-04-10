@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h3>New Message</h3>
+</div>
+
+<form novalidate class='form-horizontal' role='form'  name='form.newmessage' ng-submit='sendMessage()'>
+  <div class="modal-body">
+
+     <div class='form-group'>
+      <label class='col-3 control-label' for='recipient'> To: </label>
+      <div class='col-7'>
+        <input id='recipient_name' class='form-control' type='text' name='recipient_name' ng-model='formData.recipient_name' ng-keyup='startSuggestionTimeout()'  ng-pattern="/[a-zA-z0-9]+/" ng-minlength="3" ng-maxlength="60" required/>
+        <div class='list-group'>
+          <a ng-repeat='recipient in suggestedRecipients | limitTo:3' ng-click='selectRecipient(recipient.username)' class='list-group-item'> {{recipient.username}} </a>
+        </div>
+        <p class='error-helper text-danger' ng-show='form.newmessage.recipient_name.$invalid && showErrors'>recipient is necessary</p>
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <label class='col-3 control-label' for='subject'> Subject </label>
+      <div class='col-7'>
+        <input id='subject' class='form-control' type='text' name='subject' ng-model='formData.subject' ng-pattern="/[a-zA-z0-9]+/" ng-minlength="3" ng-maxlength="60" required/>
+        <p class='error-helper text-danger' ng-show='form.newmessage.subject.$invalid && showErrors'>please enter a subject</p>
+      </div>
+    </div>
+
+    <div class='form-group'>
+      <label class='col-3 control-label' for='contents'>Message Body</label>
+      <div class='col-7'>
+        <textarea id='contents' class='form-control' row='4' column='50' name='contents' ng-model='formData.contents'> </textarea>
+      </div>
+    </div>
+
+    <div class='text-danger text-center'>{{errorMessage}}</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type='submit'>Send</button>
+    <button class="btn btn-default" type='button' ng-click="cancel()">Cancel</button>
+  </div>
+</form>

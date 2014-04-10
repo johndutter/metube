@@ -121,6 +121,38 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
       loggedin: checkLoggedin
     }
   })
+  .state('dashboard.messages', {
+    url: '/messages',
+    templateUrl: '/secured/dashboard-messages.html',
+    controller: 'DashboardMessagesCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
+  .state('dashboard.messages.inbox', {
+    url: '/inbox',
+    templateUrl: '/secured/dashboard-messages-inbox.html',
+    controller: 'DashboardMessagesInboxCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
+  .state('dashboard.messages.sent', {
+    url: '/sent',
+    templateUrl: '/secured/dashboard-messages-sent.html',
+    controller: 'DashboardMessagesSentCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
+  .state('dashboard.messages.view', {
+    url: '/view/:id',
+    templateUrl: '/secured/dashboard-messages-view.html',
+    controller: 'DashboardMessagesViewCtrl',
+    resolve: {
+      loggedin: checkLoggedin
+    }
+  })
   .state('login', {
     url: '/login',
     templateUrl: '/partial/login.html',

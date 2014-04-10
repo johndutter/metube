@@ -1,0 +1,20 @@
+<div class='panel panel-default messages'>
+  <div class='panel-heading'> My Messages </div>
+  <div class='panel-body'>
+  <div class='row'>
+
+    <div class='col-3'>
+      <button class='btn btn-danger compose' ng-click='openNewMessageModal()'> Compose </button>
+      <div class='list-group'>
+        <a class='list-group-item' ui-sref='dashboard.messages.inbox'> Inbox </a>
+        <a class='list-group-item' ui-sref='dashboard.messages.sent'> Sent </a>
+      </div>
+    </div>
+
+    <div class='col-9' ui-view>
+    </div>
+
+  </div>
+
+  </div>
+</div>
