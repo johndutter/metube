@@ -1,14 +1,10 @@
-function MessageDeleteModalCtrl ($scope, apiService, $modalInstance, messages, messageId, messageIndex, isSender) {
+function MessageDeleteModalCtrl ($scope, $location, apiService, $modalInstance, messages, messageId, messageIndex, isSender) {
   $scope.messageId = messageId;
   $scope.messageIndex = messageIndex;
   $scope.isSender = isSender;
   $scope.messages = messages;
 
   $scope.deleteMessage = function () {
-    console.log($scope.messageId);
-    console.log($scope.messageIndex);
-    console.log($scope.isSender);
-
     var apiCallString;
     if($scope.isSender) {
       apiCallString = '/api/delete-as-sender';
@@ -19,12 +15,12 @@ function MessageDeleteModalCtrl ($scope, apiService, $modalInstance, messages, m
 
     apiService.apiCall(function(data, status) {
       if(status == 200) {
-        console.log('success');
         $scope.messages.splice($scope.messageIndex, 1);
-        $modalInstance.dismiss('cancel');
-      } else {
-        console.log('failure');
-      }
+        if($scope.messages.length == 0) {
+          $location.url('/dashboard/messages/inbox');
+        }
+        $scope.closeModal();
+      } else {}
     }, 'POST', apiCallString, {message_id: $scope.messageId});
     
   };
@@ -34,4 +30,4 @@ function MessageDeleteModalCtrl ($scope, apiService, $modalInstance, messages, m
   };
 };
 
-MessageDeleteModalCtrl.$inject = ['$scope', 'apiService', '$modalInstance', 'messages', 'messageId', 'messageIndex', 'isSender'];
+MessageDeleteModalCtrl.$inject = ['$scope', '$location', 'apiService', '$modalInstance', 'messages', 'messageId', 'messageIndex', 'isSender'];

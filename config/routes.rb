@@ -66,6 +66,7 @@ Metube::Application.routes.draw do
   match "api/mark-as-read", to: "messages#mark_as_read", via: [:post]
   match "api/delete-as-sender", to: "messages#delete_as_sender", via: [:post]
   match "api/delete-as-recipient", to: "messages#delete_as_recipient", via: [:post]
+  match "api/suggest-recipients", to: "messages#suggest_recipients", via: [:get]
 
   
   # ===========================

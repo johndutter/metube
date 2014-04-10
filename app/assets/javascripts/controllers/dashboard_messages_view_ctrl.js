@@ -1,4 +1,4 @@
-function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $location) {
+function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $location, $modal) {
   $scope.message;
   $scope.showErrors = false;
   $scope.errorMessage = '';
@@ -16,6 +16,7 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
         //Get sender's username, and determine if current viewer is sender
         $scope.getUserNameFromId($scope.message.user_id);
         $scope.userIsSender = (UserData.userid == $scope.message.user_id);
+        console.log($scope.userIsSender);
 
         //mark message as read
         if(!$scope.userIsSender) {
@@ -37,7 +38,7 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
     };
 
     //append reply to original message and send as one message
-    $scope.formData.contents = $scope.message.contents + "\n\n-------------------------\n\n" + $scope.formData.contents;
+    $scope.formData.contents = $scope.message.contents + "\n\n-------------------------\n\n" + "Reply:\n" + $scope.formData.contents;
 
     //add key for rails strong parameters + extra necessary parameters
     $scope.formData.user_id = UserData.userid;
@@ -74,33 +75,27 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
     }, 'POST', '/api/mark-as-read', {message_id: messageId});
   }
 
-  $scope.deleteMessage = function(messageId) {
-   if($scope.userIsSender) {
-    $scope.deleteAsSender(messageId);
-   } else {
-    $scope.deleteAsRecipient(messageId);
-   }
-  };
-
-  $scope.deleteAsSender = function(messageId) {
-    apiService.apiCall(function(data, status) {
-      if(status == 200) {
-        $location.url('/dashboard/messages/sent');
-      } else {
-
+  $scope.confirmDeleteMessage = function () {
+    $scope.modalInstance = $modal.open({
+      templateUrl: '/secured/delete-message-modal.html',
+      controller: MessageDeleteModalCtrl,
+      resolve: {
+        messageId: function () {
+          return $scope.message.id;
+        },
+        messageIndex: function () {
+          return 0;
+        },
+        messages: function () {
+          return [$scope.message];
+        },
+        isSender: function () {
+          return $scope.userIsSender;
+        }
       }
-    }, 'POST', '/api/delete-as-sender', {message_id: messageId});
+      });
   };
 
-  $scope.deleteAsRecipient = function(messageId) {
-    apiService.apiCall(function(data, status) {
-      if(status == 200) {
-        $location.url('/dashboard/messages/inbox');
-      } else {
-
-      }
-    }, 'POST', '/api/delete-as-recipient', {message_id: messageId});
-  };
 }
 
-DashboardMessagesViewCtrl.$inject = ['$scope', 'apiService', 'UserData', '$stateParams', '$location'];
+DashboardMessagesViewCtrl.$inject = ['$scope', 'apiService', 'UserData', '$stateParams', '$location', '$modal'];

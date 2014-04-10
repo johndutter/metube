@@ -3,28 +3,6 @@
     <th> Messages </th>
   </tr>
   <tr ng-repeat='message in messages'>
-
-        <!-- Small modal -->
-    <div class="modal fade my-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id='confirmModal'>
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class='modal-header'>
-          <h2> Delete Confirmation</h2>
-          </div>
-          <div class='modal-body'>
-            <p> Are you sure you want to permanently delete this message?</p>
-          </div>
-          <div class='modal-footer'>
-              <div class='btn-group'>
-                <button class='btn btn-danger' ng-click='deleteMessage()'> Delete</button>
-                <button class='btn btn-default' data-dismiss='modal'> Cancel </button>
-              </div>
-          </div> 
-          </div>
-        </div>
-      </div>
-
     <td> <a class='mail' ng-href='/dashboard/messages/view/{{message.id}}'> {{message.subject}}  </a> <a class='pull-right' ng-click='confirmDeleteMessage(message.id,$index)'><span class='glyphicon glyphicon-trash'> </span></a> </td>
-
   </tr>
 </table>

@@ -1,4 +1,4 @@
-function DashboardMessagesSentCtrl($scope, apiService, UserData) {
+function DashboardMessagesSentCtrl($scope, apiService, UserData, $modal) {
   $scope.messages;
 
   $scope.init = function() {
@@ -12,29 +12,30 @@ function DashboardMessagesSentCtrl($scope, apiService, UserData) {
   $scope.init();
 
   $scope.confirmDeleteMessage = function (messageId, messageIndex) {
-    console.log(messageId);
-    console.log(messageIndex);
-
     // workaround because of problems passing data through modal
     // possibly refactor later
     $scope.currentMessageId = messageId;
     $scope.currentMessageIndex = messageIndex;
 
-    $('#confirmModal').modal('show');
-  };
-
-  $scope.deleteMessage = function() {
-
-    apiService.apiCall(function(data, status) {
-      if(status == 200) {
-        //remove message from messages array
-        $scope.messages.splice($scope.currentMessageIndex, 1);
-        $('#confirmModal').modal('hide');
-      } else {
-
+    $scope.modalInstance = $modal.open({
+      templateUrl: '/secured/delete-message-modal.html',
+      controller: MessageDeleteModalCtrl,
+      resolve: {
+        messageId: function () {
+          return $scope.currentMessageId;
+        }, 
+        messages: function () {
+          return $scope.messages;
+        },
+        messageIndex: function () {
+          return $scope.currentMessageIndex;
+        },
+        isSender: function () {
+          return true;
+        }
       }
-    }, 'POST', '/api/delete-as-sender', {message_id: $scope.currentMessageId});
-  }
+      });
+  };
 }
 
-DashboardMessagesSentCtrl.$inject = ['$scope', 'apiService', 'UserData'];
+DashboardMessagesSentCtrl.$inject = ['$scope', 'apiService', 'UserData', '$modal'];

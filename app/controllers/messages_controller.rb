@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
     #if recipient has marked message for deletion, permanently remove from db
     if(@message[:deleted_by_recipient])
       @message.delete
-      if(@message.is_destroyed?)
+      if(@message.destroyed?)
         render :json => {},  status: :ok
       else
         render :json => {message: 'Unable to delete message.'}, status: :bad_request
@@ -77,7 +77,7 @@ class MessagesController < ApplicationController
     #if sender has marked message for deletion, permanently remove from db
     if(@message[:deleted_by_sender])
       @message.delete
-      if(@message.is_destroyed?)
+      if(@message.destroyed?)
         render :json => {}, status: :ok
       else
         render :json => {message: 'Unable to delete message'}, status: :bad_request
@@ -90,6 +90,10 @@ class MessagesController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     render :json => {message: 'Unable to mark message as deleted.  Message could not be found.'}, status: :bad_request
+  end
+
+  def suggest_recipients
+    partial_recipient = params[:partial_recipient]
   end
 
   private
