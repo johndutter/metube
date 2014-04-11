@@ -5,6 +5,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
   
   $scope.formData = {};
   $scope.errorMessage = '';
+  $scope.uploadSubmitted = false;
 
   $scope.videoWhiteList = ['.mov', '.mp4', '.avi', '.wmv', '.flv', '.m4v'];
   $scope.imageWhiteList = ['.jpg', '.jpeg', '.gif', '.png', '.bmp'];
@@ -78,6 +79,8 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
       });   
     }
 
+    $scope.uploadSubmitted = true;
+
     /* we will need to make two calls to api
        one call to save file information and return an id
        second call to save file on our server 
@@ -93,6 +96,7 @@ function UploadCtrl($scope, $timeout, $http, apiService, $location){
       } else{
         //title must be unique, return error
         $scope.errorMessage = 'Unable to upload file. This title is taken. Please choose another one.';
+        $scope.uploadSubmitted = false;
       }
     }, 'POST', '/api/upload', $scope.formData);
   }; 

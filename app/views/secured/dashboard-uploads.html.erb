@@ -9,8 +9,8 @@
     <div class="row min-view-height">
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(videosPagingHash)'><span ng-show='videosPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='video in videos | startFrom: videosPagingHash.startFrom | limitTo: 3'  class="col-3">
-        <a href='/multimedia/{{video.id}}' class="thumbnail">
-          <img src={{video.thumbnail_path}} alt={{video.title}}>
+        <a ng-href='/multimedia/{{video.id}}' class="thumbnail">
+          <img ng-src={{video.thumbnail_path}} alt={{video.title}}>
         </a>
         <p> {{video.title}}</p>
       </div>
@@ -24,8 +24,8 @@
     <div class='row min-view-height'>
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(imagesPagingHash)'><span ng-show='imagesPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='image in images | startFrom: imagesPagingHash.startFrom | limitTo: 3'  class="col-3">
-        <a href='/multimedia/{{image.id}}' class="thumbnail">
-          <img src={{image.thumbnail_path}} alt={{image.title}}>
+        <a ng-href='/multimedia/{{image.id}}' class="thumbnail">
+          <img ng-src={{image.thumbnail_path}} alt={{image.title}}>
         </a>
         <p> {{image.title}}</p>
       </div>
@@ -39,8 +39,8 @@
     <div class='row min-view-height'>
       <div class='col-1 push-down slide-left' > <a ng-click='previousPage(audioPagingHash)'><span ng-show='audioPagingHash.showPrevious' class='glyphicon glyphicon-chevron-left'></span></a></div>
       <div ng-repeat='audio in audios | startFrom: audioPagingHash.startFrom | limitTo: 3'  class="col-3">
-        <a href='/multimedia/{{audio.id}}' class="thumbnail">
-          <img src={{audio.thumbnail_path}} alt={{audio.title}}>
+        <a ng-href='/multimedia/{{audio.id}}' class="thumbnail">
+          <img ng-src={{audio.thumbnail_path}} alt={{audio.title}}>
         </a>
         <p> {{audio.title}}</p>
       </div>
