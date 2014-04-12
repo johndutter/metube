@@ -184,14 +184,26 @@
 
     .view-message {
       margin-top: 40px;
+
+      pre {
+        background-color: white;
+        border: none;
+      }
     }
 
     .reply {
       border-radius: 4px;
+      margin-bottom: 20px;
     }
 
     .unread {
       font-weight: bold;
+    }
+
+    .btn-default {
+      background-color: #eee;
+      color: black;
+
     }
     
   }
