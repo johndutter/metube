@@ -37,7 +37,7 @@ function DashboardMessagesViewCtrl($scope, apiService, UserData, $stateParams, $
     };
 
     //append reply to original message and send as one message
-    $scope.formData.contents = $scope.message.contents + "\n\n-------------------------\n\n" + "Reply\nFrom:" +UserData.username + '\n' + $scope.formData.contents;
+    $scope.formData.contents = $scope.message.contents + "\n\n-------------------------\n\n" + "Reply\nFrom:" +UserData.username + '\n\n' + $scope.formData.contents;
 
     //add key for rails strong parameters + extra necessary parameters
     $scope.formData.user_id = UserData.userid;
