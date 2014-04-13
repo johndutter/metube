@@ -242,6 +242,22 @@ class MultimediaController < ApplicationController
   rescue
     render :json => {message: 'Error finding recommended multimedia.'}, status: :bad_request
   end
+
+  def get_search_results
+    searchparam = '%' + params[:query] + '%'
+    multimedia_set = Multimedia.where('title like ? or description like ?', searchparam, searchparam).to_set
+
+    # search tags as well
+    tags_arr = Tag.where('name like ?', searchparam)
+    tags_arr.each do |tag|
+      media = Multimedia.find(tag.multimedia_id);
+      multimedia_set.add(media)
+    end
+
+    render :json => {results: multimedia_set}, status: :ok
+  rescue
+    render :json => {message: 'Error retrieving search results.'}, status: :bad_request
+  end
   
   private
   def multimedia_params

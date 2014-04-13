@@ -1,0 +1,18 @@
+.search {
+  img.main {
+    margin-right: 100px;
+  }
+  .spacer {
+    display: table;
+    height: 100px;
+    overflow: hidden;
+    float: left;
+    width: 250px;
+    margin-right: 50px;
+    text-align: left;
+    .inner {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}

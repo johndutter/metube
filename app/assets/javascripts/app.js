@@ -212,6 +212,11 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap'])
     url: '/playlists',
     templateUrl: '/partial/browse-playlists.html',
     controller: 'BrowsePlaylistCtrl'
+  })
+  .state('search', {
+    url: '/search/:query',
+    templateUrl: '/partial/search.html',
+    controller: 'SearchCtrl'
   });
 
 	$locationProvider.html5Mode(true);

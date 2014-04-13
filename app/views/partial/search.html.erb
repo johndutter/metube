@@ -1,0 +1,17 @@
+<div class='row search'>
+  <div ng-repeat='entry in resultsList' class='panel panel-default'>
+    <div class='panel-body clearfix'>
+      <a ui-sref='multimedia.sidebar({id: entry.id})'><img ng-src='{{entry.thumbnail_path}}' width='200' height='120' class='pull-left main'></a>
+      <div class='spacer lead'>
+        <div class='inner'>
+          {{entry.title}}
+        </div>
+      </div>
+      <div class='spacer lead'>
+        <div class='inner'>
+          {{entry.description}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

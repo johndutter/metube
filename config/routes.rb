@@ -34,6 +34,8 @@ Metube::Application.routes.draw do
   match "api/get-analytics", to: "multimedia#get_analytics", via: [:get]
   match "api/get-recommended", to: "multimedia#get_recommended", via: [:get]
 
+  match "api/search", to: "multimedia#get_search_results", via: [:get]
+
   # ===========================
   # User Routes
   # ===========================

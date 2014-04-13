@@ -1,6 +1,7 @@
 // navbar controller
-function NavCtrl($scope, $location, apiService, UserData) {
+function NavCtrl($scope, $location, apiService, UserData, $state) {
   $scope.userdata = UserData;
+  $scope.formData = {};
 
   // log out
   $scope.logout = function() {
@@ -29,7 +30,11 @@ function NavCtrl($scope, $location, apiService, UserData) {
       }
     }, 'POST', '/api/logout', {});
 
-  }
+  };
+
+  $scope.search = function() {
+    $state.go('search', { query: $scope.formData.searchInput });
+  };
 
 }
-NavCtrl.$inject = ['$scope', '$location', 'apiService', 'UserData'];
+NavCtrl.$inject = ['$scope', '$location', 'apiService', 'UserData', '$state'];
