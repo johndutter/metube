@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'streamio-ffmpeg'
+require 'RMagick'
 
 module MultimediaHelper
   include AsyncTasks
