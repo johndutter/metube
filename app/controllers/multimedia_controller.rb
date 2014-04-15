@@ -135,9 +135,8 @@ class MultimediaController < ApplicationController
 
   def get_user_multimedia
     user = User.find(params[:user_id])
-    all_multimedia = user.multimedias
-    all_multimedia_transcoded = Multimedia.find_by_sql("SELECT multimedia.* FROM multimedia LEFT JOIN delayed_jobs ON multimedia.id=delayed_jobs.multimedia_id WHERE delayed_jobs.multimedia_id IS NULL")
-    logger.info all_multimedia_transcoded.to_yaml
+    #only retrieve media that aren't currently being transcoded
+    all_multimedia = Multimedia.find_by_sql("SELECT multimedia.* FROM multimedia LEFT JOIN delayed_jobs ON multimedia.id=delayed_jobs.multimedia_id WHERE delayed_jobs.multimedia_id IS NULL")
 
     render :json => {all_multimedia: all_multimedia}, status: :ok
   rescue ActiveRecord::RecordNotFound
