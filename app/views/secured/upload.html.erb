@@ -7,8 +7,6 @@
       <h2>Upload</h2>
       <div class='buffer-30'></div>
 
-      <img height='90' width='128' ng-show='uploadSubmitted' ng-src='/assets/ajax-loader.gif' style='z-index:10;position:absolute'/>
-
       <form novalidate class='form-horizontal' role='form'  name='uploadform' ng-submit='upload()' enctype='multipart/form-data'>
 
         <div class='form-group'>
@@ -57,7 +55,9 @@
 
         <div class='text-danger text-center'>{{errorMessage}}</div>
 
-        <div class='buffer-30'></div>
+        <div class='buffer-30' ng-show='!uploadSubmitted'></div>
+
+        <img height='64' width='64' ng-show='uploadSubmitted' ng-src='/assets/ajax-spinner.gif' style='z-index:10;margin-left:252px;margin-bottom:20px;'/>
 
         <button class='btn btn-primary btn-lg btn-block' type='submit'>Upload</button>
 

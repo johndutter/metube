@@ -17,7 +17,7 @@ module AsyncTasks
       @newFilePath = '/uploads/' + self[:multimedia_id].to_s  + '.mp4'
       delayed_job = DelayedJob.where("handler REGEXP ?", @regex_pattern).to_a[0]
 
-      video.transcode('public/uploads/' +self[:multimedia_id].to_s + '.mp4' ) do |progress| 
+      video.transcode( (File.expand_path File.dirname(__FILE__)) + '/../../public/uploads/' + self[:multimedia_id].to_s + '.mp4' ) do |progress| 
         # progress is decimal so multiply by 100 for percentage
         percentage_complete = progress * 100
         delayed_job.update(job_progress: percentage_complete)
