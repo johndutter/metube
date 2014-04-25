@@ -186,8 +186,8 @@ class MultimediaController < ApplicationController
       completed_multimedia.push(tmp_entry)
     end
 
-    early_side = String(multimedia[-1].created_at)[0..9]
-    late_side = String(multimedia[0].created_at)[0..9]
+    early_side = (Date.parse(String(multimedia[-1].created_at)[0..9])-1).to_s
+    late_side = (Date.parse(String(multimedia[0].created_at)[0..9])+1).to_s
 
     render :json => {multimedia: completed_multimedia, info: {early_side: early_side, late_side: late_side}}, status: :ok
   rescue
