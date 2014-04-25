@@ -136,7 +136,7 @@ class MultimediaController < ApplicationController
   def get_user_multimedia
     user = User.find(params[:user_id])
     #only retrieve media that aren't currently being transcoded
-    all_multimedia = Multimedia.find_by_sql("SELECT multimedia.* FROM multimedia LEFT JOIN delayed_jobs ON multimedia.id=delayed_jobs.multimedia_id WHERE delayed_jobs.multimedia_id IS NULL AND multimedia.user_id=?", params[:user_id])
+    all_multimedia = Multimedia.find_by_sql( ["SELECT multimedia.* FROM multimedia LEFT JOIN delayed_jobs ON multimedia.id=delayed_jobs.multimedia_id WHERE delayed_jobs.multimedia_id IS NULL AND multimedia.user_id=?", params[:user_id]] )
 
     render :json => {all_multimedia: all_multimedia}, status: :ok
   rescue ActiveRecord::RecordNotFound
@@ -158,7 +158,8 @@ class MultimediaController < ApplicationController
   end
 
   def download
-    send_file 'public/uploads/' + params[:ending], :filename => params[:ending], :disposition => 'attachment'
+    file_path = File.expand_path File.dirname(__FILE__) + '/../../public/uploads/' + params[:ending]
+    send_file file_path, :filename => params[:ending], :disposition => 'attachment'
   end
 
   def get_multimedia
