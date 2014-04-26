@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
   
   def self.authenticate(login_name="", login_password="")
     #check to see if user is in db
+    # SELECT * FROM users WHERE username = <username>;
     user = User.find_by_username(login_name)
     
     #return user data if password matches

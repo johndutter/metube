@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    # INSERT INTO users VALUES (<username>, <email>, <encrypted_password>, <password_confirmation>, <firstname>, <lastname>, <phone>);
     @user = User.new(user_params)
     @user.encrypt_password
     if @user.save
@@ -14,6 +15,7 @@ class UsersController < ApplicationController
 
   def get_user_info
     if check_login
+      # SELECT * FROM users WHERE id = <user_id>;
       @user = User.find(session[:user_id])
       render :json => { username: @user[:username], userid: @user[:id], loggedin: true }, status: :ok
     else
@@ -23,6 +25,7 @@ class UsersController < ApplicationController
 
   def get_user_profile
     if check_login
+      # SELECT * FROM users WHERE id = <user_id>;
       @user = User.find(session[:user_id])
       render :json => { email: @user[:email], firstname: @user[:firstname], lastname: @user[:lastname], phone: @user[:phone] }, status: :ok
     else
@@ -32,7 +35,9 @@ class UsersController < ApplicationController
 
   def update_user_profile
     if check_login
+      # SELECT * FROM users WHERE id = <user_id>;
       @user = User.find(session[:user_id])
+      # UPDATE users SET email=<email>, firstname=<firstname>, lastname=<lastname>, phone=<phone> WHERE id = <user_id>;
       if @user.update(user_profile_params)
         render :json => { }, status: :ok
       else
@@ -45,6 +50,7 @@ class UsersController < ApplicationController
 
   def update_user_password
     if check_login
+      # SELECT * FROM users WHERE id = <user_id>;
       @user = User.find(session[:user_id])
       @user = User.authenticate(@user[:username], params[:oldpassword])
       @user[:encrypted_password] = params[:encrypted_password]
@@ -60,6 +66,7 @@ class UsersController < ApplicationController
   end
 
   def get_uploader_info
+    # SELECT * FROM users WHERE id = <user_id>;
     @user = User.find(params[:id])
     render :json => { username: @user[:username] }, status: :ok
   rescue ActiveRecord::RecordNotFound
@@ -67,12 +74,17 @@ class UsersController < ApplicationController
   end
 
   def get_sentiment_info
+    # SELECT * FROM multimedia WHERE id = <multimedia_id>;
     @multimedia = Multimedia.find(params[:multimedia_id])
+    # SELECT COUNT(*) FROM sentiments WHERE like = true AND multimedia_id = <multimedia_id>;
     likes = @multimedia.sentiments.where(:like => true).count
+    # SELECT COUNT(*) FROM sentiments WHERE dislike = true AND multimedia_id = <multimedia_id>;
     dislikes = @multimedia.sentiments.where(:dislike => true).count
 
     if check_login
+      # SELECT * FROM users WHERE id = <user_id>;
       @user = User.find(session[:user_id])
+      # SELECT * FROM sentiments WHERE user_id = <user_id> AND multimedia_id = <multimedia_id>;
       @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id])  
 
       if @sentiment.empty?
@@ -90,29 +102,38 @@ class UsersController < ApplicationController
 
   def sentiment_multimedia
     if check_login
+      # SELECT * FROM users WHERE id = <user_id>;
       @user = User.find(session[:user_id])
+      # SELECT * FROM multimedia WHERE id = <multimedia_id>;
       @multimedia = Multimedia.find(params[:multimedia_id])
-
+      # SELECT * FROM sentiments WHERE user_id = <user_id> AND multimedia_id = <multimedia_id>;
       @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id])
 
       if @sentiment.empty?
         if params[:option] == "like"
+          # INSERT INTO sentiments VALUE (<user_id>, <multimedia_id>, true, false);
           Sentiment.create(:user_id => @user.id, :multimedia_id => @multimedia.id, :like => true, :dislike => false)
         else
+          # INSERT INTO sentiments VALUE (<user_id>, <multimedia_id>, false, true);
           Sentiment.create(:user_id => @user.id, :multimedia_id => @multimedia.id, :dislike => true, :like => false)
         end
       else
         if params[:option] == "like"
+          # UPDATE sentiments SET like=true, dislike=false WHERE id = <sentiment_id>;
           @sentiment[0].update_attribute(:like, true)
           @sentiment[0].update_attribute(:dislike, false)
         else
+          # UPDATE sentiments SET like=false, dislike=true WHERE id = <sentiment_id>;
           @sentiment[0].update_attribute(:like, false)
           @sentiment[0].update_attribute(:dislike, true)
         end
       end
 
+      # SELECT * FROM sentiments WHERE user_id = <user_id> AND multimedia_id = <multimedia_id>;
       @sentiment = @user.sentiments.where(:multimedia_id => params[:multimedia_id]) # definitely created by now
+      # SELECT COUNT(*) FROM sentiments WHERE multimedia_id = <multimedia_id> AND like = true;
       likes = @multimedia.sentiments.where(:like => true).count
+      # SELECT COUNT(*) FROM sentiments WHERE multimedia_id = <multimedia_id> AND dislike = true;
       dislikes = @multimedia.sentiments.where(:dislike => true).count
       render :json => { like: @sentiment[0][:like], dislike: @sentiment[0][:dislike], likes: likes, dislikes: dislikes }, status: :ok
     else
@@ -123,9 +144,11 @@ class UsersController < ApplicationController
   end
 
   def get_user_multimedia_in_progress
+    # SELECT * FROM users WHERE id = <user_id>;
     @user = User.find(params[:user_id])
     videos_in_progress = []
 
+    # SELECT * FROM multimedia WHERE user_id = <user_id>;
     @user.multimedias.map.each do |multimedia|
       delayed_job = multimedia.delayed_job
       if(delayed_job != nil && delayed_job[:failed_at] == nil)
@@ -140,6 +163,7 @@ class UsersController < ApplicationController
 
   # get user sentiment for specified playlist
   def get_playlist_sentiment
+    # SELECT * FROM playlist_sentiments WHERE user_id = <user_id> AND playlist_id = <playlist_id>;
     playlist_sentiment = PlaylistSentiment.where('user_id = ? AND playlist_id = ?', params[:user_id], params[:playlist_id]).to_a[0]
     if(playlist_sentiment != nil)
       render :json => {like: playlist_sentiment[:like]}, status: :ok
@@ -151,16 +175,20 @@ class UsersController < ApplicationController
   # like or unlike a playlist
   def update_playlist_sentiment
     if check_login
+      # SELECT * FROM playlist_sentiments WHERE user_id = <user_id> AND playlist_id = <playlist_id>;
       playlist_sentiment = PlaylistSentiment.where('user_id = ? AND playlist_id = ?', params[:user_id], params[:playlist_id]).to_a[0]
       update_success = false
       # sentiment must be created if it doesn't exist
       if(playlist_sentiment == nil)
+        # INSERT INTO playlist_sentiments VALUES (<user_id>, <playlist_id>, <true>);
         PlaylistSentiment.create({user_id: params[:user_id], playlist_id: params[:playlist_id], like: true})
         update_success =true
       else
         if(params[:sentiment] == 'like')
+          # UPDATE playlist_sentiments SET like = true WHERE user_id = <user_id> AND playlist_id = <playlist_id>;
           update_success = playlist_sentiment.update_attribute(:like, true)
         else
+          # UPDATE playlist_sentiments SET like = false WHERE user_id = <user_id> AND playlist_id = <playlist_id>;
           update_success = playlist_sentiment.update_attribute(:like, false)
         end
       end
@@ -177,10 +205,13 @@ class UsersController < ApplicationController
 
   # get a list of channels (users)
   def get_channels
+    # SELECT id, username, firstname, lastname FROM users ORDER BY created_at DESC;
     channels = User.find(:all, :select => 'id, username, firstname, lastname', :order => 'created_at DESC')
     return_channels = Array.new
     for channel in channels
+      # SELECT COUNT(*) FROM subscriptions WHERE subscription_id = <channel_id>;
       subscriber_count = Subscription.where(subscription_id: channel.id).count
+      # SELECT COUNT(*) FROM multimedia WHERE user_id = <channel_id>;
       media_count = User.find(channel.id).multimedias.count
       return_channels.push({id: channel.id, username: channel.username, firstname: channel.firstname, lastname: channel.lastname, subscriber_count: subscriber_count, multimedia_count: media_count })
     end
@@ -189,6 +220,7 @@ class UsersController < ApplicationController
 
   # out of the top 20 randomly select 5 channels
   def get_few_channels
+    # SELECT users.id, users.username, count(subscriptions.subscription_id) as subscribers FROM users LEFT OUTER JOIN subscriptions on subscriptions.subscription_id = users.id GROUP BY users.id ORDER BY subscribers DESC LIMIT 20
     channels = User.find(:all, :select => 'users.id, users.username, count(subscriptions.subscription_id) as subscribers', :joins => 'left outer join subscriptions on subscriptions.subscription_id = users.id', :group => 'users.id', :order => 'subscribers DESC', :limit => 20)
     
     # if array > 5 then shuffle and pick 5
@@ -202,6 +234,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
+      # SELECT * FROM users WHERE id = <user_id>;
       @user = User.find(params[:id])
     end
 
