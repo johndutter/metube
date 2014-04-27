@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
   def get_categories
+    # SELECT * FROM categories
     if categories = Category.find(:all)
       category_arr = Array.new
       categories.each do |category|

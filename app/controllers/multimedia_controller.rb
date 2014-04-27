@@ -4,7 +4,7 @@ class MultimediaController < ApplicationController
   
   def create
     @multimedia = Multimedia.new(multimedia_params)
-
+    # INSERT INTO multimedia (title, views, mediaType, user_id, description, category_id);
     if(@multimedia.save && save_tag_data(params[:multimedia][:tags], @multimedia[:id]))
       render :json => {multimedia: @multimedia[:id]}, status: :ok
     else
@@ -13,6 +13,7 @@ class MultimediaController < ApplicationController
   end
   
   def save_file
+    # SELECT * FROM multimedia WHERE multimedia_id = <multimedia_id>;
     @multimedia = Multimedia.find(params[:multimedia_id])
     media_save_path = '/uploads/' + params[:multimedia_id] + params[:mediaType]
     Multimedia.store_media(params[:fileData], params[:multimedia_id], params[:mediaType])
@@ -21,6 +22,7 @@ class MultimediaController < ApplicationController
       transcode_avi_to_mp4((File.expand_path File.dirname(__FILE__) + '/../../public' + media_save_path), params[:multimedia_id])
     end
 
+    # UPDATE multimedia SET path = <path> WHERE id = <id>;
     if(@multimedia.update( path: media_save_path ))
       save_thumbnail((File.expand_path File.dirname(__FILE__) + '/../../public' + media_save_path), @multimedia[:mediaType])
     else
@@ -52,6 +54,7 @@ class MultimediaController < ApplicationController
     #first the thumbnails need to be generated
     thumbnail_path = generateThumbnail(videoFilePath)
 
+    # UPDATE multimedia SET thumbnail_path = <thumbnail_path> WHERE id = <id>;
     if(@multimedia.update(thumbnail_path: thumbnail_path))
       render :json => {multimedia: @multimedia[:id]}, staus: :ok
     else
@@ -75,6 +78,7 @@ class MultimediaController < ApplicationController
   def save_image_thumbnail(imageFilePath)
     thumbnail_path = generateImageThumbnail(imageFilePath)
 
+    # UPDATE multimedia SET thumbnail_path=<thumbnail_path> WHERE multimedia_id = <multimedia_id>
     if(@multimedia.update(thumbnail_path: thumbnail_path))
       render :json => {multimedia: @multimedia[:id]}, staus: :ok
     else
@@ -85,7 +89,9 @@ class MultimediaController < ApplicationController
   end
 
   def get_multimedia_info
+    # SELECT * FROM multimedia WHERE multimedia_id = <multimedia_id>
     @multimedia = Multimedia.find(params[:id])
+    # SELECT * FROM tags WHERE multimedia_id = <multimedia_id>;
     tags = @multimedia.tags.map(&:name).join(', ')
     render :json => { id: @multimedia[:id], title: @multimedia[:title], views: @multimedia[:views], user_id: @multimedia[:user_id], description: @multimedia[:description], path: @multimedia[:path], tags: tags, mediaType: @multimedia[:mediaType] }, status: :ok
   rescue ActiveRecord::RecordNotFound
@@ -93,7 +99,9 @@ class MultimediaController < ApplicationController
   end
 
   def get_multimedia_progress
+    # SELECT * FROM multimedia WHERE multimedia_id = <multimedia_id>
     @multimedia = Multimedia.find(params[:multimedia_id])
+    # SELECT * FROM delayed_jobs WHERE multimedia_id = <multimedia_id>;
     delayed_job = @multimedia.delayed_job
     if(delayed_job != nil)
       progress = delayed_job[:job_progress]
@@ -109,7 +117,9 @@ class MultimediaController < ApplicationController
   end
 
   def update_view_count
+    # SELECT * FROM multimedia WHERE multimedia_id = <multimedia_id>
     @multimedia = Multimedia.find(params[:id])
+    # UPDATE multimedia SET views = views + 1 WHERE multimedia_id = <multimedia_id>;
     @multimedia.increment(:views, by = 1)
     if @multimedia.save
       render :json => { }, status: :ok
@@ -123,6 +133,7 @@ class MultimediaController < ApplicationController
   def save_tag_data(tags, multimedia_reference_id)
     all_tags = tags.split(',').map(&:strip).reject(&:empty?)
     all_tags.each do |tag|
+      # INSERT INTO tags (name, multimedia_id) VALUES (<name>, <multimedia_id>);
       @tag = Tag.new( {name: tag, multimedia_id: multimedia_reference_id} )
 
       if(!@tag.save)
@@ -134,8 +145,10 @@ class MultimediaController < ApplicationController
   end
 
   def get_user_multimedia
+    # SELECT * FROM users WHERE user_id =<user_id>;
     user = User.find(params[:user_id])
-    #only retrieve media that aren't currently being transcoded
+    # only retrieve media that aren't currently being transcoded
+    # SELECT multimedia.* FROM multimedia LEFT JOIN delayed_jobs ON multimedia.id = delayed_jobs.multimedia_id WHERE delayed_jobs.multimedia_id IS NULL AND multimedia.user_id = <user_id>;
     all_multimedia = Multimedia.find_by_sql( ["SELECT multimedia.* FROM multimedia LEFT JOIN delayed_jobs ON multimedia.id=delayed_jobs.multimedia_id WHERE delayed_jobs.multimedia_id IS NULL AND multimedia.user_id=?", params[:user_id]] )
 
     render :json => {all_multimedia: all_multimedia}, status: :ok
@@ -144,10 +157,12 @@ class MultimediaController < ApplicationController
   end
 
   def get_playlist_multimedia
+    # SELECT * FROM playlist_entries WHERE playlist_id = <playlist_id>;
     playlist_entries = PlaylistEntry.where('playlist_id = ?', params[:playlist_id]).to_a
     all_multimedia = []
 
     playlist_entries.each do |entry|
+      # SELECT * FROM multimedia WHERE multimedia_id = <multimedia_id>
       multimedia = Multimedia.find(entry[:multimedia_id])
       all_multimedia.push(multimedia)
     end
@@ -163,12 +178,15 @@ class MultimediaController < ApplicationController
   end
 
   def get_multimedia
+    # SELECT id FROM category WHERE name = <name>;
     category_id = Category.where('name = ?', params[:category])[0][:id]
     some_multimedia= []
     if params[:ordering] == 'views'
+      # SELECT * FROM multimedia WHERE category_id = <categor_id> ORDER BY views DESC LIMIT <number> OFFSET <offset>; 
       some_multimedia = Multimedia.where('category_id = ?', category_id).order('views DESC').limit(params[:number]).offset(params[:offset])
     end
     if params[:ordering] == 'recent'
+      # SELECT * FROM multimedia WHERE category_id = <categor_id> ORDER BY created_at DESC LIMIT <number> OFFSET <offset>; 
       some_multimedia = Multimedia.where('category_id = ?', category_id).order('created_at DESC').limit(params[:number]).offset(params[:offset])
     end
     render :json => {multimedia: some_multimedia}, status: :ok
@@ -177,9 +195,11 @@ class MultimediaController < ApplicationController
   end
 
   def get_analytics
+    # SELECT id, user_id, title, created_at, views, thumbnail_path, mediaType ORDER BY created_at DESC LIMIT 100;
     multimedia = Multimedia.select('id, user_id, title, created_at, views, thumbnail_path, mediaType').order('created_at DESC').limit(100).to_a
     completed_multimedia = []
     multimedia.each do |entry|
+      # SELECT * FROM sentiments WHERE multimedia_id = <entry_id>;
       sentiments = Multimedia.find(entry.id).sentiments.count
       date = String(entry.created_at)[0..18]
       tmp_entry = {:id => entry.id, :user_id => entry.user_id, :title => entry.title, :Date => date, :Views => entry.views, :thumbnail_path => entry.thumbnail_path, :mediaType => entry.mediaType, :sentiments => sentiments}
@@ -195,14 +215,18 @@ class MultimediaController < ApplicationController
   end
 
   def get_recommended
+    # SELECT * FROM multimedia WHERE id = <params_id>;
     mainMult = Multimedia.find(params[:multimedia_id])
+    # SELECT * FROM tags WHERE multimedia_id = <param_multimedia_id>;
     tags = Multimedia.find(params[:multimedia_id]).tags.to_a
     recommended = []
 
     # get multimedia with similar tags
     tags.each do |tag|
+      # SELECT * FROM tags WHERE name = <tag_name>;
       added_tags = Tag.where('name = ?', tag.name).to_a
       added_tags.each do |inner_tag|
+        # SELECT * FROM multimedia WHERE id = <inner_tag.multimedia_id>;
         mult = Multimedia.find(inner_tag.multimedia_id)
         if (!recommended.include?(mult) && mult.id != params[:multimedia_id].to_i && recommended.length < 11)
           recommended.push(mult)
@@ -212,6 +236,7 @@ class MultimediaController < ApplicationController
 
     # get multimedia by same uploader
     if (recommended.length < 11)
+      # SELECT * FROM multimedia WHERE user_id = <user_id>;
       uploader_mult = Multimedia.where('user_id = ?', mainMult.user_id).limit(10).to_a
       uploader_mult.each do |entry|
         if (!recommended.include?(entry) && entry.id != params[:multimedia_id].to_i && recommended.length < 11)
@@ -222,6 +247,7 @@ class MultimediaController < ApplicationController
 
     # get multimedia from same category
     if (recommended.length < 11)
+      # SELECT * FROM multimedia WHERE category_id = <category_id>;
       category_mult = Multimedia.where('category_id = ?', mainMult.category_id).limit(10).to_a
       category_mult.each do |entry|
         if (!recommended.include?(entry) && entry.id != params[:multimedia_id].to_i && recommended.length < 11)
@@ -236,6 +262,7 @@ class MultimediaController < ApplicationController
 
     rec_return = []
     recommended.each do |entry|
+      # SELECT username FROM users WHERE id = <entry.user_id>;
       username = User.find(entry.user_id).username
       rec_return.push({:id => entry.id, :title => entry.title, :username => username, :thumbnail_path => entry.thumbnail_path})
     end
@@ -247,11 +274,14 @@ class MultimediaController < ApplicationController
 
   def get_search_results
     searchparam = '%' + params[:query] + '%'
+    # SELECT * FROM multimedia WHERE title LIKE <search_param> OR description LIKE <search_param>;
     multimedia_set = Multimedia.where('title like ? or description like ?', searchparam, searchparam).to_set
 
     # search tags as well
+    # SELECT * FROM tags WHERE name LIKE <search_param>;
     tags_arr = Tag.where('name like ?', searchparam)
     tags_arr.each do |tag|
+      # SELECT * FROM multimedia WHERE multimedia_id=<multimedia_id>;
       media = Multimedia.find(tag.multimedia_id);
       multimedia_set.add(media)
     end
